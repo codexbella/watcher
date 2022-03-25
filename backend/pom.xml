@@ -10,7 +10,7 @@
     <artifactId>watcher-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>watcher-backend</name>
-    <description>watcher and chill</description>
+    <description>watcher 'n' chill</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
