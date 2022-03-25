@@ -1,10 +1,10 @@
-package com.example.demo;
+package de.codexbella.watcher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class WatcherApplicationTests {
 
 	@Test
 	void contextLoads() {

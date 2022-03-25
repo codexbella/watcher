@@ -1,3 +1,3 @@
 # Watcher
 
-watcher 'n' chill
+watcher'n'chill
