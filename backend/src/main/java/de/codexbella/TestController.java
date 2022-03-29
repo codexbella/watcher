@@ -1,4 +1,4 @@
-package de.codexbella.watcher;
+package de.codexbella;
 
 import java.util.Arrays;
 import java.util.List;

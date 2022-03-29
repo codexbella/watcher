@@ -1,4 +1,4 @@
-package de.codexbella.watcher;
+package de.codexbella;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
