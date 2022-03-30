@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import './App.css';
+import {Outlet} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 function App() {
-
-    const [greeting, setGreeting] = useState('')
-
-    useEffect(() => {
-        fetch('/api/greeting', {
-            method: 'GET',
-            headers: {
-                'Accept': 'text/plain'
-            }
-        })
-            .then(response => response.text())
-            .then(text => setGreeting(text))
-            .catch(err => setGreeting('Da ist etwas schief gelaufen'));
-    }, []);
-
+    const {t} = useTranslation();
+    
     return (
-        <div>
-            {greeting}
-        </div>
+       <div>
+           <div><h1>{t('title')}</h1></div>
+           <div><Outlet/></div>
+       </div>
     );
 }
 

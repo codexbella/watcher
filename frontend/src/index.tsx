@@ -1,11 +1,22 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SearchPage from "./pages/SearchPage";
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+       <Suspense fallback="Loading...">
+          <BrowserRouter>
+             <Routes>
+                <Route path='/' element={<App/>}>
+                   <Route path='search' element={<SearchPage/>}/>
+                   <Route path='*' element={<SearchPage/>}/>
+                </Route>
+             </Routes>
+          </BrowserRouter>
+       </Suspense>
     </React.StrictMode>,
   document.getElementById('root')
 );
