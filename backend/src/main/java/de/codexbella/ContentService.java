@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class ContentService {
@@ -21,11 +20,8 @@ public class ContentService {
    }
 
    public List<ShowSearchData> searchForShow(String searchTerm) {
-
-      String searchTermForUrl = searchTerm.toLowerCase(Locale.ROOT).replaceAll("\s", "+");
-
       String response = restTemplate.getForObject(
-            "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query="+searchTermForUrl, String.class);
+            "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query="+searchTerm, String.class);
       SearchResultShows results = new Gson().fromJson(response, SearchResultShows.class);
       return results.getShows().stream().toList();
    }
