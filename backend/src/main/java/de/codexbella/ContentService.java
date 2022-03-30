@@ -3,7 +3,6 @@ package de.codexbella;
 import com.google.gson.Gson;
 import de.codexbella.search.SearchResultShows;
 import de.codexbella.search.ShowSearchData;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,12 +11,14 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
-@RequiredArgsConstructor
 public class ContentService {
    private final RestTemplate restTemplate;
+   private final String apiKey;
 
-   @Value("${app.api.key}")
-   private String apiKey;
+   public ContentService(@Value("${app.api.key}") String apiKey, RestTemplate restTemplate) {
+      this.restTemplate = restTemplate;
+      this.apiKey = apiKey;
+   }
 
    public List<ShowSearchData> searchForShow(String searchTerm) {
 
