@@ -1,13 +1,12 @@
 package de.codexbella.search;
 
 import com.google.gson.annotations.SerializedName;
-import de.codexbella.content.Show;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class searchResultShows {
+public class SearchResultShows {
    private int page;
 
    @SerializedName("results")
