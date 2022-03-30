@@ -14,10 +14,10 @@ class ContentServiceTest {
 
    @Test
    void shouldSearchMockApiForShow() {
-      RestTemplate mockRestTemplate = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockRestTemplate);
-      String searchTerm = "gamE of thrones";
-      when(mockRestTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&query=game+of+thrones", String.class))
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi);
+      String searchTerm = "game+of+thrones";
+      when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&query="+searchTerm, String.class))
             .thenReturn("{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
                   "\"first_air_date\":\"2011-04-17\",\"genre_ids\":[10765,18,10759],\"id\":1399,\"name\":\"Game of " +
                   "Thrones\",\"origin_country\":[\"US\"],\"original_language\":\"en\",\"original_name\":\"Game of " +
@@ -36,6 +36,6 @@ class ContentServiceTest {
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1399);
       assertThat(searchResult.get(0).getName()).isEqualTo("Game of Thrones");
       assertThat(searchResult.get(1).getApiId()).isEqualTo(138757);
-      assertThat(searchResult.get(1).getName()).isEqualTo("Autópsia Game Of Thrones");   }
-
+      assertThat(searchResult.get(1).getName()).isEqualTo("Autópsia Game Of Thrones");
+   }
 }
