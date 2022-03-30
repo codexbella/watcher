@@ -1,5 +1,7 @@
 {
   "title": "Watcher",
   "search-term": "Suchbegriff",
-  "send-search-request": "Suchen"
+  "send-search-request": "Suchen",
+  "search-request-error": "Suchanfrage fehlgeschlagen",
+  "error": "Fehler"
 }

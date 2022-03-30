@@ -1,5 +1,7 @@
 {
   "title": "Watcher",
   "search-term": "Search term",
-  "send-search-request": "Search"
+  "send-search-request": "Search",
+  "search-request-error": "Search query failed",
+  "error": "Error"
 }
