@@ -15,6 +15,7 @@ class ContentServiceTest {
    @Autowired
    ContentService contentService;
 
+   /*
    @Test
    void shouldSearchApiForShow() {
       RestTemplate restTemplate = new RestTemplate();
@@ -26,4 +27,5 @@ class ContentServiceTest {
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1399);
       assertThat(searchResult.get(0).getName()).isEqualToIgnoringCase("game of Thrones");
    }
+   */
 }
