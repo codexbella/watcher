@@ -1,13 +1,8 @@
 .flex {
     display: flex;
-    flex-direction: row;
 }
-.result-details {
-    padding: 10px 15px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
+.row {
+    flex-direction: row;
 }
 .gap {
     gap: 20px;
@@ -18,11 +13,17 @@
 .center {
     justify-content: center;
 }
+.result-details {
+    width: 100%;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
 
 .overflow {
-    font-size: 1em;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -58,7 +59,7 @@
 }
 
 .large {
-    font-size: 1.4em;
+    font-size: 1.5em;
 }
 
 .border {

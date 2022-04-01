@@ -9,12 +9,12 @@ function App() {
    
    return (
       <div className="margins-left-right margin-top">
-         <div className="flex watcher">
+         <div className="flex row watcher">
             <img height={100} src={watcherLogo} alt=""/>
             <h1 className="color-lighter">atcher</h1>
          </div>
          <div><Outlet/></div>
-         <div className="flex baseline gap center">
+         <div className="flex row baseline gap center">
             <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
             <div className="tmdb-sentence">{t('tmdb-sentence')}.</div>
          </div>
