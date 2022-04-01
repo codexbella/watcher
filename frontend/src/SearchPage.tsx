@@ -29,12 +29,15 @@ export default function SearchPage() {
    }
    
    return <div>
-      <form onSubmit={ev => searchForShow(ev)} className="margins">
+      <form onSubmit={ev => searchForShow(ev)} className="margin-bottom">
          <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => setSearchTerm(typed.target.value)}/>
          <button type='submit'>{t('send-search-request')}</button>
       </form>
-      {searchedTerm && <div className="margins large color-light">{showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":</div>}
-      <div className="flex results">{showResults && showResults.map(item => <ShowResult show={item} key={item.apiId}/>)}</div>
+      
+      {searchedTerm && <div className="large color-light margin-bottom">{showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":</div>}
+      
+      <div>{showResults && showResults.map(item => <ShowResult show={item} key={item.apiId}/>)}</div>
+      
       {error && <div>{`${t('error')}: `+error}.</div>}
    </div>
 }

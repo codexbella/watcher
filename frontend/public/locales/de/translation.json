@@ -4,10 +4,9 @@
   "send-search-request": "Suchen",
   "search-request-error": "Suchanfrage fehlgeschlagen",
   "error": "Fehler",
-  "airdate": "Sendedatum",
   "origin-country": "Herkunftsland",
-  "language": "Sprache",
   "vote-average": "Bewertung",
-  "vote-count": "Anzahl der Bewertungen",
-  "search-results-for-search-term": "Suchergebnisse für den Suchbegriff"
+  "votes": "Bewertungen",
+  "search-results-for-search-term": "Suchergebnisse für den Suchbegriff",
+  "tmdb-sentence": "Dieses Produkt benutzt die TMDB API, aber wird von TMDB weder unterstützt noch zertifiziert."
 }

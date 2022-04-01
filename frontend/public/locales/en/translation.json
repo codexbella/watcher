@@ -4,10 +4,9 @@
   "send-search-request": "Search",
   "search-request-error": "Search query failed",
   "error": "Error",
-  "airdate": "Air date",
   "origin-country": "Country of origin",
-  "language": "Language",
   "vote-average": "Rating",
-  "vote-count": "Number of rating votes",
-  "search-results-for-search-term": "search results for the search term"
+  "votes": "votes",
+  "search-results-for-search-term": "search results for the search term",
+  "tmdb-sentence": "This product uses the TMDB API but is not endorsed or certified by TMDB"
 }
