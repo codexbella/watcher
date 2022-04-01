@@ -2,8 +2,10 @@ import './App.css';
 import watcherLogo from './images/logo-light.png';
 import tmdbLogo from './images/tmdb-logo.png';
 import {Outlet} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 function App() {
+   const {t} = useTranslation();
    
    return (
       <div className="margins-left-right margin-top">
@@ -14,7 +16,7 @@ function App() {
          <div><Outlet/></div>
          <div className="flex baseline gap center">
             <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
-            <div className="tmdb-sentence">This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+            <div className="tmdb-sentence">{t('tmdb-sentence')}.</div>
          </div>
       </div>
    );
