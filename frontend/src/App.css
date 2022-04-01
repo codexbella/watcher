@@ -109,3 +109,11 @@ input:focus {
 .watcher {
     align-items: baseline;
 }
+
+.tmdb-sentence {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right,#01b4e4 30%,#90cea1 70%);
+    background-size: cover;
+    background-position: center center;
+}
