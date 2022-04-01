@@ -3,5 +3,11 @@
   "search-term": "Suchbegriff",
   "send-search-request": "Suchen",
   "search-request-error": "Suchanfrage fehlgeschlagen",
-  "error": "Fehler"
+  "error": "Fehler",
+  "airdate": "Sendedatum",
+  "origin-country": "Herkunftsland",
+  "language": "Sprache",
+  "vote-average": "Bewertung",
+  "vote-count": "Anzahl der Bewertungen",
+  "search-results-for-search-term": "Suchergebnisse für den Suchbegriff"
 }

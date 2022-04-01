@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./SearchPage";
+import './i18n';
 
 ReactDOM.render(
     <React.StrictMode>
