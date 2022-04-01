@@ -1,10 +1,8 @@
 import './App.css';
 import logo from './images/logo-light.png';
 import {Outlet} from "react-router-dom";
-import {useTranslation} from "react-i18next";
 
 function App() {
-    const { t } = useTranslation();
     
     return (
        <div>
