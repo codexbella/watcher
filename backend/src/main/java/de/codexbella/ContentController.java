@@ -15,7 +15,6 @@ public class ContentController {
 
    @GetMapping("/search/{searchTerm}")
    public List<ShowSearchData> searchForShow(@PathVariable String searchTerm) {
-      List<ShowSearchData> shows = contentService.searchForShow(searchTerm);
-      return shows;
+      return contentService.searchForShow(searchTerm);
    }
 }

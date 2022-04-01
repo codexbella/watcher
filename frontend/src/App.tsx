@@ -1,18 +1,23 @@
 import './App.css';
-import logo from './images/logo-light.png';
+import watcherLogo from './images/logo-light.png';
+import tmdbLogo from './images/tmdb-logo.png';
 import {Outlet} from "react-router-dom";
 
 function App() {
-    
-    return (
-       <div>
-          <div className="flex stretch watcher">
-             <img className="logo-main" src={logo} alt=""/>
-             <h1 className="color-lighter">atcher</h1>
-          </div>
-          <div><Outlet/></div>
-       </div>
-    );
+   
+   return (
+      <div className="margins-left-right margin-top">
+         <div className="flex watcher">
+            <img className="logo-main" src={watcherLogo} alt=""/>
+            <h1 className="color-lighter">atcher</h1>
+         </div>
+         <div><Outlet/></div>
+         <div className="flex baseline gap center">
+            <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
+            <div>This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+         </div>
+      </div>
+   );
 }
 
 export default App;

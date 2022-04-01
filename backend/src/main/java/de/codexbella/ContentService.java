@@ -23,6 +23,7 @@ public class ContentService {
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query="+searchTerm, String.class);
       SearchResultShows results = new Gson().fromJson(response, SearchResultShows.class);
+      results.getShows().stream().toList();
       return results.getShows().stream().toList();
    }
 }
