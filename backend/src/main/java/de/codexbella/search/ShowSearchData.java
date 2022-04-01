@@ -23,9 +23,6 @@ public class ShowSearchData {
    @SerializedName("first_air_date")
    private String airDate;
 
-   @SerializedName("origin_country")
-   private List<String> originCountry;
-
    @SerializedName("original_language")
    private String language;
 

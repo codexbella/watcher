@@ -7,13 +7,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/watcher")
+@CrossOrigin
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ContentController {
    private final ContentService contentService;
 
    @GetMapping("/search/{searchTerm}")
    public List<ShowSearchData> searchForShow(@PathVariable String searchTerm) {
-      return contentService.searchForShow(searchTerm);
+      List<ShowSearchData> shows = contentService.searchForShow(searchTerm);
+      return shows;
    }
 }

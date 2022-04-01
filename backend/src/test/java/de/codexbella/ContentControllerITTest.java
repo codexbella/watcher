@@ -41,7 +41,7 @@ class ContentControllerITTest {
       String searchTerm = "game+of+thrones";
 
       ResponseEntity<ShowSearchData[]> responseSearch =
-            restTemplate.getForEntity("/api/watcher/search/" + searchTerm, ShowSearchData[].class);
+            restTemplate.getForEntity("/api/search/" + searchTerm, ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
       ShowSearchData[] arraySearch = responseSearch.getBody();
