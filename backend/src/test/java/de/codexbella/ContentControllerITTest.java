@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import de.codexbella.search.ShowSearchData;
+import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -68,6 +69,24 @@ class ContentControllerITTest {
 
       assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
+
+      // should log in user
+      LoginData user1 = new LoginData();
+      user1.setUsername("whoever");
+      user1.setPassword("very-safe-password");
+
+      ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1, String.class);
+
+      assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+      // should not log in user
+      LoginData user2 = new LoginData();
+      user2.setUsername(registerDataUser1.getUsername());
+      user2.setPassword("xxx");
+
+      ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2, String.class);
+
+      assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
       // should search api
 /*      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
