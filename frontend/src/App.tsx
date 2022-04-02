@@ -5,7 +5,7 @@ import {Outlet} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 function App() {
-   const {t} = useTranslation();
+   const { t } = useTranslation();
    
    return (
       <div className="margins-left-right margin-top">
