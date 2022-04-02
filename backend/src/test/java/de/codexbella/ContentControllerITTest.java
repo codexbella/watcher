@@ -23,7 +23,7 @@ class ContentControllerITTest {
    @MockBean
    private RestTemplate mockTemplate;
 
-   private String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
+   private final String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
          "\"first_air_date\":\"2011-04-17\",\"genre_ids\":[10765,18,10759],\"id\":1399,\"name\":\"Game of Thrones\"," +
          "\"origin_country\":[\"US\"],\"original_language\":\"en\",\"original_name\":\"Game of Thrones\"," +
          "\"overview\":\"Seven noble families fight for control of the mythical land of Westeros. Friction between " +
