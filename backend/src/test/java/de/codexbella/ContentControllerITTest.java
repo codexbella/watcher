@@ -20,7 +20,7 @@ class ContentControllerITTest {
    @Autowired
    private TestRestTemplate restTemplate;
 
-/*   @MockBean
+   @MockBean
    private RestTemplate mockTemplate;
 
    private String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
@@ -34,7 +34,7 @@ class ContentControllerITTest {
          "\"genre_ids\":[],\"id\":138757,\"name\":\"Autópsia Game Of Thrones\",\"origin_country\":[]," +
          "\"original_language\":\"pt\",\"original_name\":\"Autópsia Game Of Thrones\",\"overview\":\"\"," +
          "\"popularity\":1.656,\"poster_path\":null,\"vote_average\":0,\"vote_count\":0}],\"total_pages\":1," +
-         "\"total_results\":2}";*/
+         "\"total_results\":2}";
 
    @Test
    void integrationTest() {
@@ -89,12 +89,18 @@ class ContentControllerITTest {
       assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
       // should search api
-/*      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
+
+      HttpHeaders headerForUser1 = new HttpHeaders();
+      headerForUser1.set("Authorization", "Bearer" + responseLoginUser1.getBody());
+
+      HttpEntity<ShowSearchData> httpEntityUser1Get = new HttpEntity<>(headerForUser1);
+
+      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
             .thenReturn(searchResult);
       String searchTerm = "game+of+thrones";
 
-      ResponseEntity<ShowSearchData[]> responseSearch =
-            restTemplate.getForEntity("/api/search/" + searchTerm, ShowSearchData[].class);
+      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange("/api/search/" + searchTerm,
+            HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
       ShowSearchData[] arraySearch = responseSearch.getBody();
@@ -102,6 +108,6 @@ class ContentControllerITTest {
       assertThat(arraySearch[0].getApiId()).isEqualTo(1399);
       assertThat(arraySearch[0].getName()).isEqualTo("Game of Thrones");
       assertThat(arraySearch[1].getApiId()).isEqualTo(138757);
-      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");*/
+      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");
    }
 }
