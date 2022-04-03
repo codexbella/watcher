@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import de.codexbella.search.ShowSearchData;
+import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,14 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ContentControllerITTest {
    @Autowired
    private TestRestTemplate restTemplate;
 
-   @MockBean
+/*   @MockBean
    private RestTemplate mockTemplate;
 
    private String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
@@ -31,12 +33,44 @@ class ContentControllerITTest {
          "\"genre_ids\":[],\"id\":138757,\"name\":\"Autópsia Game Of Thrones\",\"origin_country\":[]," +
          "\"original_language\":\"pt\",\"original_name\":\"Autópsia Game Of Thrones\",\"overview\":\"\"," +
          "\"popularity\":1.656,\"poster_path\":null,\"vote_average\":0,\"vote_count\":0}],\"total_pages\":1," +
-         "\"total_results\":2}";
+         "\"total_results\":2}";*/
 
    @Test
    void integrationTest() {
+      // should register a new user
+      RegisterData registerDataUser1 = new RegisterData();
+      registerDataUser1.setUsername("whoever");
+      registerDataUser1.setPassword("very-safe-password");
+      registerDataUser1.setPasswordAgain("very-safe-password");
+
+      ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1, String.class);
+
+      assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+      assertEquals("New user created with username " + registerDataUser1.getUsername(), responseRegister.getBody());
+
+      // should not register new user because passwords do not match
+      RegisterData registerDataUser2 = new RegisterData();
+      registerDataUser2.setUsername(registerDataUser1.getUsername());
+      registerDataUser2.setPassword("tadada");
+      registerDataUser2.setPasswordAgain("tududu");
+
+      ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
+            String.class);
+
+      assertThat(responseNotRegister1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+      assertEquals("Passwords mismatched.", responseNotRegister1.getBody());
+
+      // should not register new user because username already in use
+      registerDataUser2.setPasswordAgain("tadada");
+
+      ResponseEntity<String> responseNotRegister2 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
+            String.class);
+
+      assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+      assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
+
       // should search api
-      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
+/*      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
             .thenReturn(searchResult);
       String searchTerm = "game+of+thrones";
 
@@ -49,6 +83,6 @@ class ContentControllerITTest {
       assertThat(arraySearch[0].getApiId()).isEqualTo(1399);
       assertThat(arraySearch[0].getName()).isEqualTo("Game of Thrones");
       assertThat(arraySearch[1].getApiId()).isEqualTo(138757);
-      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");
+      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");*/
    }
 }

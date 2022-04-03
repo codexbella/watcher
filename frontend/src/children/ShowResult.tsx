@@ -10,7 +10,7 @@ interface ShowResultProps {
 export default function ShowResult(props: ShowResultProps) {
    const {t} = useTranslation();
    
-   return <div className="border shadow height-231 flex margin-bottom">
+   return <div className="border shadow height-231 flex row margin-bottom">
       
       <img src={"https://image.tmdb.org/t/p/w154" + props.show.posterPath} alt={props.show.name}
            onError={(ev) => {
@@ -18,7 +18,7 @@ export default function ShowResult(props: ShowResultProps) {
               ev.currentTarget.src = alternateImage
            }}/>
       
-      <div className="color-lighter result-details">
+      <div className="color-lighter flex result-details">
          <div className="">
             <div className="large bold small-caps">{props.show.name}</div>
             <div>{new Date(props.show.airDate).getFullYear()}</div>
