@@ -6,6 +6,7 @@ import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -37,7 +38,7 @@ class ContentControllerITTest {
          "\"total_results\":2}";
 
    @Test
-   void integrationTest() {
+   void integrationTest(@Value("${app.api.key}") String apiKey) {
       // should register a new user
       RegisterData registerDataUser1 = new RegisterData();
       registerDataUser1.setUsername("whoever");
@@ -95,7 +96,7 @@ class ContentControllerITTest {
 
       HttpEntity<ShowSearchData> httpEntityUser1Get = new HttpEntity<>(headerForUser1);
 
-      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
+      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query=game+of+thrones", String.class))
             .thenReturn(searchResult);
       String searchTerm = "game+of+thrones";
 
