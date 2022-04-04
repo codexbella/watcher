@@ -4,22 +4,29 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import SearchPage from "./SearchPage";
+import UserLogin from "./UserLogin";
+import UserRegistration from "./UserRegistration";
 import './i18n';
+import AuthProvider from "./auth/AuthProvider";
 
 ReactDOM.render(
-    <React.StrictMode>
-       <Suspense fallback="Loading...">
-          <BrowserRouter>
-             <Routes>
-                <Route path='/' element={<App/>}>
-                   <Route path='search' element={<SearchPage/>}/>
-                   <Route path='*' element={<SearchPage/>}/>
-                </Route>
-             </Routes>
-          </BrowserRouter>
-       </Suspense>
-    </React.StrictMode>,
-  document.getElementById('root')
+   <React.StrictMode>
+      <Suspense fallback="Loading...">
+         <BrowserRouter>
+            <AuthProvider>
+               <Routes>
+                  <Route path='/' element={<App/>}>
+                     <Route path='register' element={<UserRegistration/>}/>
+                     <Route path='login' element={<UserLogin/>}/>
+                     <Route path='search' element={<SearchPage/>}/>
+                     <Route path='*' element={<SearchPage/>}/>
+                  </Route>
+               </Routes>
+            </AuthProvider>
+         </BrowserRouter>
+      </Suspense>
+   </React.StrictMode>,
+   document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

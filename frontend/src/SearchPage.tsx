@@ -2,10 +2,12 @@ import './App.css';
 import { useTranslation } from 'react-i18next';
 import {FormEvent, useState} from "react";
 import {ShowSearchData} from "./models/ShowSearchData";
-import ShowResult from "./children/ShowResult";
+import ShowResult from "./components/ShowResult";
+import {useAuth} from "./auth/AuthProvider";
 
 export default function SearchPage() {
    const { t } = useTranslation();
+   const auth = useAuth()
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
    const [searchedTerm, setSearchedTerm] = useState('')
@@ -14,7 +16,12 @@ export default function SearchPage() {
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (searchTerm !== '') {
-         fetch(`${process.env.REACT_APP_BASE_URL}/search/`+searchTerm)
+         fetch(`${process.env.REACT_APP_BASE_URL}/search/`+searchTerm, {
+               method: 'GET',
+               headers: {
+                  Authorization: `Bearer ${auth.token}`,
+                  'Content-Type': 'application/json'
+               }})
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
@@ -36,8 +43,8 @@ export default function SearchPage() {
       
       {searchedTerm && <div className="large color-light margin-bottom">{showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":</div>}
       
-      <div>{showResults && showResults.map(item => <ShowResult show={item} key={item.apiId}/>)}</div>
+      <div className='margin-bottom'>{showResults && showResults.map(item => <ShowResult show={item} key={item.apiId}/>)}</div>
       
-      {error && <div>{`${t('error')}: `+error}.</div>}
+      {error && <div className='margin-bottom'>{error}.</div>}
    </div>
 }
