@@ -20,5 +20,6 @@ public class MongoUserDetailsService implements UserDetailsService {
       return userService.findByUsername(username)
             .map(userDocument -> new User(userDocument.getUsername(), userDocument.getPassword(),
                   List.of(new SimpleGrantedAuthority("ROLE_USER"))))
-            .orElseThrow(() -> new UsernameNotFoundException(username+" not found."));   }
+            .orElseThrow(() -> new UsernameNotFoundException(username+" not found."));
+   }
 }

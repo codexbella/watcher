@@ -90,17 +90,15 @@ class ContentControllerITTest {
       assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
       // should search api
-
       HttpHeaders headerForUser1 = new HttpHeaders();
       headerForUser1.set("Authorization", "Bearer" + responseLoginUser1.getBody());
-
       HttpEntity<ShowSearchData> httpEntityUser1Get = new HttpEntity<>(headerForUser1);
 
-      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query=game+of+thrones", String.class))
+      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
+                  +"&query=game+of+thrones", String.class))
             .thenReturn(searchResult);
-      String searchTerm = "game+of+thrones";
 
-      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange("/api/search/" + searchTerm,
+      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange("/api/search/game+of+thrones",
             HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
