@@ -1,10 +1,12 @@
 package de.codexbella;
 
 import de.codexbella.search.ShowSearchData;
+import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -19,10 +21,10 @@ class ContentControllerITTest {
    @Autowired
    private TestRestTemplate restTemplate;
 
-/*   @MockBean
+   @MockBean
    private RestTemplate mockTemplate;
 
-   private String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
+   private final String searchResult = "{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
          "\"first_air_date\":\"2011-04-17\",\"genre_ids\":[10765,18,10759],\"id\":1399,\"name\":\"Game of Thrones\"," +
          "\"origin_country\":[\"US\"],\"original_language\":\"en\",\"original_name\":\"Game of Thrones\"," +
          "\"overview\":\"Seven noble families fight for control of the mythical land of Westeros. Friction between " +
@@ -33,10 +35,10 @@ class ContentControllerITTest {
          "\"genre_ids\":[],\"id\":138757,\"name\":\"Autópsia Game Of Thrones\",\"origin_country\":[]," +
          "\"original_language\":\"pt\",\"original_name\":\"Autópsia Game Of Thrones\",\"overview\":\"\"," +
          "\"popularity\":1.656,\"poster_path\":null,\"vote_average\":0,\"vote_count\":0}],\"total_pages\":1," +
-         "\"total_results\":2}";*/
+         "\"total_results\":2}";
 
    @Test
-   void integrationTest() {
+   void integrationTest(@Value("${app.api.key}") String apiKey) {
       // should register a new user
       RegisterData registerDataUser1 = new RegisterData();
       registerDataUser1.setUsername("whoever");
@@ -69,13 +71,35 @@ class ContentControllerITTest {
       assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
 
-      // should search api
-/*      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key=do-not-tell&query=game+of+thrones", String.class))
-            .thenReturn(searchResult);
-      String searchTerm = "game+of+thrones";
+      // should log in user
+      LoginData user1 = new LoginData();
+      user1.setUsername("whoever");
+      user1.setPassword("very-safe-password");
 
-      ResponseEntity<ShowSearchData[]> responseSearch =
-            restTemplate.getForEntity("/api/search/" + searchTerm, ShowSearchData[].class);
+      ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1, String.class);
+
+      assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+      // should not log in user
+      LoginData user2 = new LoginData();
+      user2.setUsername(registerDataUser1.getUsername());
+      user2.setPassword("xxx");
+
+      ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2, String.class);
+
+      assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+      // should search api
+      HttpHeaders headerForUser1 = new HttpHeaders();
+      headerForUser1.set("Authorization", "Bearer" + responseLoginUser1.getBody());
+      HttpEntity<ShowSearchData> httpEntityUser1Get = new HttpEntity<>(headerForUser1);
+
+      Mockito.when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
+                  +"&query=game+of+thrones", String.class))
+            .thenReturn(searchResult);
+
+      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange("/api/search/game+of+thrones",
+            HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
       ShowSearchData[] arraySearch = responseSearch.getBody();
@@ -83,6 +107,6 @@ class ContentControllerITTest {
       assertThat(arraySearch[0].getApiId()).isEqualTo(1399);
       assertThat(arraySearch[0].getName()).isEqualTo("Game of Thrones");
       assertThat(arraySearch[1].getApiId()).isEqualTo(138757);
-      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");*/
+      assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");
    }
 }
