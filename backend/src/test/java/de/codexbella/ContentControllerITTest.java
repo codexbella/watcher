@@ -78,8 +78,6 @@ class ContentControllerITTest {
 
       ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1, String.class);
 
-      System.out.println("testing print out should log in user");
-
       assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
       // should not log in user

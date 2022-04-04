@@ -20,22 +20,18 @@ public class JwtService {
    }
 
    public String createToken(Map<String, Object> claims, String username) {
-      String nix = null;
-      System.out.println("testing print out createToken");
-      System.out.println("testing print out, secret: "+secret);
-      System.out.println("testing print out, null: "+nix);
       return Jwts.builder()
             .setClaims(claims)
             .setSubject(username)
             .setIssuedAt(Date.from(Instant.now()))
             .setExpiration(Date.from(Instant.now().plus(Duration.ofHours(2))))
-            .signWith(SignatureAlgorithm.HS256, "secret")
+            .signWith(SignatureAlgorithm.HS256, secret)
             .compact();
    }
 
    public Claims extractClaims(String token) {
       return Jwts.parser()
-            .setSigningKey("secret")
+            .setSigningKey(secret)
             .parseClaimsJws(token)
             .getBody();
    }

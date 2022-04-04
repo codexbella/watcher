@@ -46,7 +46,6 @@ public class UserController {
          String token = jwtService.createToken(claims, loginData.getUsername());
          return new ResponseEntity<>(token, HttpStatus.OK);
       } catch (Exception e) {
-         e.printStackTrace();
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
    }
