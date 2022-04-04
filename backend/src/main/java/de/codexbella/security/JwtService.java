@@ -21,6 +21,7 @@ public class JwtService {
 
    public String createToken(Map<String, Object> claims, String username) {
       System.out.println("testing print out createToken");
+      System.out.println("testing print out, secret: "+secret);
       return Jwts.builder()
             .setClaims(claims)
             .setSubject(username)
