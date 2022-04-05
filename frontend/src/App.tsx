@@ -1,11 +1,19 @@
 import './App.css';
 import watcherLogo from './images/logo-light.png';
 import tmdbLogo from './images/tmdb-logo.png';
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useEffect} from "react";
 
 function App() {
    const { t } = useTranslation();
+   const nav = useNavigate();
+   
+   useEffect(() => {
+      if (!localStorage.getItem('user-token')) {
+         nav('/login')
+      }
+   }, [nav])
    
    return (
       <div className="margins-left-right margin-top">

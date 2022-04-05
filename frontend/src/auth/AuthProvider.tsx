@@ -9,14 +9,6 @@ export default function AuthProvider({children}:{children :ReactNode}) {
    const [token , setToken] = useState(localStorage.getItem('user-token') ?? '')
    const nav = useNavigate()
    
-   useEffect(()=>{
-      if (token){
-         nav("/search")
-      } else {
-         nav("/login")
-      }
-   }, [token, nav])
-   
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
          method: 'POST',
