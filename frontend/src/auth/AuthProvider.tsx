@@ -1,13 +1,11 @@
-import {ReactNode, useContext, useEffect, useState} from "react";
+import {ReactNode, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
-import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
    
    const [token , setToken] = useState(localStorage.getItem('user-token') ?? '')
-   const nav = useNavigate()
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
