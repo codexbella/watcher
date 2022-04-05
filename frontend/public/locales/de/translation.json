@@ -1,5 +1,4 @@
 {
-  "title": "Watcher",
   "search-term": "Suchbegriff",
   "send-search-request": "Suchen",
   "search-request-error": "Suchanfrage fehlgeschlagen",
@@ -8,5 +7,21 @@
   "vote-average": "Bewertung",
   "votes": "Bewertungen",
   "search-results-for-search-term": "Suchergebnisse für den Suchbegriff",
-  "tmdb-sentence": "Dieses Produkt verwendet die TMDb API, wird aber von TMDb weder unterstützt noch zertifiziert"
+  "tmdb-sentence": "Dieses Produkt verwendet die TMDb API, wird aber von TMDb weder unterstützt noch zertifiziert",
+  "login": "Login",
+  "logout": "Logout",
+  "username": "Benutzername",
+  "password": "Passwort",
+  "login-error": "Fehler beim Login",
+  "new-user-error": "Fehler beim Anlegen des neuen Benutzers",
+  "password-not-equal-error": "Eingegebene Passwörter sind nicht gleich",
+  "no-error": "Kein Fehler",
+  "error-code": "Fehlercode",
+  "delete-error": "Löschen nicht möglich",
+  "add-error": "Hinzufügen nicht möglich",
+  "filter-list": "Liste filtern",
+  "edit": "Bearbeiten",
+  "password-again": "Password wiederholen",
+  "try-logout-login": "bitte logge dich aus und erneut ein",
+  "register": "Registrieren"
 }
