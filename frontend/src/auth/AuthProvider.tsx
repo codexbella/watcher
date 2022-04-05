@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
    
-   const [token , setToken] = useState(localStorage.getItem('user-token') ?? '')
+   const [token , setToken] = useState(localStorage.getItem('jwt-token') ?? '')
    const nav = useNavigate()
    
    useEffect(()=>{
@@ -32,13 +32,13 @@ export default function AuthProvider({children}:{children :ReactNode}) {
             throw new Error(`${t('login-error')}, ${t('error-code')}: ${response.status}`)
          })
          .then(responseToken => {
-            localStorage.setItem('user-token', responseToken)
+            localStorage.setItem('jwt-token', responseToken)
             setToken(responseToken);
          })
    }
    
    const logout = () => {
-      localStorage.setItem('user-token', '')
+      localStorage.setItem('jwt-token', '')
       setToken('')
    }
    

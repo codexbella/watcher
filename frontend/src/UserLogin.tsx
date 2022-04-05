@@ -13,7 +13,7 @@ export default function UserLogin() {
    const auth = useAuth()
    
    useEffect(() => {
-      if (localStorage.getItem('user-token')) {
+      if (localStorage.getItem('jwt-token')) {
          nav('/search')
       }
    }, [nav])
