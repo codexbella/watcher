@@ -2,6 +2,7 @@
   "search-term": "Suchbegriff",
   "send-search-request": "Suchen",
   "search-request-error": "Suchanfrage fehlgeschlagen",
+  "get-show-request-error": "Serie konnte nicht geladen werden",
   "error": "Fehler",
   "origin-country": "Herkunftsland",
   "vote-average": "Bewertung",

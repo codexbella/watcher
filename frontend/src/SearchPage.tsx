@@ -1,9 +1,8 @@
 import './App.css';
 import { useTranslation } from 'react-i18next';
 import {FormEvent, useEffect, useState} from "react";
-import {ShowSearchData} from "./models/ShowSearchData";
-import ShowResult from "./components/ShowResult";
-import {useAuth} from "./auth/AuthProvider";
+import {ShowSearchData} from "./models/ShowData";
+import SearchResult from "./components/SearchResult";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {
@@ -50,7 +49,7 @@ export default function SearchPage() {
       
       {searchedTerm && <div className="large color-light margin-bottom">{showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":</div>}
       
-      <div className='margin-bottom'>{showResults && showResults.map(item => <ShowResult show={item} key={item.apiId}/>)}</div>
+      <div className='margin-bottom'>{showResults && showResults.map(item => <SearchResult show={item} key={item.apiId}/>)}</div>
       
       {error && <div className='margin-bottom'>{error}.</div>}
    </div>

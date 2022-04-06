@@ -3,7 +3,6 @@ import watcherLogo from './images/logo-light.png';
 import tmdbLogo from './images/tmdb-logo.png';
 import {Outlet, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useAuth} from "./auth/AuthProvider";
 
 function App() {
    const { t } = useTranslation();
