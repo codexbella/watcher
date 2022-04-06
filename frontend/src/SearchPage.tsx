@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {FormEvent, useEffect, useState} from "react";
 import {ShowSearchData} from "./models/ShowSearchData";
 import ShowResult from "./components/ShowResult";
-import {useAuth} from "./auth/AuthProvider";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {
