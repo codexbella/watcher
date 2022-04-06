@@ -1,21 +1,11 @@
-import {ReactNode, useContext, useEffect, useState} from "react";
+import {ReactNode, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
-import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
    
-   const [token , setToken] = useState(localStorage.getItem('user-token') ?? '')
-   const nav = useNavigate()
-   
-   useEffect(()=>{
-      if (token){
-         nav("/search")
-      } else {
-         nav("/login")
-      }
-   }, [token, nav])
+   const [token , setToken] = useState(localStorage.getItem('jwt-token') ?? '')
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
@@ -32,13 +22,13 @@ export default function AuthProvider({children}:{children :ReactNode}) {
             throw new Error(`${t('login-error')}, ${t('error-code')}: ${response.status}`)
          })
          .then(responseToken => {
-            localStorage.setItem('user-token', responseToken)
+            localStorage.setItem('jwt-token', responseToken)
             setToken(responseToken);
          })
    }
    
    const logout = () => {
-      localStorage.setItem('user-token', '')
+      localStorage.setItem('jwt-token', '')
       setToken('')
    }
    

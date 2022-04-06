@@ -1,9 +1,10 @@
 import './App.css';
 import { useTranslation } from 'react-i18next';
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {ShowSearchData} from "./models/ShowSearchData";
 import ShowResult from "./components/ShowResult";
 import {useAuth} from "./auth/AuthProvider";
+import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {
    const { t } = useTranslation();
@@ -12,6 +13,13 @@ export default function SearchPage() {
    const [searchTerm, setSearchTerm] = useState('');
    const [searchedTerm, setSearchedTerm] = useState('')
    const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
+   const nav = useNavigate();
+   
+   useEffect(() => {
+      if (!localStorage.getItem('jwt-token')) {
+         nav('/login')
+      }
+   }, [nav])
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
