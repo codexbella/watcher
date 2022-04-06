@@ -24,7 +24,7 @@ export default function SearchPage() {
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (searchTerm !== '') {
-         fetch(`${process.env.REACT_APP_BASE_URL}/search?query=`+searchTerm, {
+         fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
                method: 'GET',
                headers: {
                   Authorization: `Bearer ${auth.token}`,

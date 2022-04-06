@@ -19,9 +19,9 @@ public class ContentService {
       this.apiKey = apiKey;
    }
 
-   public List<ShowSearchData> searchForShow(String searchTerm) {
+   public List<ShowSearchData> searchForShow(String language, String searchTerm) {
       String response = restTemplate.getForObject(
-            "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&query="+searchTerm, String.class);
+            "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language="+language+"&query="+searchTerm, String.class);
       SearchResultShows results = new Gson().fromJson(response, SearchResultShows.class);
       return results.getShows().stream().toList();
    }

@@ -13,8 +13,8 @@ import java.util.List;
 public class ContentController {
    private final ContentService contentService;
 
-   @GetMapping("/search")
-   public List<ShowSearchData> searchForShow(@RequestParam String query) {
-      return contentService.searchForShow(query);
+   @GetMapping("/search/{searchTerm}")
+   public List<ShowSearchData> searchForShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm) {
+      return contentService.searchForShow(language, searchTerm);
    }
 }

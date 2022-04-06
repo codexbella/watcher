@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,11 +16,11 @@ import static org.mockito.Mockito.when;
 class ContentServiceTest {
 
    @Test
-   void shouldSearchMockApiForShow() {
+   void shouldSearchMockApiForShow() throws UnsupportedEncodingException {
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi);
       String searchTerm = "game+of+thrones";
-      when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&query="+searchTerm, String.class))
+      when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn("{\"page\":1,\"results\":[{\"backdrop_path\":\"/suopoADq0k8YZr4dQXcU6pToj6s.jpg\"," +
                   "\"first_air_date\":\"2011-04-17\",\"genre_ids\":[10765,18,10759],\"id\":1399,\"name\":\"Game of " +
                   "Thrones\",\"origin_country\":[\"US\"],\"original_language\":\"en\",\"original_name\":\"Game of " +
@@ -31,7 +34,7 @@ class ContentServiceTest {
                   "\"original_name\":\"Autópsia Game Of Thrones\",\"overview\":\"\",\"popularity\":1.656," +
                   "\"poster_path\":null,\"vote_average\":0,\"vote_count\":0}],\"total_pages\":1,\"total_results\":2}");
 
-      List<ShowSearchData> searchResult = contentService.searchForShow(searchTerm);
+      List<ShowSearchData> searchResult = contentService.searchForShow("en-US",searchTerm);
 
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1399);
       assertThat(searchResult.get(0).getName()).isEqualTo("Game of Thrones");
