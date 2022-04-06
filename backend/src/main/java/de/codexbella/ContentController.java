@@ -14,7 +14,7 @@ public class ContentController {
    private final ContentService contentService;
 
    @GetMapping("/search/{searchTerm}")
-   public List<ShowSearchData> searchForShow(@PathVariable String searchTerm) {
-      return contentService.searchForShow(searchTerm);
+   public List<ShowSearchData> searchForShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm) {
+      return contentService.searchForShow(language, searchTerm);
    }
 }

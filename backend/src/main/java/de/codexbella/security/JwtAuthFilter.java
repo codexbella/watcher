@@ -1,14 +1,11 @@
 package de.codexbella.security;
 
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -36,12 +33,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                   List.of()
             );
             SecurityContextHolder.getContext().setAuthentication(token);
-         } catch (Exception e) {
+            filterChain.doFilter(request, response);
+         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
             response.setStatus(401);
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalid token");
          }
+      } else {
+         filterChain.doFilter(request, response);
       }
-      filterChain.doFilter(request, response);
    }
 
    private String getAuthToken(HttpServletRequest request) {
