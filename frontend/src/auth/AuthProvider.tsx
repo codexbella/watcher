@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
-   
    const [token , setToken] = useState(localStorage.getItem('jwt-token') ?? '')
    
    const login = (username: string, password : string) => {

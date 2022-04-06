@@ -14,6 +14,9 @@ public class Season {
    @SerializedName("season_number")
    private int seasonNumber;
 
+   @SerializedName("name")
+   private String seasonName;
+
    @SerializedName("episode_count")
    private int numberOfEpisodes;
 

@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next';
 import {FormEvent, useEffect, useState} from "react";
 import {ShowSearchData} from "./models/ShowSearchData";
 import ShowResult from "./components/ShowResult";
-import {useAuth} from "./auth/AuthProvider";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {
    const { t } = useTranslation();
-   const auth = useAuth()
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
    const [searchedTerm, setSearchedTerm] = useState('')
@@ -27,7 +25,7 @@ export default function SearchPage() {
          fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
                method: 'GET',
                headers: {
-                  Authorization: `Bearer ${auth.token}`,
+                  Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
                   'Content-Type': 'application/json'
                }})
             .then(response => {
@@ -37,7 +35,7 @@ export default function SearchPage() {
                throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ShowSearchData>) => {setShowResults(list); setError('')})
-            .catch(e => {console.log(e.message); setError(e.message)})
+            .catch(e => setError(e.message))
       }
       setSearchedTerm(searchTerm);
       setSearchTerm('')
