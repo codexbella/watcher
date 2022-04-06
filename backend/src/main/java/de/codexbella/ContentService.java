@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import com.google.gson.Gson;
+import de.codexbella.content.Show;
 import de.codexbella.search.SearchResultShows;
 import de.codexbella.search.ShowSearchData;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,7 @@ public class ContentService {
       this.apiKey = apiKey;
    }
 
-   public List<ShowSearchData> searchForShow(String language, String searchTerm) {
+   public List<ShowSearchData> searchForShows(String language, String searchTerm) {
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language="+language+"&query="+searchTerm, String.class);
       SearchResultShows results = new Gson().fromJson(response, SearchResultShows.class);
@@ -35,5 +36,11 @@ public class ContentService {
          }
       }
       return resultListStream.toList();
+   }
+
+   public Show searchForSingleShow(String language, int id) {
+      String response = restTemplate.getForObject(
+            "https://api.themoviedb.org/3/tv/"+id+"?api_key="+apiKey+"&language="+language, String.class);
+      return new Gson().fromJson(response, Show.class);
    }
 }

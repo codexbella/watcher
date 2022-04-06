@@ -1,5 +1,6 @@
 package de.codexbella;
 
+import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
@@ -128,7 +129,32 @@ class ContentControllerITTest {
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager", String.class);
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager&page=2", String.class);
       verifyNoMoreInteractions(mockTemplate);
-   }
+
+      // should get info for a single show
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
+            .thenReturn(searchResultVoyager);
+
+      ResponseEntity<Show> responseSearchSingleShow = restTemplate.exchange("/api/getshow/1855?language=en-US",
+            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      assertThat(responseSearchSingleShow.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSearchSingleShow.getBody()).isNotNull();
+      Show voyager = responseSearchSingleShow.getBody();
+
+      assertThat(voyager.getApiId()).isEqualTo(1855);
+      assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
+      assertThat(voyager.getTagline()).isEqualTo("Charting the new frontier");
+      assertThat(voyager.getOriginCountry().get(0)).isEqualTo("US");
+      assertThat(voyager.getGenres().get(0).getName()).isEqualTo("Sci-Fi & Fantasy");
+      assertThat(voyager.getSeasons().get(2).getSeasonName()).isEqualTo("Season 2");
+      assertThat(voyager.getSeasons().get(2).getSeasonNumber()).isEqualTo(2);
+      assertThat(voyager.getSeasons().get(2).getNumberOfEpisodes()).isEqualTo(26);
+
+      assertThat(voyager.getSeasons().get(3).getSeasonName()).isEqualTo("Season 3");
+      assertThat(voyager.getSeasons().get(4).getSeasonName()).isEqualTo("Season 4");
+
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class);
+      verifyNoMoreInteractions(mockTemplate);   }
+
 
    private final String searchResultOnePage = "{\n" +
          "    \"page\": 1,\n" +
@@ -707,5 +733,201 @@ class ContentControllerITTest {
          "    ],\n" +
          "    \"total_pages\": 2,\n" +
          "    \"total_results\": 25\n" +
+         "}";
+   private final String searchResultVoyager = "{\n" +
+         "    \"adult\": false,\n" +
+         "    \"backdrop_path\": \"/7YFranrnnIcCrgsLYQsoq8aE3Ir.jpg\",\n" +
+         "    \"created_by\": [\n" +
+         "        {\n" +
+         "            \"id\": 1745,\n" +
+         "            \"credit_id\": \"5257177419c295711409ca4e\",\n" +
+         "            \"name\": \"Gene Roddenberry\",\n" +
+         "            \"gender\": 2,\n" +
+         "            \"profile_path\": \"/qY3gWqAMDrrvNVUrwZ8lSa4IKtS.jpg\"\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"id\": 2514,\n" +
+         "            \"credit_id\": \"5dbd6a069638640014e14d24\",\n" +
+         "            \"name\": \"Michael Piller\",\n" +
+         "            \"gender\": 2,\n" +
+         "            \"profile_path\": \"/gRVdvhnkO93FBIq4GuIWcw5scmD.jpg\"\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"id\": 1213783,\n" +
+         "            \"credit_id\": \"5257177419c295711409ca48\",\n" +
+         "            \"name\": \"Rick Berman\",\n" +
+         "            \"gender\": 2,\n" +
+         "            \"profile_path\": \"/mEznRUFYLmpD6jPPeZKLWkHtPdn.jpg\"\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"id\": 1219348,\n" +
+         "            \"credit_id\": \"5257177419c295711409ca42\",\n" +
+         "            \"name\": \"Jeri Taylor\",\n" +
+         "            \"gender\": 1,\n" +
+         "            \"profile_path\": null\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"episode_run_time\": [\n" +
+         "        45,\n" +
+         "        60\n" +
+         "    ],\n" +
+         "    \"first_air_date\": \"1995-01-16\",\n" +
+         "    \"genres\": [\n" +
+         "        {\n" +
+         "            \"id\": 10765,\n" +
+         "            \"name\": \"Sci-Fi & Fantasy\"\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"id\": 18,\n" +
+         "            \"name\": \"Drama\"\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"id\": 10759,\n" +
+         "            \"name\": \"Action & Adventure\"\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"homepage\": \"https://www.startrek.com/shows/star-trek-voyager\",\n" +
+         "    \"id\": 1855,\n" +
+         "    \"in_production\": false,\n" +
+         "    \"languages\": [\n" +
+         "        \"en\"\n" +
+         "    ],\n" +
+         "    \"last_air_date\": \"2001-05-23\",\n" +
+         "    \"last_episode_to_air\": {\n" +
+         "        \"air_date\": \"2001-05-23\",\n" +
+         "        \"episode_number\": 26,\n" +
+         "        \"id\": 1132734,\n" +
+         "        \"name\": \"Endgame (2)\",\n" +
+         "        \"overview\": \"Stardate: Unknown. After a decades-long journey to reach the Alpha Quadrant, " +
+         "Admiral Kathryn Janeway makes a bold decision to change the past in an attempt to undo the toll taken on " +
+         "the crew during their arduous journey home.\\n\\nThis is the final episode of the series.\",\n" +
+         "        \"production_code\": \"\",\n" +
+         "        \"season_number\": 7,\n" +
+         "        \"still_path\": \"/6dtn51OtnndcEx43ey3YhFiYdZT.jpg\",\n" +
+         "        \"vote_average\": 7.8,\n" +
+         "        \"vote_count\": 5\n" +
+         "    },\n" +
+         "    \"name\": \"Star Trek: Voyager\",\n" +
+         "    \"next_episode_to_air\": null,\n" +
+         "    \"networks\": [\n" +
+         "        {\n" +
+         "            \"name\": \"UPN\",\n" +
+         "            \"id\": 40,\n" +
+         "            \"logo_path\": \"/333LtWX9Z7H9uRrNcCl1JcTvdpR.png\",\n" +
+         "            \"origin_country\": \"US\"\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"number_of_episodes\": 172,\n" +
+         "    \"number_of_seasons\": 7,\n" +
+         "    \"origin_country\": [\n" +
+         "        \"US\"\n" +
+         "    ],\n" +
+         "    \"original_language\": \"en\",\n" +
+         "    \"original_name\": \"Star Trek: Voyager\",\n" +
+         "    \"overview\": \"Pulled to the far side of the galaxy, where the Federation is 75 years away at maximum " +
+         "warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.\",\n" +
+         "    \"popularity\": 89.321,\n" +
+         "    \"poster_path\": \"/5iROn4oot6R0kkpWD6oJdHB15ZU.jpg\",\n" +
+         "    \"production_companies\": [\n" +
+         "        {\n" +
+         "            \"id\": 9223,\n" +
+         "            \"logo_path\": \"/of4mmVt6egYaO9oERJbuUxMOTkj.png\",\n" +
+         "            \"name\": \"Paramount Television Studios\",\n" +
+         "            \"origin_country\": \"US\"\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"production_countries\": [\n" +
+         "        {\n" +
+         "            \"iso_3166_1\": \"US\",\n" +
+         "            \"name\": \"United States of America\"\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"seasons\": [\n" +
+         "        {\n" +
+         "            \"air_date\": \"1995-01-09\",\n" +
+         "            \"episode_count\": 90,\n" +
+         "            \"id\": 5314,\n" +
+         "            \"name\": \"Specials\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/86HvbmgLzdRZQw9MrAkENwjBgXz.jpg\",\n" +
+         "            \"season_number\": 0\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1995-01-16\",\n" +
+         "            \"episode_count\": 16,\n" +
+         "            \"id\": 5307,\n" +
+         "            \"name\": \"Season 1\",\n" +
+         "            \"overview\": \"Pulled to the far side of the galaxy, where the Federation is 75 years away at " +
+         "maximum warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.\",\n" +
+         "            \"poster_path\": \"/7XtNLDCcKQe6N11X1cyrJRYl4JE.jpg\",\n" +
+         "            \"season_number\": 1\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1995-08-28\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5308,\n" +
+         "            \"name\": \"Season 2\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/lun9USO2YwAByRFxEzo2eygtfhx.jpg\",\n" +
+         "            \"season_number\": 2\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1996-09-04\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5309,\n" +
+         "            \"name\": \"Season 3\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/aEWmLsXPQKKTzFkHZhuxrxYhfkH.jpg\",\n" +
+         "            \"season_number\": 3\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1997-09-03\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5310,\n" +
+         "            \"name\": \"Season 4\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/4ALy9tEwhGoELY13qXKTkeTxVtH.jpg\",\n" +
+         "            \"season_number\": 4\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1998-10-14\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5311,\n" +
+         "            \"name\": \"Season 5\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/lOcILt6umTmgbeDu9Xc3eV0F7u0.jpg\",\n" +
+         "            \"season_number\": 5\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"1999-09-22\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5312,\n" +
+         "            \"name\": \"Season 6\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/xUS4prP6vuNzhRkkdEdW1LSzsQj.jpg\",\n" +
+         "            \"season_number\": 6\n" +
+         "        },\n" +
+         "        {\n" +
+         "            \"air_date\": \"2000-10-04\",\n" +
+         "            \"episode_count\": 26,\n" +
+         "            \"id\": 5313,\n" +
+         "            \"name\": \"Season 7\",\n" +
+         "            \"overview\": \"\",\n" +
+         "            \"poster_path\": \"/4dWUr7QahimtvwNeQPd73bM6f4t.jpg\",\n" +
+         "            \"season_number\": 7\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"spoken_languages\": [\n" +
+         "        {\n" +
+         "            \"english_name\": \"English\",\n" +
+         "            \"iso_639_1\": \"en\",\n" +
+         "            \"name\": \"English\"\n" +
+         "        }\n" +
+         "    ],\n" +
+         "    \"status\": \"Ended\",\n" +
+         "    \"tagline\": \"Charting the new frontier\",\n" +
+         "    \"type\": \"Scripted\",\n" +
+         "    \"vote_average\": 7.9,\n" +
+         "    \"vote_count\": 615\n" +
          "}";
 }
