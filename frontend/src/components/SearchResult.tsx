@@ -1,4 +1,6 @@
 import '../App.css';
+import starEmpty from '../images/star-empty.png';
+import starFull from '../images/star-full.png';
 import {ShowSearchData} from "../models/ShowData";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
@@ -32,7 +34,9 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='xlarge pointer' onClick={() => setLiked(!liked)}>{liked ? <div>&#9733;</div> : <div>&#9734;</div>}</div>
+            <div className='color-lighter pointer' onClick={() => setLiked(!liked)}>
+               {liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>}
+            </div>
          </div>
          
          <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
