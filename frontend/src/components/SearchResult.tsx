@@ -32,6 +32,5 @@ export default function SearchResult(props: SearchResultProps) {
          <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
          <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
-   
    </div>
 }

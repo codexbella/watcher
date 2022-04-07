@@ -35,7 +35,7 @@ public class ContentService {
             resultListStream = Stream.concat(resultListStream, resultListAdditionalStream);
          }
       }
-      return resultListStream.toList();
+      return resultListStream.distinct().toList();
    }
 
    public Show searchForSingleShow(String language, int id) {
