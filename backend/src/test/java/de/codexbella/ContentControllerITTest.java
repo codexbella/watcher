@@ -48,7 +48,7 @@ class ContentControllerITTest {
             String.class);
 
       assertThat(responseNotRegister1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-      assertEquals("Passwords mismatched.", responseNotRegister1.getBody());
+      assertEquals("Passwords mismatched", responseNotRegister1.getBody());
 
       // should not register new user because username already in use
       registerDataUser2.setPasswordAgain("tadada");
@@ -57,7 +57,7 @@ class ContentControllerITTest {
             String.class);
 
       assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-      assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
+      assertEquals("Username " + registerDataUser2.getUsername() + " already in use", responseNotRegister2.getBody());
 
       // should log in user
       LoginData user1 = new LoginData();
