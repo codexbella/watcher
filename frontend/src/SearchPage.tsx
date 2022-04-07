@@ -48,7 +48,7 @@ export default function SearchPage() {
    }
    
    return <div>
-      <form onSubmit={ev => searchForShow(ev)} className="margin-bottom">
+      <form onSubmit={ev => {searchForShow(ev); setShowResults([])}} className="margin-bottom">
          <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm}
                 onChange={typed => setSearchTerm(typed.target.value)}/>
          <button type='submit'>{t('send-search-request')}</button>
