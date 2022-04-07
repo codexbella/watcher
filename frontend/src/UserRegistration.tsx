@@ -39,8 +39,8 @@ export default function UserRegistration() {
             .then(text => {
                if (statusCode >= 200 && statusCode < 300) {
                   nav('/login')
-               } else {
-                  setError(`${t('new-user-error')}, ${t('error-code')}: ${statusCode}, ${text}`)
+               } else if (text === "Username "+usernameField+" already in use"){
+                  setError(`${t('new-user-error')}, ${t('error-code')}: ${statusCode}, ${t('choose-different-username')}`)
                }
             })
       } else {

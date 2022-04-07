@@ -12,6 +12,7 @@
   "login": "Login",
   "logout": "Logout",
   "username": "User name",
+  "choose-different-username": "please choose a different username",
   "password": "Password",
   "login-error": "Error on login",
   "new-user-error": "Error on creating new user",
