@@ -50,7 +50,7 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='color-lighter' onClick={() => addShow()}>
+            <div className='color-lighter pointer' onClick={() => addShow()}>
                {error ? <div/> : (liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>)}
             </div>
          </div>
