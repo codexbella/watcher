@@ -3,12 +3,13 @@ import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 
 export default function UserRegistration() {
+   const {t} = useTranslation();
+   const nav = useNavigate();
    const [usernameField, setUsernameField] = useState('');
    const [passwordField, setPasswordField] = useState('');
    const [passwordFieldAgain, setPasswordFieldAgain] = useState('');
-   const {t} = useTranslation();
    const [error, setError] = useState('');
-   const nav = useNavigate();
+   const [statusCode, setStatusCode] = useState(500);
    
    useEffect(() => {
       if (localStorage.getItem('jwt-token')) {
@@ -32,14 +33,16 @@ export default function UserRegistration() {
             }
          })
             .then(response => {
-               if (response.status >= 200 && response.status < 300) {
-                  return response.text();
+               setStatusCode(response.status);
+               return response.text()
+            })
+            .then(text => {
+               if (statusCode >= 200 && statusCode < 300) {
+                  nav('/login')
                } else {
-               throw new Error(`${t('new-user-error')}, ${t('error-code')}: ${response.status}`)
+                  setError(`${t('new-user-error')}, ${t('error-code')}: ${statusCode}, ${text}`)
                }
             })
-            .then(() => {nav('/login')})
-            .catch(e => setError(e.message))
       } else {
          setError(`${t('password-not-equal-error')}`)
       }
