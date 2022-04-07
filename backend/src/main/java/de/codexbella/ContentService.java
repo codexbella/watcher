@@ -38,7 +38,7 @@ public class ContentService {
       return resultListStream.distinct().toList();
    }
 
-   public Show searchForSingleShow(String language, int id) {
+   public Show addShow(String language, int id) {
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/tv/"+id+"?api_key="+apiKey+"&language="+language, String.class);
       return new Gson().fromJson(response, Show.class);

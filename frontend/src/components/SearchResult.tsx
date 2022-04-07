@@ -1,7 +1,7 @@
 import '../App.css';
 import starEmpty from '../images/star-empty.png';
 import starFull from '../images/star-full.png';
-import {ShowSearchData} from "../models/ShowData";
+import {ShowData, ShowSearchData} from "../models/ShowData";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useNavigate} from "react-router-dom";
@@ -15,6 +15,26 @@ export default function SearchResult(props: SearchResultProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
    const [liked, setLiked] = useState(false);
+   const [error, setError] = useState('');
+   
+   const addShow = () => {
+      setError('');
+      fetch(`${process.env.REACT_APP_BASE_URL}/addshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
+         method: 'GET',
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               setLiked(!liked)
+            } else {
+               throw new Error(`${t('error')}: ${response.status}`)
+            }
+         })
+         .catch(e => setError(e.message))
+   }
    
    return <div className="border shadow height-231 flex row margin-bottom">
       
@@ -22,20 +42,18 @@ export default function SearchResult(props: SearchResultProps) {
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }}
-           onClick={() => nav(`/search/show/${props.show.apiId}`)}
-           className='pointer'/>
+           }}/>
       
       <div className="color-lighter flex result-details">
          <div className="flex space-between">
             <div>
-            <div className="large bold small-caps pointer" onClick={() => nav(`/search/show/${props.show.apiId}`)}>
+            <div className="large bold small-caps pointer">
                {props.show.name}
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='color-lighter pointer' onClick={() => setLiked(!liked)}>
-               {liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>}
+            <div className='color-lighter' onClick={() => addShow()}>
+               {error ? <div></div> : (liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>)}
             </div>
          </div>
          

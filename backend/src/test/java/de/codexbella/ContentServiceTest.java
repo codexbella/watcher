@@ -63,7 +63,7 @@ class ContentServiceTest {
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      Show voyager = contentService.searchForSingleShow("en-US", 1855);
+      Show voyager = contentService.addShow("en-US", 1855);
 
       assertThat(voyager.getApiId()).isEqualTo(1855);
       assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
