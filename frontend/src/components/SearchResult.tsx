@@ -45,7 +45,7 @@ export default function SearchResult(props: SearchResultProps) {
       <div className="color-lighter flex result-details">
          <div className="flex space-between">
             <div>
-            <div className="large bold small-caps pointer">
+            <div className="large bold small-caps">
                {props.show.name}
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
