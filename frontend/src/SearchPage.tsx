@@ -41,7 +41,8 @@ export default function SearchPage() {
       setSearchTerm('')
    }
    
-   return <div>
+   return showResults ?
+   <div>
       <form onSubmit={ev => searchForShow(ev)} className="margin-bottom">
          <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => setSearchTerm(typed.target.value)}/>
          <button type='submit'>{t('send-search-request')}</button>
@@ -53,4 +54,19 @@ export default function SearchPage() {
       
       {error && <div className='margin-bottom'>{error}.</div>}
    </div>
+      :
+      <div className="lds-default">
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+         <div></div>
+      </div>
 }
