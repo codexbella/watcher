@@ -34,13 +34,14 @@ export default function UserRegistration() {
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
                   return response.text();
-               }
+               } else {
                throw new Error(`${t('new-user-error')}, ${t('error-code')}: ${response.status}`)
+               }
             })
             .then(() => {nav('/login')})
+            .catch(e => setError(e.message))
       } else {
          setError(`${t('password-not-equal-error')}`)
-         throw new Error(t('password-not-equal-error'))
       }
    }
    
