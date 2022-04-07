@@ -68,13 +68,10 @@ export default function SearchPage() {
             </div>
             :
             <div className="lds-ellipsis">
-               <div></div>
-               <div></div>
-               <div></div>
-               <div></div>
+               <div/><div/><div/><div/>
             </div>
          :
-         <div></div>
+         <div/>
       }
       {error && <div className='margin-bottom'>{error}.</div>}
    </div>

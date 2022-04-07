@@ -1,10 +1,9 @@
 import '../App.css';
 import starEmpty from '../images/star-empty.png';
 import starFull from '../images/star-full.png';
-import {ShowData, ShowSearchData} from "../models/ShowData";
+import {ShowSearchData} from "../models/ShowData";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
-import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
 interface SearchResultProps {
@@ -13,7 +12,6 @@ interface SearchResultProps {
 
 export default function SearchResult(props: SearchResultProps) {
    const {t} = useTranslation();
-   const nav = useNavigate();
    const [liked, setLiked] = useState(false);
    const [error, setError] = useState('');
    
@@ -53,7 +51,7 @@ export default function SearchResult(props: SearchResultProps) {
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
             <div className='color-lighter' onClick={() => addShow()}>
-               {error ? <div></div> : (liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>)}
+               {error ? <div/> : (liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>)}
             </div>
          </div>
          
