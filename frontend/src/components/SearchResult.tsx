@@ -13,7 +13,8 @@ export default function SearchResult(props: SearchResultProps) {
    const nav = useNavigate();
    
    return <div className="border shadow height-231 flex row margin-bottom">
-         <img src={"https://image.tmdb.org/t/p/w154" + props.show.posterPath} alt={props.show.name}
+      
+         <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
               onError={(ev) => {
                  ev.currentTarget.onerror = null;
                  ev.currentTarget.src = alternateImage
@@ -27,7 +28,7 @@ export default function SearchResult(props: SearchResultProps) {
                   {props.show.name}
                </div>
             
-            <div>{new Date(props.show.airDate).getFullYear()}</div>
+            <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
          </div>
          <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
          <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>

@@ -9,6 +9,7 @@ export default function SearchPage() {
    const {t} = useTranslation();
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
+   const [searched, setSearched] = useState(false);
    const [searchedTerm, setSearchedTerm] = useState('')
    const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
    const nav = useNavigate();
@@ -21,6 +22,7 @@ export default function SearchPage() {
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      setSearched(true)
       if (searchTerm !== '') {
          fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
             method: 'GET',
@@ -37,38 +39,43 @@ export default function SearchPage() {
             })
             .then((list: Array<ShowSearchData>) => {
                setShowResults(list);
-               setError('')
+               setError('');
+               setSearchedTerm(searchTerm)
             })
             .catch(e => setError(e.message))
       }
-      setSearchedTerm(searchTerm);
       setSearchTerm('')
    }
    
-   return showResults ?
-      <div>
-         <form onSubmit={ev => searchForShow(ev)} className="margin-bottom">
-            <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm}
-                   onChange={typed => setSearchTerm(typed.target.value)}/>
-            <button type='submit'>{t('send-search-request')}</button>
-         </form>
-         
-         {searchedTerm &&
-            <div className="large color-light margin-bottom">
-            {showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":
+   return <div>
+      <form onSubmit={ev => searchForShow(ev)} className="margin-bottom">
+         <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm}
+                onChange={typed => setSearchTerm(typed.target.value)}/>
+         <button type='submit'>{t('send-search-request')}</button>
+      </form>
+      {searched ?
+         showResults.length > 0
+            ?
+            <div>
+               {searchedTerm &&
+                  <div className="large color-light margin-bottom">
+                     {showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":
+                  </div>
+               }
+            
+               <div className='margin-bottom'>{showResults.map(item => <SearchResult show={item} key={item.apiId}/>)}
+               </div>
             </div>
-         }
-         
-         <div className='margin-bottom'>{showResults && showResults.map(item => <SearchResult show={item}
-            key={item.apiId}/>)}</div>
-         
-         {error && <div className='margin-bottom'>{error}.</div>}
-      </div>
-      :
-      <div className="lds-ellipsis">
+            :
+            <div className="lds-ellipsis">
+               <div></div>
+               <div></div>
+               <div></div>
+               <div></div>
+            </div>
+         :
          <div></div>
-         <div></div>
-         <div></div>
-         <div></div>
-      </div>
+      }
+      {error && <div className='margin-bottom'>{error}.</div>}
+   </div>
 }
