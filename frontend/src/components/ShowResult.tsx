@@ -26,7 +26,7 @@ export default function ShowResult() {
          })
          .then((show: ShowData) => {setShow(show); setError('');console.log(show.posterPath)})
          .catch(e => setError(e.message))
-   }, [])
+   }, [params.apiId, t])
    
    return show ?
       <div className="border shadow height-231 flex row margin-bottom">

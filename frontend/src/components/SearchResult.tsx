@@ -2,7 +2,7 @@ import '../App.css';
 import {ShowSearchData} from "../models/ShowData";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface SearchResultProps {
    show: ShowSearchData;
