@@ -13,6 +13,9 @@
 .center {
     justify-content: center;
 }
+.space-between {
+    justify-content: space-between;
+}
 .result-details {
     width: 100%;
     padding: 10px 15px;
@@ -60,6 +63,9 @@
 
 .large {
     font-size: 1.5em;
+}
+.xlarge {
+    font-size: 2.5em;
 }
 
 .border {
