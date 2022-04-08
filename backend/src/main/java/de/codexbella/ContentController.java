@@ -17,8 +17,8 @@ public class ContentController {
    private final ContentService contentService;
 
    @GetMapping("/search/{searchTerm}")
-   public List<ShowSearchData> searchForShows(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm) {
-      return contentService.searchForShows(language, searchTerm);
+   public List<ShowSearchData> searchForShows(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm, Principal principal) {
+      return contentService.searchForShows(language, searchTerm, principal.getName());
    }
    @GetMapping("/saveshow/{apiId}")
    public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int apiId, Principal principal) {

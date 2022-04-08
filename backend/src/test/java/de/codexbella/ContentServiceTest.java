@@ -23,7 +23,7 @@ class ContentServiceTest {
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn(searchResultOnePage);
 
-      List<ShowSearchData> searchResult = contentService.searchForShows("en-US",searchTerm);
+      List<ShowSearchData> searchResult = contentService.searchForShows("en-US", searchTerm, "testuser");
 
       assertThat(searchResult.size()).isEqualTo(2);
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1399);
@@ -43,7 +43,7 @@ class ContentServiceTest {
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm+"&page=2", String.class))
             .thenReturn(searchResultTwoPageSecondPage);
 
-      List<ShowSearchData> searchResult = contentService.searchForShows("en-US",searchTerm);
+      List<ShowSearchData> searchResult = contentService.searchForShows("en-US", searchTerm, "testuser");
 
       assertThat(searchResult.size()).isEqualTo(25);
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1855);
@@ -74,7 +74,7 @@ class ContentServiceTest {
       verify(mockApi).getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class);
       verifyNoMoreInteractions(mockApi);
 
-      verify(mockShowRepo).findByApiId(1855);
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verify(mockShowRepo).save(any());
       verifyNoMoreInteractions(mockShowRepo);
    }

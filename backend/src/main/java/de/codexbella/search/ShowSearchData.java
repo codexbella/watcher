@@ -21,4 +21,6 @@ public class ShowSearchData {
    private int voteCount;
    @SerializedName("poster_path")
    private String posterPath;
+
+   private boolean liked = false;
 }

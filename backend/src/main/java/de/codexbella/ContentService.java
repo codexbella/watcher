@@ -29,7 +29,7 @@ public class ContentService {
       this.contentMapper = contentMapper;
    }
 
-   public List<ShowSearchData> searchForShows(String language, String searchTerm) {
+   public List<ShowSearchData> searchForShows(String language, String searchTerm, String username) {
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language="+language+"&query="
                   +searchTerm, String.class);
@@ -45,21 +45,27 @@ public class ContentService {
             resultListStream = Stream.concat(resultListStream, resultListAdditionalStream);
          }
       }
-      return resultListStream.distinct().toList();
+      List<ShowSearchData> result = resultListStream.distinct().toList();
+      for (int i = 0; i < result.size(); i++) {
+         if (showRepository.findByApiIdAndUsername(result.get(i).getApiId(), username).isPresent()) {
+            result.get(i).setLiked(true);
+         }
+      }
+      return result;
    }
 
    public void saveShow(String language, int apiId, String username) throws IllegalArgumentException {
-      Optional<Show> showOptional = showRepository.findByApiId(apiId);
+      Optional<Show> showOptional = showRepository.findByApiIdAndUsername(apiId, username);
       if (showOptional.isEmpty()) {
          String response = restTemplate.getForObject(
                "https://api.themoviedb.org/3/tv/" + apiId + "?api_key=" + apiKey + "&language=" + language, String.class);
          ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
          Show show = contentMapper.toShow(showApi);
-         show.setUser(username);
+         show.setUsername(username);
          for (int i = 0; i < show.getSeasons().size(); i++) {
-            show.getSeasons().get(i).setUser(username);
+            show.getSeasons().get(i).setUsername(username);
             for (int j = 0; j < show.getSeasons().get(i).getEpisodes().size(); j++) {
-               show.getSeasons().get(i).getEpisodes().get(j).setUser(username);
+               show.getSeasons().get(i).getEpisodes().get(j).setUsername(username);
             }
          }
          showRepository.save(show);

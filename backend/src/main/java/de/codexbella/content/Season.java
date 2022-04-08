@@ -15,7 +15,7 @@ public class Season {
    private String posterPath;
    private List<Episode> episodes = new ArrayList<>();
 
-   private String user = "";
+   private String username = "";
    private Seen seen = Seen.NO;
    private double vote = 5;
 }
