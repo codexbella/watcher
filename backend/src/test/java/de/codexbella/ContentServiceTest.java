@@ -87,6 +87,7 @@ class ContentServiceTest {
       verify(mockApi).getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class);
       verifyNoMoreInteractions(mockApi);
 
+      verify(mockShowRepo).findByApiId(1855);
       verify(mockShowRepo).save(any());
       verifyNoMoreInteractions(mockShowRepo);
    }
