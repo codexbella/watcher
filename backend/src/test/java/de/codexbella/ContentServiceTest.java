@@ -1,7 +1,6 @@
 package de.codexbella;
 
 import de.codexbella.content.ContentMapper;
-import de.codexbella.content.ShowApi;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

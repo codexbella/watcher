@@ -1,6 +1,5 @@
 package de.codexbella;
 
-import de.codexbella.content.ShowApi;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
