@@ -73,4 +73,9 @@ public class ContentService {
          throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with id "+apiId+" already saved");
       }
    }
+
+   public void deleteShow(int apiId, String username) {
+      Optional<Show> showOptional = showRepository.findByApiIdAndUsername(apiId, username);
+      showOptional.ifPresent(show -> showRepository.deleteById(show.getId()));
+   }
 }
