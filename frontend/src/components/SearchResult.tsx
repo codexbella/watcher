@@ -12,7 +12,7 @@ interface SearchResultProps {
 
 export default function SearchResult(props: SearchResultProps) {
    const {t} = useTranslation();
-   const [liked, setLiked] = useState(false);
+   const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
    
    const addShow = () => {

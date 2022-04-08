@@ -8,5 +8,5 @@ export interface ShowSearchData {
    voteCount: number;
    posterPath: string;
    
-   liked: string;
+   liked: boolean;
 }
