@@ -16,13 +16,16 @@ export default function AuthProvider({children}:{children :ReactNode}) {
       })
          .then(response => {
             if (response.status >= 200 && response.status < 300) {
-               return response.text();
+               return response.text()
+            } else if (response.status === 403) {
+               throw new Error(`${t('bad-credentials-error')}`)
+            } else {
+               throw new Error(`${t('error-code')} ${response.status}`)
             }
-            throw new Error(`${t('login-error')}, ${t('error-code')}: ${response.status}`)
          })
-         .then(responseToken => {
-            localStorage.setItem('jwt-token', responseToken)
-            setToken(responseToken);
+         .then(text => {
+                  localStorage.setItem('jwt-token', text)
+                  setToken(text);
          })
    }
    

@@ -3,6 +3,7 @@
   "send-search-request": "Search",
   "search-request-error": "Search query failed",
   "get-show-request-error": "Could not load show",
+  "bad-credentials-error": "Bad credentials",
   "error": "Error",
   "origin-country": "Country of origin",
   "vote-average": "Rating",

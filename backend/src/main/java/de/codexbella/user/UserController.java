@@ -41,7 +41,6 @@ public class UserController {
 
    @PostMapping("/login")
    public ResponseEntity<String> login(@RequestBody LoginData loginData) {
-      try {
          Authentication auth = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword())
          );
@@ -50,8 +49,5 @@ public class UserController {
          claims.put("roles", roles);
          String token = jwtService.createToken(claims, loginData.getUsername());
          return new ResponseEntity<>(token, HttpStatus.OK);
-      } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-      }
    }
 }
