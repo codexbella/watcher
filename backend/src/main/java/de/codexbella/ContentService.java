@@ -1,6 +1,8 @@
 package de.codexbella;
 
 import com.google.gson.Gson;
+import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Show;
 import de.codexbella.content.ShowApi;
 import de.codexbella.search.SearchResultShows;
 import de.codexbella.search.ShowSearchData;
@@ -16,12 +18,14 @@ public class ContentService {
    private final RestTemplate restTemplate;
    private final String apiKey;
    private final ShowRepository showRepository;
+   private final ContentMapper contentMapper;
 
    public ContentService(@Value("${app.api.key}") String apiKey, RestTemplate restTemplate,
-                         ShowRepository showRepository) {
+                         ShowRepository showRepository, ContentMapper contentMapper) {
       this.restTemplate = restTemplate;
       this.apiKey = apiKey;
       this.showRepository = showRepository;
+      this.contentMapper = contentMapper;
    }
 
    public List<ShowSearchData> searchForShows(String language, String searchTerm) {
@@ -43,11 +47,19 @@ public class ContentService {
       return resultListStream.distinct().toList();
    }
 
-   public ShowApi addShow(String language, int apiId) {
+   public ShowApi saveShow(String language, int apiId, String username) {
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/tv/"+apiId+"?api_key="+apiKey+"&language="+language, String.class);
-      ShowApi show = new Gson().fromJson(response, ShowApi.class);
-
-      return show;
+      ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
+      Show show = contentMapper.toShow(showApi);
+      show.setUser(username);
+      for (int i = 0; i < show.getSeasons().size(); i++) {
+         show.getSeasons().get(i).setUser(username);
+         for (int j = 0; j < show.getSeasons().get(i).getEpisodes().size(); j++) {
+            show.getSeasons().get(i).getEpisodes().get(j).setUser(username);
+         }
+      }
+      showRepository.save(show);
+      return showApi;
    }
 }

@@ -12,4 +12,8 @@ public class Episode {
    private double voteAverage;
    private int voteCount;
    private String stillPath;
+
+   private String user = "";
+   private Seen seen = Seen.NO;
+   private double vote = 5;
 }

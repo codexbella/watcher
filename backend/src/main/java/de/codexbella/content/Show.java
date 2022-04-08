@@ -24,4 +24,8 @@ public class Show {
    private int voteCount;
    private String posterPath;
    private List<Season> seasons = new ArrayList<>();
+
+   private String user = "";
+   private Seen seen = Seen.NO;
+   private double vote = 5;
 }
