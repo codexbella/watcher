@@ -16,7 +16,7 @@ public class UserService {
 
    public String createUser(RegisterData registerData) {
       if (registerData.getPassword().equals(registerData.getPasswordAgain())) {
-         UserData userDocument = userMapper.toUserDocument(registerData);
+         UserData userDocument = userMapper.toUserData(registerData);
          if (userRepository.findByUsernameIgnoreCase(userDocument.getUsername()).isEmpty()) {
             userDocument.setPassword(passwordEncoder.encode(userDocument.getPassword()));
             userRepository.save(userDocument);
