@@ -1,6 +1,6 @@
 package de.codexbella;
 
-import de.codexbella.content.Show;
+import de.codexbella.content.ShowApi;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
@@ -133,11 +133,11 @@ class ContentControllerITTest {
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ResponseEntity<Show> responseSearchSingleShow = restTemplate.exchange("/api/addshow/1855?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      ResponseEntity<ShowApi> responseSearchSingleShow = restTemplate.exchange("/api/addshow/1855?language=en-US",
+            HttpMethod.GET, httpEntityUser1Get, ShowApi.class);
       assertThat(responseSearchSingleShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearchSingleShow.getBody()).isNotNull();
-      Show voyager = responseSearchSingleShow.getBody();
+      ShowApi voyager = responseSearchSingleShow.getBody();
 
       assertThat(voyager.getApiId()).isEqualTo(1855);
       assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");

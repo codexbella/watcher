@@ -1,9 +1,9 @@
 package de.codexbella;
 
-import de.codexbella.content.Show;
+import de.codexbella.content.ShowApi;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShowRepository extends MongoRepository<Show, String> {
+public interface ShowRepository extends MongoRepository<ShowApi, String> {
 }

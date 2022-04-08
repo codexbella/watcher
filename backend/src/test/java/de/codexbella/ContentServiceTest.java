@@ -1,6 +1,6 @@
 package de.codexbella;
 
-import de.codexbella.content.Show;
+import de.codexbella.content.ShowApi;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,8 +15,9 @@ class ContentServiceTest {
 
    @Test
    void shouldSearchMockApiForShowWithOnePageResult() {
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo);
       String searchTerm = "game+of+thrones";
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn(searchResultOnePage);
@@ -31,8 +32,9 @@ class ContentServiceTest {
    }
    @Test
    void shouldSearchMockApiForShowWithTwoPageResult() {
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo);
       String searchTerm = "voyager";
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn(searchResultTwoPageFirstPage);
@@ -58,12 +60,13 @@ class ContentServiceTest {
    }
    @Test
    void shouldGetInfoForASingleShow() {
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      Show voyager = contentService.addShow("en-US", 1855);
+      ShowApi voyager = contentService.addShow("en-US", 1855);
 
       assertThat(voyager.getApiId()).isEqualTo(1855);
       assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
