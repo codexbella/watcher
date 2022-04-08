@@ -62,7 +62,7 @@ class ContentServiceTest {
       verifyNoMoreInteractions(mockApi);
    }
    @Test
-   void shouldSaveShow() {
+   void shouldSaveShow() throws IllegalArgumentException {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);

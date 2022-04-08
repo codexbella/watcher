@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -47,19 +48,24 @@ public class ContentService {
       return resultListStream.distinct().toList();
    }
 
-   public ShowApi saveShow(String language, int apiId, String username) {
-      String response = restTemplate.getForObject(
-            "https://api.themoviedb.org/3/tv/"+apiId+"?api_key="+apiKey+"&language="+language, String.class);
-      ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
-      Show show = contentMapper.toShow(showApi);
-      show.setUser(username);
-      for (int i = 0; i < show.getSeasons().size(); i++) {
-         show.getSeasons().get(i).setUser(username);
-         for (int j = 0; j < show.getSeasons().get(i).getEpisodes().size(); j++) {
-            show.getSeasons().get(i).getEpisodes().get(j).setUser(username);
+   public ShowApi saveShow(String language, int apiId, String username) throws IllegalArgumentException {
+      Optional<Show> showOptional = showRepository.findByApiId(apiId);
+      if (showOptional.isEmpty()) {
+         String response = restTemplate.getForObject(
+               "https://api.themoviedb.org/3/tv/" + apiId + "?api_key=" + apiKey + "&language=" + language, String.class);
+         ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
+         Show show = contentMapper.toShow(showApi);
+         show.setUser(username);
+         for (int i = 0; i < show.getSeasons().size(); i++) {
+            show.getSeasons().get(i).setUser(username);
+            for (int j = 0; j < show.getSeasons().get(i).getEpisodes().size(); j++) {
+               show.getSeasons().get(i).getEpisodes().get(j).setUser(username);
+            }
          }
+         showRepository.save(show);
+         return showApi;
+      } else {
+         throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with id "+apiId+" already saved");
       }
-      showRepository.save(show);
-      return showApi;
    }
 }

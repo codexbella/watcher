@@ -22,7 +22,7 @@ public class UserService {
             userRepository.save(userDocument);
             return "New user created with username " + userDocument.getUsername();
          }
-         throw new IllegalStateException("Username " + userDocument.getUsername() + " already in use");
+         throw new IllegalArgumentException("Username " + userDocument.getUsername() + " already in use");
       }
       throw new InputMismatchException("Passwords mismatched");
    }

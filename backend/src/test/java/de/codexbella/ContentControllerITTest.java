@@ -75,7 +75,7 @@ class ContentControllerITTest {
 
       ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2, String.class);
 
-      assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+      assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
       // should search api
       HttpHeaders headerForUser1 = new HttpHeaders();
@@ -133,7 +133,7 @@ class ContentControllerITTest {
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ResponseEntity<ShowApi> responseSearchSingleShow = restTemplate.exchange("/api/addshow/1855?language=en-US",
+      ResponseEntity<ShowApi> responseSearchSingleShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
             HttpMethod.GET, httpEntityUser1Get, ShowApi.class);
       assertThat(responseSearchSingleShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearchSingleShow.getBody()).isNotNull();

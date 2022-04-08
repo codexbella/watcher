@@ -1,8 +1,9 @@
 package de.codexbella;
 
-import de.codexbella.content.ShowApi;
 import de.codexbella.search.ShowSearchData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,7 +21,12 @@ public class ContentController {
       return contentService.searchForShows(language, searchTerm);
    }
    @GetMapping("/saveshow/{apiId}")
-   public ShowApi saveShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int apiId, Principal principal) {
-      return contentService.saveShow(language, apiId, principal.getName());
+   public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int apiId, Principal principal) {
+      try {
+         contentService.saveShow(language, apiId, principal.getName());
+         return new ResponseEntity<>("show saved", HttpStatus.OK);
+      } catch (IllegalArgumentException e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+      }
    }
 }

@@ -34,7 +34,7 @@ public class UserController {
       try {
          String creationMessage = userService.createUser(user);
          return new ResponseEntity<>(creationMessage, HttpStatus.CREATED);
-      } catch (IllegalStateException | InputMismatchException e) {
+      } catch (IllegalArgumentException | InputMismatchException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
    }
