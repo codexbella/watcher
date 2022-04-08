@@ -5,7 +5,6 @@ import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,7 +48,7 @@ class ContentControllerITTest {
             String.class);
 
       assertThat(responseNotRegister1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-      assertEquals("Passwords mismatched.", responseNotRegister1.getBody());
+      assertEquals("Passwords mismatched", responseNotRegister1.getBody());
 
       // should not register new user because username already in use
       registerDataUser2.setPasswordAgain("tadada");
@@ -58,7 +57,7 @@ class ContentControllerITTest {
             String.class);
 
       assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-      assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
+      assertEquals("Username " + registerDataUser2.getUsername() + " already in use", responseNotRegister2.getBody());
 
       // should log in user
       LoginData user1 = new LoginData();
@@ -134,7 +133,7 @@ class ContentControllerITTest {
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ResponseEntity<Show> responseSearchSingleShow = restTemplate.exchange("/api/getshow/1855?language=en-US",
+      ResponseEntity<Show> responseSearchSingleShow = restTemplate.exchange("/api/addshow/1855?language=en-US",
             HttpMethod.GET, httpEntityUser1Get, Show.class);
       assertThat(responseSearchSingleShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearchSingleShow.getBody()).isNotNull();

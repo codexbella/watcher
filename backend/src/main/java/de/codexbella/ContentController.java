@@ -15,11 +15,11 @@ public class ContentController {
    private final ContentService contentService;
 
    @GetMapping("/search/{searchTerm}")
-   public List<ShowSearchData> searchForShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm) {
+   public List<ShowSearchData> searchForShows(@RequestParam(defaultValue = "en-US") String language, @PathVariable String searchTerm) {
       return contentService.searchForShows(language, searchTerm);
    }
-   @GetMapping("/getshow/{id}")
-   public Show searchForSingleShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int id) {
-      return contentService.searchForSingleShow(language, id);
+   @GetMapping("/addshow/{id}")
+   public Show addShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int id) {
+      return contentService.addShow(language, id);
    }
 }

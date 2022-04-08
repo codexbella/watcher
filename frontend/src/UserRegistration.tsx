@@ -3,12 +3,12 @@ import {useTranslation} from "react-i18next";
 import {useNavigate} from "react-router-dom";
 
 export default function UserRegistration() {
+   const {t} = useTranslation();
+   const nav = useNavigate();
    const [usernameField, setUsernameField] = useState('');
    const [passwordField, setPasswordField] = useState('');
    const [passwordFieldAgain, setPasswordFieldAgain] = useState('');
-   const {t} = useTranslation();
    const [error, setError] = useState('');
-   const nav = useNavigate();
    
    useEffect(() => {
       if (localStorage.getItem('jwt-token')) {
@@ -33,14 +33,21 @@ export default function UserRegistration() {
          })
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
-                  return response.text();
+                  nav('/login')
+               } else {
+                  return response.text(); // oder response.json(), wenn du ein Error-Objekt zurückgibst
                }
-               throw new Error(`${t('new-user-error')}, ${t('error-code')}: ${response.status}`)
             })
-            .then(() => {nav('/login')})
+            .then(errorMessage => {
+               if (errorMessage === "Username "+usernameField+" already in use") {
+                  throw new Error(`${t('choose-different-username')}`)
+               } else if (errorMessage === "Passwords mismatched") {
+                  throw new Error(`${t('password-not-equal-error')}`)
+               }
+            })
+            .catch(e => setError(e.message))
       } else {
          setError(`${t('password-not-equal-error')}`)
-         throw new Error(t('password-not-equal-error'))
       }
    }
    
