@@ -12,7 +12,7 @@
   "login": "Einloggen",
   "logout": "Ausloggen",
   "username": "Benutzername",
-  "choose-different-username": "Bitte wähle einen anderen Benutzernamen",
+  "username-in-use": "Benutzernamen ist schon vergeben",
   "password": "Passwort",
   "login-error": "Fehler beim Login",
   "new-user-error": "Fehler beim Anlegen des neuen Benutzers",

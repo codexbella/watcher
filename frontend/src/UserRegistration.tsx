@@ -9,6 +9,7 @@ export default function UserRegistration() {
    const [passwordField, setPasswordField] = useState('');
    const [passwordFieldAgain, setPasswordFieldAgain] = useState('');
    const [error, setError] = useState('');
+   const [statusCode, setStatusCode] = useState(200);
    
    useEffect(() => {
       if (localStorage.getItem('jwt-token')) {
@@ -35,14 +36,17 @@ export default function UserRegistration() {
                if (response.status >= 200 && response.status < 300) {
                   nav('/login')
                } else {
-                  return response.text(); // oder response.json(), wenn du ein Error-Objekt zurückgibst
+                  setStatusCode(response.status);
+                  return response.text();
                }
             })
             .then(errorMessage => {
                if (errorMessage === "Username "+usernameField+" already in use") {
-                  throw new Error(`${t('choose-different-username')}`)
+                  throw new Error(`${t('username-in-use')}`)
                } else if (errorMessage === "Passwords mismatched") {
                   throw new Error(`${t('password-not-equal-error')}`)
+               } else {
+                  throw new Error(`${t('error-code')} ${statusCode}`)
                }
             })
             .catch(e => setError(e.message))
