@@ -24,7 +24,7 @@ public class ContentController {
    public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language, @PathVariable int apiId, Principal principal) {
       try {
          contentService.saveShow(language, apiId, principal.getName());
-         return new ResponseEntity<>("show saved", HttpStatus.OK);
+         return new ResponseEntity<>("Show saved", HttpStatus.OK);
       } catch (IllegalArgumentException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }

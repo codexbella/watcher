@@ -48,7 +48,7 @@ public class ContentService {
       return resultListStream.distinct().toList();
    }
 
-   public ShowApi saveShow(String language, int apiId, String username) throws IllegalArgumentException {
+   public void saveShow(String language, int apiId, String username) throws IllegalArgumentException {
       Optional<Show> showOptional = showRepository.findByApiId(apiId);
       if (showOptional.isEmpty()) {
          String response = restTemplate.getForObject(
@@ -63,7 +63,6 @@ public class ContentService {
             }
          }
          showRepository.save(show);
-         return showApi;
       } else {
          throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with id "+apiId+" already saved");
       }

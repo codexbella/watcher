@@ -129,30 +129,21 @@ class ContentControllerITTest {
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager&page=2", String.class);
       verifyNoMoreInteractions(mockTemplate);
 
-      // should get info for a single show
+      // should save a show
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ResponseEntity<ShowApi> responseSearchSingleShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, ShowApi.class);
-      assertThat(responseSearchSingleShow.getStatusCode()).isEqualTo(HttpStatus.OK);
-      assertThat(responseSearchSingleShow.getBody()).isNotNull();
-      ShowApi voyager = responseSearchSingleShow.getBody();
+      ResponseEntity<String> responseSaveShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
+            HttpMethod.GET, httpEntityUser1Get, String.class);
+      assertThat(responseSaveShow.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSaveShow.getBody()).isNotNull();
+      String creationMessage = responseSaveShow.getBody();
 
-      assertThat(voyager.getApiId()).isEqualTo(1855);
-      assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
-      assertThat(voyager.getTagline()).isEqualTo("Charting the new frontier");
-      assertThat(voyager.getOriginCountry().get(0)).isEqualTo("US");
-      assertThat(voyager.getGenres().get(0).getName()).isEqualTo("Sci-Fi & Fantasy");
-      assertThat(voyager.getSeasons().get(2).getSeasonName()).isEqualTo("Season 2");
-      assertThat(voyager.getSeasons().get(2).getSeasonNumber()).isEqualTo(2);
-      assertThat(voyager.getSeasons().get(2).getNumberOfEpisodes()).isEqualTo(26);
-
-      assertThat(voyager.getSeasons().get(3).getSeasonName()).isEqualTo("Season 3");
-      assertThat(voyager.getSeasons().get(4).getSeasonName()).isEqualTo("Season 4");
+      assertThat(creationMessage).isEqualTo("Show saved");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class);
-      verifyNoMoreInteractions(mockTemplate);   }
+      verifyNoMoreInteractions(mockTemplate);
+   }
 
 
    private final String searchResultOnePage = "{\n" +

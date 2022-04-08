@@ -70,19 +70,7 @@ class ContentServiceTest {
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ShowApi voyager = contentService.saveShow("en-US", 1855, "testuser");
-
-      assertThat(voyager.getApiId()).isEqualTo(1855);
-      assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
-      assertThat(voyager.getTagline()).isEqualTo("Charting the new frontier");
-      assertThat(voyager.getOriginCountry().get(0)).isEqualTo("US");
-      assertThat(voyager.getGenres().get(0).getName()).isEqualTo("Sci-Fi & Fantasy");
-      assertThat(voyager.getSeasons().get(2).getSeasonName()).isEqualTo("Season 2");
-      assertThat(voyager.getSeasons().get(2).getSeasonNumber()).isEqualTo(2);
-      assertThat(voyager.getSeasons().get(2).getNumberOfEpisodes()).isEqualTo(26);
-
-      assertThat(voyager.getSeasons().get(3).getSeasonName()).isEqualTo("Season 3");
-      assertThat(voyager.getSeasons().get(4).getSeasonName()).isEqualTo("Season 4");
+      contentService.saveShow("en-US", 1855, "testuser");
 
       verify(mockApi).getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class);
       verifyNoMoreInteractions(mockApi);
