@@ -1,6 +1,6 @@
 package de.codexbella;
 
-import de.codexbella.content.Show;
+import de.codexbella.content.ContentMapper;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,13 +15,15 @@ class ContentServiceTest {
 
    @Test
    void shouldSearchMockApiForShowWithOnePageResult() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
       String searchTerm = "game+of+thrones";
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn(searchResultOnePage);
 
-      List<ShowSearchData> searchResult = contentService.searchForShows("en-US",searchTerm);
+      List<ShowSearchData> searchResult = contentService.searchForShows("en-US", searchTerm, "testuser");
 
       assertThat(searchResult.size()).isEqualTo(2);
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1399);
@@ -31,15 +33,17 @@ class ContentServiceTest {
    }
    @Test
    void shouldSearchMockApiForShowWithTwoPageResult() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
       String searchTerm = "voyager";
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm, String.class))
             .thenReturn(searchResultTwoPageFirstPage);
       when(mockApi.getForObject("https://api.themoviedb.org/3/search/tv?api_key=xxx&language=en-US&query="+searchTerm+"&page=2", String.class))
             .thenReturn(searchResultTwoPageSecondPage);
 
-      List<ShowSearchData> searchResult = contentService.searchForShows("en-US",searchTerm);
+      List<ShowSearchData> searchResult = contentService.searchForShows("en-US", searchTerm, "testuser");
 
       assertThat(searchResult.size()).isEqualTo(25);
       assertThat(searchResult.get(0).getApiId()).isEqualTo(1855);
@@ -57,28 +61,22 @@ class ContentServiceTest {
       verifyNoMoreInteractions(mockApi);
    }
    @Test
-   void shouldGetInfoForASingleShow() {
+   void shouldSaveShow() throws IllegalArgumentException {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      ContentService contentService = new ContentService("xxx", mockApi);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      Show voyager = contentService.addShow("en-US", 1855);
-
-      assertThat(voyager.getApiId()).isEqualTo(1855);
-      assertThat(voyager.getName()).isEqualTo("Star Trek: Voyager");
-      assertThat(voyager.getTagline()).isEqualTo("Charting the new frontier");
-      assertThat(voyager.getOriginCountry().get(0)).isEqualTo("US");
-      assertThat(voyager.getGenres().get(0).getName()).isEqualTo("Sci-Fi & Fantasy");
-      assertThat(voyager.getSeasons().get(2).getSeasonName()).isEqualTo("Season 2");
-      assertThat(voyager.getSeasons().get(2).getSeasonNumber()).isEqualTo(2);
-      assertThat(voyager.getSeasons().get(2).getNumberOfEpisodes()).isEqualTo(26);
-
-      assertThat(voyager.getSeasons().get(3).getSeasonName()).isEqualTo("Season 3");
-      assertThat(voyager.getSeasons().get(4).getSeasonName()).isEqualTo("Season 4");
+      contentService.saveShow("en-US", 1855, "testuser");
 
       verify(mockApi).getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class);
       verifyNoMoreInteractions(mockApi);
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verify(mockShowRepo).save(any());
+      verifyNoMoreInteractions(mockShowRepo);
    }
 
    private final String searchResultOnePage = "{\n" +

@@ -5,7 +5,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
 function App() {
-   const { t } = useTranslation();
+   const {t} = useTranslation();
    const nav = useNavigate();
    
    const loginOrLogout = () => {
@@ -22,13 +22,13 @@ function App() {
             <h1 className="color-lighter">atcher</h1>
          </div>
          <div className="margin-bottom">
-         <button onClick={loginOrLogout} className='no-decoration-text color-lighter large'>
-            {localStorage.getItem('jwt-token') ? t('logout') : t('login')}
-         </button>
-         {!localStorage.getItem('jwt-token') &&
-            <button onClick={() => nav('/register')} className='no-decoration-text color-lighter large'>
-               {t('register')}
-            </button>}
+            <button onClick={loginOrLogout} className='no-decoration-text color-lighter large'>
+               {localStorage.getItem('jwt-token') ? t('logout') : t('login')}
+            </button>
+            {!localStorage.getItem('jwt-token') &&
+               <button onClick={() => nav('/register')} className='no-decoration-text color-lighter large'>
+                  {t('register')}
+               </button>}
          </div>
          <div><Outlet/></div>
          <div className="flex row baseline gap center">

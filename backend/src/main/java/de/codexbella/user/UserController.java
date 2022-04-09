@@ -1,6 +1,10 @@
 package de.codexbella.user;
 
 import de.codexbella.security.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,14 +34,13 @@ public class UserController {
       try {
          String creationMessage = userService.createUser(user);
          return new ResponseEntity<>(creationMessage, HttpStatus.CREATED);
-      } catch (Exception e) {
+      } catch (IllegalArgumentException | InputMismatchException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
    }
 
    @PostMapping("/login")
    public ResponseEntity<String> login(@RequestBody LoginData loginData) {
-      try {
          Authentication auth = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword())
          );
@@ -45,8 +49,5 @@ public class UserController {
          claims.put("roles", roles);
          String token = jwtService.createToken(claims, loginData.getUsername());
          return new ResponseEntity<>(token, HttpStatus.OK);
-      } catch (Exception e) {
-         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-      }
    }
 }

@@ -12,12 +12,12 @@ interface SearchResultProps {
 
 export default function SearchResult(props: SearchResultProps) {
    const {t} = useTranslation();
-   const [liked, setLiked] = useState(false);
+   const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
    
    const addShow = () => {
       setError('');
-      fetch(`${process.env.REACT_APP_BASE_URL}/addshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
+      fetch(`${process.env.REACT_APP_BASE_URL}/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
@@ -51,12 +51,13 @@ export default function SearchResult(props: SearchResultProps) {
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
             <div className='color-lighter pointer' onClick={() => addShow()}>
-               {error ? <div/> : (liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>)}
+               {liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>}
             </div>
          </div>
          
          <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
          <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
+      {error && <div>{error}.</div>}
    </div>
 }

@@ -16,13 +16,13 @@ public class UserService {
 
    public String createUser(RegisterData registerData) {
       if (registerData.getPassword().equals(registerData.getPasswordAgain())) {
-         UserData userDocument = userMapper.toUserDocument(registerData);
+         UserData userDocument = userMapper.registerDataToUserData(registerData);
          if (userRepository.findByUsernameIgnoreCase(userDocument.getUsername()).isEmpty()) {
             userDocument.setPassword(passwordEncoder.encode(userDocument.getPassword()));
             userRepository.save(userDocument);
             return "New user created with username " + userDocument.getUsername();
          }
-         throw new IllegalStateException("Username " + userDocument.getUsername() + " already in use");
+         throw new IllegalArgumentException("Username " + userDocument.getUsername() + " already in use");
       }
       throw new InputMismatchException("Passwords mismatched");
    }

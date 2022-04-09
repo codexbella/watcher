@@ -7,4 +7,6 @@ export interface ShowSearchData {
    voteAverage: number;
    voteCount: number;
    posterPath: string;
+   
+   liked: boolean;
 }
