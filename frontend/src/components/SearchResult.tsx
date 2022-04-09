@@ -46,6 +46,8 @@ export default function SearchResult(props: SearchResultProps) {
          .then(response => {
             if (response.status >= 200 && response.status < 300) {
                setLiked(!liked)
+            } else if (response.status === 400) {
+               window.alert(`${t('show-already-saved')}?`)
             } else {
                throw new Error(`${t('error')}: ${response.status}`)
             }

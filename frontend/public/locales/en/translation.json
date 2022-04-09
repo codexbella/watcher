@@ -27,5 +27,6 @@
   "password-again": "Repeat password",
   "try-logout-login": "please log yourself out and back in again",
   "register": "Register",
-  "sure-of-deletion": "Are you sure you want to delete this show from your list"
+  "sure-of-deletion": "Are you sure you want to delete this show from your list",
+  "show-already-saved": "The show is already in your list"
 }
