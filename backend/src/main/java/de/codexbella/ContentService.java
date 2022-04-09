@@ -46,9 +46,9 @@ public class ContentService {
          }
       }
       List<ShowSearchData> result = resultListStream.distinct().toList();
-      for (int i = 0; i < result.size(); i++) {
-         if (showRepository.findByApiIdAndUsername(result.get(i).getApiId(), username).isPresent()) {
-            result.get(i).setLiked(true);
+      for (ShowSearchData searchResult : result) {
+         if (showRepository.findByApiIdAndUsername(searchResult.getApiId(), username).isPresent()) {
+            searchResult.setLiked(true);
          }
       }
       return result;
@@ -62,12 +62,10 @@ public class ContentService {
          ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
          Show show = contentMapper.toShow(showApi);
          show.setUsername(username);
-         for (int i = 0; i < show.getSeasons().size(); i++) {
-            show.getSeasons().get(i).setUsername(username);
-            for (int j = 0; j < show.getSeasons().get(i).getEpisodes().size(); j++) {
-               show.getSeasons().get(i).getEpisodes().get(j).setUsername(username);
-            }
-         }
+         show.getSeasons().stream().flatMap(season -> {
+            season.setUsername(username);
+            return season.getEpisodes().stream();
+         }).forEach(episode -> episode.setUsername(username));
          showRepository.save(show);
       } else {
          throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with id "+apiId+" already saved");

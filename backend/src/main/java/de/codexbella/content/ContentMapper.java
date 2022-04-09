@@ -2,7 +2,6 @@ package de.codexbella.content;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -25,11 +24,7 @@ public class ContentMapper {
    }
 
    private List<Season> toSeasonList(List<SeasonApi> seasonApiList) {
-      List seasonList = new ArrayList();
-      for (int i = 0; i < seasonApiList.size(); i++) {
-         seasonList.add(toSeason(seasonApiList.get(i)));
-      }
-      return seasonList;
+      return seasonApiList.stream().map(seasonApi -> toSeason(seasonApi)).toList();
    }
 
    public Season toSeason(SeasonApi seasonApi) {
@@ -45,11 +40,7 @@ public class ContentMapper {
    }
 
    private List<Episode> toEpisodeList(List<EpisodeApi> episodeApiList) {
-      List episodeList = new ArrayList();
-      for (int i = 0; i < episodeApiList.size(); i++) {
-         episodeList.add(toEpisode(episodeApiList.get(i)));
-      }
-      return episodeList;
+      return episodeApiList.stream().map(episodeApi -> toEpisode(episodeApi)).toList();
    }
    
    private Episode toEpisode(EpisodeApi episodeApi) {
