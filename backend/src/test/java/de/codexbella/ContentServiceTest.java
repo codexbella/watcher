@@ -101,6 +101,23 @@ class ContentServiceTest {
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
    }
+   @Test
+   void shouldDeleteShow() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show voyager = new Show();
+      voyager.setId("test-id");
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
+            .thenReturn(Optional.of(voyager));
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      contentService.deleteShow(1855, "testuser");
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verify(mockShowRepo).deleteById("test-id");
+      verifyNoMoreInteractions(mockShowRepo);
+   }
 
    private final String searchResultOnePage = "{\n" +
          "    \"page\": 1,\n" +
