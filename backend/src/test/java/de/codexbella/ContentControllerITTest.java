@@ -128,19 +128,30 @@ class ContentControllerITTest {
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager&page=2", String.class);
       verifyNoMoreInteractions(mockTemplate);
 
-      // should save a show
+      // should save show
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
             .thenReturn(searchResultVoyager);
 
-      ResponseEntity<String> responseSaveShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
+      ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
             HttpMethod.GET, httpEntityUser1Get, String.class);
-      assertThat(responseSaveShow.getStatusCode()).isEqualTo(HttpStatus.OK);
-      assertThat(responseSaveShow.getBody()).isNotNull();
-      String creationMessage = responseSaveShow.getBody();
+      assertThat(responseSavedShow.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSavedShow.getBody()).isNotNull();
+      String creationMessage = responseSavedShow.getBody();
 
       assertThat(creationMessage).isEqualTo("Show saved");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class);
+      verifyNoMoreInteractions(mockTemplate);
+
+      // should not save show because already in database
+      ResponseEntity<String> responseNotSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
+            HttpMethod.GET, httpEntityUser1Get, String.class);
+      assertThat(responseNotSavedShow.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+      assertThat(responseNotSavedShow.getBody()).isNotNull();
+      String showAlreadyExistsMessage = responseNotSavedShow.getBody();
+
+      assertThat(showAlreadyExistsMessage).isEqualTo("Show Star Trek: Voyager with id 1855 already saved");
+
       verifyNoMoreInteractions(mockTemplate);
    }
 
