@@ -4,6 +4,7 @@
   "search-request-error": "Suchanfrage fehlgeschlagen",
   "get-show-request-error": "Serie konnte nicht geladen werden",
   "bad-credentials-error": "Falsche Zugangsdaten",
+  "get-all-shows-error": "Serien konnten nicht geladen werden",
   "error": "Fehler",
   "origin-country": "Herkunftsland",
   "vote-average": "Bewertung",
@@ -25,8 +26,10 @@
   "filter-list": "Liste filtern",
   "edit": "Bearbeiten",
   "password-again": "Password wiederholen",
-  "try-logout-login": "bitte logge dich aus und erneut ein",
+  "logout-login": "Bitte einmal aus- und wieder einloggen",
   "register": "Registrieren",
   "sure-of-deletion": "Bist du sicher, dass du die Serie aus deiner Liste löschen möchtest",
-  "show-already-saved": "Die Serie befindet sich bereits in deiner Liste"
+  "show-already-saved": "Die Serie befindet sich bereits in deiner Liste",
+  "hello": "Hallo",
+  "your-vote": "Deine Bewertung"
 }

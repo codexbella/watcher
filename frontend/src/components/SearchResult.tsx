@@ -1,7 +1,7 @@
 import '../App.css';
 import starEmpty from '../images/star-empty.png';
 import starFull from '../images/star-full.png';
-import {ShowSearchData} from "../models/ShowData";
+import {ShowSearchData} from "../models/ShowInfo";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
