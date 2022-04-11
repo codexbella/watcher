@@ -1,5 +1,6 @@
 package de.codexbella;
 
+import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,10 @@ public class ContentController {
    @DeleteMapping("/deleteshow/{apiId}")
    public void deleteShow(@PathVariable int apiId, Principal principal) {
       contentService.deleteShow(apiId, principal.getName());
+   }
+
+   @GetMapping("/getallshows")
+   public List<Show> getAllShows() {
+      return null;
    }
 }
