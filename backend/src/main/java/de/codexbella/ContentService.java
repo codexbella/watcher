@@ -78,6 +78,6 @@ public class ContentService {
    }
 
    public List<Show> getAllShows(String username) {
-      return null;
+      return showRepository.findAllByUsername(username);
    }
 }
