@@ -40,7 +40,7 @@ public class ContentController {
    }
 
    @GetMapping("/getallshows")
-   public List<Show> getAllShows() {
-      return null;
+   public List<Show> getAllShows(Principal principal) {
+      return contentService.getAllShows(principal.getName());
    }
 }
