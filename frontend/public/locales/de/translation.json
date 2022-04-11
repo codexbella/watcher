@@ -26,5 +26,7 @@
   "edit": "Bearbeiten",
   "password-again": "Password wiederholen",
   "try-logout-login": "bitte logge dich aus und erneut ein",
-  "register": "Registrieren"
+  "register": "Registrieren",
+  "sure-of-deletion": "Bist du sicher, dass du die Serie aus deiner Liste löschen möchtest",
+  "show-already-saved": "Die Serie befindet sich bereits in deiner Liste"
 }

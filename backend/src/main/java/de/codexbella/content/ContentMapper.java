@@ -2,7 +2,6 @@ package de.codexbella.content;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

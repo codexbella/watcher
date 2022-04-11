@@ -1,14 +1,17 @@
 package de.codexbella;
 
 import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.Mockito.*;
 
 class ContentServiceTest {
@@ -76,6 +79,57 @@ class ContentServiceTest {
 
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verify(mockShowRepo).save(any());
+      verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
+   void shouldNotSaveShow() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
+            .thenReturn(Optional.of(new Show()));
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+      when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
+            .thenReturn(searchResultVoyager);
+
+      assertThatIllegalArgumentException().isThrownBy(() -> {
+         contentService.saveShow("en-US", 1855, "testuser");
+      });
+
+      verifyNoInteractions(mockApi);
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
+   void shouldDeleteShow() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show voyager = new Show();
+      voyager.setId("test-id");
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
+            .thenReturn(Optional.of(voyager));
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      contentService.deleteShow(1855, "testuser");
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verify(mockShowRepo).deleteById("test-id");
+      verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
+   void shouldNotDeleteShow() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
+            .thenReturn(Optional.empty());
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      contentService.deleteShow(1855, "testuser");
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
    }
 

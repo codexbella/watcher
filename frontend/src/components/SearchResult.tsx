@@ -34,6 +34,27 @@ export default function SearchResult(props: SearchResultProps) {
          .catch(e => setError(e.message))
    }
    
+   const deleteShow = () => {
+      setError('');
+      fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${props.show.apiId}`, {
+         method: 'DELETE',
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               setLiked(!liked)
+            } else if (response.status === 400) {
+               window.alert(`${t('show-already-saved')}?`)
+            } else {
+               throw new Error(`${t('error')}: ${response.status}`)
+            }
+         })
+         .catch(e => setError(e.message))
+   }
+   
    return <div className="border shadow height-231 flex row margin-bottom">
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
@@ -50,7 +71,9 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='color-lighter pointer' onClick={() => addShow()}>
+            <div className='color-lighter pointer' onClick={() => {
+               if (!liked) {addShow()} else {if (window.confirm(`${t('sure-of-deletion')}?`)) {deleteShow()}}
+            }}>
                {liked ? <img src={starFull} height='35' alt='unlike'/> : <img src={starEmpty} height='35' alt='like'/>}
             </div>
          </div>
