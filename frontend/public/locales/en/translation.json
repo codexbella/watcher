@@ -31,5 +31,7 @@
   "sure-of-deletion": "Are you sure you want to delete this show from your list",
   "show-already-saved": "The show is already in your list",
   "hello": "Hello",
-  "your-vote": "Your vote"
+  "you-have": "You have",
+  "shows-in-your-list": "shows in your list",
+  "seasons": "Seasons"
 }

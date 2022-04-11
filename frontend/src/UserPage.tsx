@@ -22,7 +22,7 @@ export default function UserPage() {
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
-               } else if(response.status == 401) {
+               } else if(response.status === 401) {
                   throw new Error(`${t('logout-login')}`)
                }
                throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
@@ -44,8 +44,14 @@ export default function UserPage() {
    
    return <div>
       <h2 className='color-lighter margin-bottom'>{t('hello')} {params.username}!</h2>
+      
+      {shows &&
+         <div className="large color-light margin-bottom">
+            {t('you-have')} {shows.length} {t('shows-in-your-list')}:
+         </div>
+      }
    
-      <div className='margin-bottom'>{shows.map(item => <Show show={item} key={item.id}/>)}</div>
+      <div className='flex wrap gap margin-bottom'>{shows.map(item => <Show show={item} key={item.id}/>)}</div>
       {error && <div className='margin-bottom'>{error}.</div>}
    </div>
 }
