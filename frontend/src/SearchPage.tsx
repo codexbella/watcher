@@ -52,9 +52,9 @@ export default function SearchPage() {
          searchForShow(ev);
          setShowResults([])
       }} className="margin-bottom">
-         <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm}
+         <input className='color-lighter large' type='text' placeholder={t('search-term')} value={searchTerm}
                 onChange={typed => setSearchTerm(typed.target.value)}/>
-         <button type='submit'>{t('send-search-request')}</button>
+         <button className='large' type='submit'>{t('send-search-request')}</button>
       </form>
       {searched ?
          showResults.length > 0

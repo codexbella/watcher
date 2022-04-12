@@ -21,7 +21,7 @@ export default function UserLogin() {
    const login = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
          auth.login(usernameField, passwordField)
-            .then(() => nav('/search'))
+            .then(() => nav('/users/'+usernameField))
             .catch(e => setError(e.message))
    }
    
