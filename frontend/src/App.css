@@ -27,9 +27,17 @@
     flex-direction: column;
 }
 
-.overflow {
+.overflow-4 {
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0;
+}
+.overflow-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -70,7 +78,9 @@
 .large {
     font-size: 1.5em;
 }
-
+.larger {
+    font-size: 2em;
+}
 
 .border-dark {
     border: 2px solid #3B185F;
@@ -131,8 +141,8 @@ input:focus {
 .height-231 {
     height: 231px;
 }
-.width-490px {
-    width: 490px;
+.width-500px {
+    width: 500px;
 }
 
 .logo-main {

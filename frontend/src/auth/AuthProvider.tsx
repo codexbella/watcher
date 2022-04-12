@@ -1,10 +1,26 @@
-import {ReactNode, useContext, useState} from "react";
+import {ReactNode, useContext, useEffect, useState} from "react";
 import AuthContext from "./AuthContext";
 import {useTranslation} from "react-i18next";
+import {useNavigate} from "react-router-dom";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
+   const nav = useNavigate();
    const [token , setToken] = useState(localStorage.getItem('jwt') ?? '')
+   const [username, setUsername] = useState(t('there') as string);
+   const [expiration, setExpiration] = useState(false);
+   
+   useEffect(() => {
+      if (token) {
+         const tokenDetails = JSON.parse(window.atob(token.split('.')[1]));
+         setUsername(tokenDetails.sub);
+         if (tokenDetails.exp < Date.now()) {
+            setExpiration(true)
+         } else {
+            setExpiration(false)
+         }
+   }
+      }, [nav, token])
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
@@ -30,11 +46,11 @@ export default function AuthProvider({children}:{children :ReactNode}) {
    }
    
    const logout = () => {
-      localStorage.setItem('jwt', '')
+      localStorage.removeItem('jwt');
       setToken('')
    }
    
-   return <AuthContext.Provider value={{token, login, logout}} >{children}</AuthContext.Provider>;
+   return <AuthContext.Provider value={{token, username, expiration, login, logout}} >{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext)

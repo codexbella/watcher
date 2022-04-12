@@ -78,7 +78,7 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
          </div>
          
-         <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
+         <div className="margin-top"><p className="overflow-4">{props.show.overview}</p></div>
          <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
       {error && <div>{error}.</div>}

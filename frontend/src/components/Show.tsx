@@ -25,7 +25,7 @@ export default function Show(props: ShowsProps) {
       }
    }
    
-   return <div className='border-dark shadow height-231 width-490px flex row'>
+   return <div className='border-dark shadow height-231 width-500px flex row'>
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {
@@ -36,7 +36,7 @@ export default function Show(props: ShowsProps) {
       <div className='color-lighter flex result-details'>
          <div className='flex space-between'>
             <div className='margin-bottom'>
-               <div className='large bold small-caps'>{props.show.name}</div>
+               <div className='large bold small-caps overflow-1'>{props.show.name}</div>
                <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
             <div className='margin-left'><img src={determineEyeSource(props.show.seen)} height='35' alt='seen status'/></div>

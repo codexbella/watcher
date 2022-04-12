@@ -3,11 +3,13 @@ import {useTranslation} from "react-i18next";
 import Show from "./components/Show";
 import {useCallback, useEffect, useState} from "react";
 import {ShowData} from "./models/ShowInfo";
+import {useAuth} from "./auth/AuthProvider";
 
 export default function UserPage() {
    const {t} = useTranslation();
    const params = useParams();
    const nav = useNavigate();
+   const auth = useAuth()
    const [error, setError] = useState('');
    const [shows, setShows] = useState([] as Array<ShowData>);
    const [gotShows, setGotShows] = useState(false);
@@ -38,15 +40,15 @@ export default function UserPage() {
    }, [t]);
    
    useEffect(() => {
-      if (!localStorage.getItem('jwt')) {
+      if (!auth.token || !auth.expiration) {
          nav('/login')
       } else {
          getAllShows();
       }
-   }, [nav, getAllShows])
+   }, [nav, getAllShows, auth.token, auth.expiration])
    
    return <div>
-      <h2 className='color-lighter margin-bottom'>{t('hello')} {params.username ?? t('there')}!</h2>
+      <div className='color-lighter margin-bottom larger'>{t('hello')} {params.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
@@ -56,12 +58,15 @@ export default function UserPage() {
             <div className='flex wrap gap margin-bottom'>{shows.map(item => <Show show={item} key={item.id}/>)}</div>
          </div>
          :
-         <div className="lds-ellipsis">
+         !error ?
+            <div className="lds-ellipsis">
+               <div/>
+               <div/>
+               <div/>
+               <div/>
+            </div>
+            :
             <div/>
-            <div/>
-            <div/>
-            <div/>
-         </div>
       }
       
       {error && <div className='margin-bottom'>{error}.</div>}

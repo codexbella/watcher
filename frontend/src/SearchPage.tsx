@@ -4,21 +4,23 @@ import {FormEvent, useEffect, useState} from "react";
 import {ShowSearchData} from "./models/ShowInfo";
 import SearchResult from "./components/SearchResult";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "./auth/AuthProvider";
 
 export default function SearchPage() {
    const {t} = useTranslation();
+   const nav = useNavigate();
+   const auth = useAuth()
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
    const [searched, setSearched] = useState(false);
    const [searchedTerm, setSearchedTerm] = useState('')
    const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
-   const nav = useNavigate();
    
    useEffect(() => {
-      if (!localStorage.getItem('jwt')) {
+      if (!auth.token || !auth.expiration) {
          nav('/login')
       }
-   }, [nav])
+   }, [nav, auth.token, auth.expiration])
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -73,12 +75,15 @@ export default function SearchPage() {
                </div>
             </div>
             :
+            !error ?
             <div className="lds-ellipsis">
                <div/>
                <div/>
                <div/>
                <div/>
             </div>
+               :
+               <div/>
          :
          <div/>
       }
