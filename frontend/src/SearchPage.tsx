@@ -1,7 +1,7 @@
 import './App.css';
 import {useTranslation} from 'react-i18next';
 import {FormEvent, useEffect, useState} from "react";
-import {ShowSearchData} from "./models/ShowData";
+import {ShowSearchData} from "./models/ShowInfo";
 import SearchResult from "./components/SearchResult";
 import {useNavigate} from "react-router-dom";
 

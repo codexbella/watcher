@@ -76,4 +76,8 @@ public class ContentService {
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(apiId, username);
       showOptional.ifPresent(show -> showRepository.deleteById(show.getId()));
    }
+
+   public List<Show> getAllShows(String username) {
+      return showRepository.findAllByUsername(username);
+   }
 }

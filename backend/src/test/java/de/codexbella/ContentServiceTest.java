@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
@@ -131,6 +132,23 @@ class ContentServiceTest {
 
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
+   void shouldGetAllShowsForUser() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show show1 = new Show();
+      show1.setId("test-id1");
+      show1.setUsername("testuser");
+      Show show2 = new Show();
+      show2.setId("test-id2");
+      show1.setUsername("testuser");
+      when(mockShowRepo.findAllByUsername("testuser"))
+            .thenReturn(List.of(show1, show2));
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      assertThat(contentService.getAllShows("testuser")).isEqualTo(List.of(show1, show2));
    }
 
    private final String searchResultOnePage = "{\n" +

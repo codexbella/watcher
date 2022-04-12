@@ -8,6 +8,7 @@ import UserLogin from "./UserLogin";
 import UserRegistration from "./UserRegistration";
 import './i18n';
 import AuthProvider from "./auth/AuthProvider";
+import UserPage from "./UserPage";
 
 ReactDOM.render(
    <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.render(
                      <Route path='register' element={<UserRegistration/>}/>
                      <Route path='login' element={<UserLogin/>}/>
                      <Route path='search' element={<SearchPage/>}/>
+                     <Route path='users/:username' element={<UserPage/>}/>
                      <Route path='*' element={<SearchPage/>}/>
                   </Route>
                </Routes>

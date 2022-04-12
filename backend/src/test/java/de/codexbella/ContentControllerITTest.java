@@ -1,5 +1,6 @@
 package de.codexbella;
 
+import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
@@ -153,6 +154,26 @@ class ContentControllerITTest {
       assertThat(showAlreadyExistsMessage).isEqualTo("Show Star Trek: Voyager with id 1855 already saved");
 
       verifyNoMoreInteractions(mockTemplate);
+
+      // should get all shows for user
+      ResponseEntity<Show[]> responseAllShows = restTemplate.exchange("/api/getallshows",
+            HttpMethod.GET, httpEntityUser1Get, Show[].class);
+      assertThat(responseAllShows.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseAllShows.getBody()).isNotNull();
+      Show[] arrayShows = responseAllShows.getBody();
+
+      assertThat(arrayShows[0].getApiId()).isEqualTo(1855);
+
+      // should delete show
+      restTemplate.exchange("/api/deleteshow/1855", HttpMethod.DELETE, httpEntityUser1Get, Void.class);
+
+      ResponseEntity<Show[]> responseAllShowsAfterDelete = restTemplate.exchange("/api/getallshows",
+            HttpMethod.GET, httpEntityUser1Get, Show[].class);
+      assertThat(responseAllShowsAfterDelete.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseAllShowsAfterDelete.getBody()).isNotNull();
+      Show[] arrayShowsAfterDelte = responseAllShowsAfterDelete.getBody();
+
+      assertThat(arrayShowsAfterDelte.length).isEqualTo(0);
    }
 
 
