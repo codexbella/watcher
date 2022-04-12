@@ -11,7 +11,7 @@ export default function UserRegistration() {
    const [error, setError] = useState('');
    
    useEffect(() => {
-      if (localStorage.getItem('jwt-token')) {
+      if (localStorage.getItem('jwt')) {
          nav('/search')
       }
    }, [nav])

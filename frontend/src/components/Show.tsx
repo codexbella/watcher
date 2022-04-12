@@ -13,7 +13,6 @@ interface ShowsProps {
 
 export default function Show(props: ShowsProps) {
    const {t} = useTranslation();
-   const stars = Math.round(props.show.voteAverage/2);
    const vote = Math.round(props.show.vote/2);
    
    const determineEyeSource = (seen: string) => {

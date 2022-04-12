@@ -20,7 +20,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
          method: 'GET',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
          }
       })
@@ -39,7 +39,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${props.show.apiId}`, {
          method: 'DELETE',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
          }
       })

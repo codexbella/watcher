@@ -17,7 +17,7 @@ export default function UserPage() {
       fetch(`${process.env.REACT_APP_BASE_URL}/getallshows`, {
          method: 'GET',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
          }
       })
@@ -38,7 +38,7 @@ export default function UserPage() {
    }, [t]);
    
    useEffect(() => {
-      if (!localStorage.getItem('jwt-token')) {
+      if (!localStorage.getItem('jwt')) {
          nav('/login')
       } else {
          getAllShows();
@@ -46,7 +46,7 @@ export default function UserPage() {
    }, [nav, getAllShows])
    
    return <div>
-      <h2 className='color-lighter margin-bottom'>{t('hello')} {params.username}!</h2>
+      <h2 className='color-lighter margin-bottom'>{t('hello')} {params.username ?? t('there')}!</h2>
       
       {gotShows ?
          <div>

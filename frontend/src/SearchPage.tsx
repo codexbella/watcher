@@ -15,7 +15,7 @@ export default function SearchPage() {
    const nav = useNavigate();
    
    useEffect(() => {
-      if (!localStorage.getItem('jwt-token')) {
+      if (!localStorage.getItem('jwt')) {
          nav('/login')
       }
    }, [nav])
@@ -27,15 +27,18 @@ export default function SearchPage() {
             fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
                method: 'GET',
                headers: {
-                  Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+                  Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
                }
             })
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
+               } else if (response.status === 401) {
+                  throw new Error(`${t('search-request-error')}. ${t('logout-login')}`)
+               } else {
+                  throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
                }
-               throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ShowSearchData>) => {
                setShowResults(list);

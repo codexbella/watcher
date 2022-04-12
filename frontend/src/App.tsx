@@ -14,17 +14,17 @@ function App() {
       try {
          return JSON.parse(window.atob(token.split('.')[1]));
       } catch (e) {
-         return {'sub': ''};
+         return {'sub': t('there')};
       }
    };
    
    useEffect(() => {
-      if (localStorage.getItem('jwt-token')) {
-      const tokenDetails = parseJwt(localStorage.getItem('jwt-token') ?? '');
+      setUsername(t('there'))
+      if (localStorage.getItem('jwt')) {
+      const tokenDetails = parseJwt(localStorage.getItem('jwt')!);
       if (tokenDetails.exp > Date.now()) {
          setUsername(tokenDetails.sub);
-      } else {
-         nav('/login')
+         console.log('sub: '+tokenDetails.sub+', exp: '+tokenDetails.exp)
       }
       } else {
          nav('/login')
@@ -32,7 +32,7 @@ function App() {
    }, [])
    
    const loginOrLogout = () => {
-      localStorage.setItem('jwt-token', '');
+      localStorage.setItem('jwt', '');
       nav('/login')
    }
    
@@ -40,9 +40,9 @@ function App() {
       <div className="margins-left-right margin-top">
          <div className="margin-bottom">
             <button onClick={loginOrLogout} className='no-decoration-text color-lighter large'>
-               {localStorage.getItem('jwt-token') ? t('logout') : t('login')}
+               {localStorage.getItem('jwt') ? t('logout') : t('login')}
             </button>
-            {!localStorage.getItem('jwt-token') &&
+            {!localStorage.getItem('jwt') &&
                <button onClick={() => nav('/register')} className='no-decoration-text color-lighter large'>
                   {t('register')}
                </button>}
@@ -50,7 +50,7 @@ function App() {
                {t('search')}
             </button>
             <button onClick={() => {nav('/users/'+username);}} className='no-decoration-text color-lighter large'>
-               {username ? username: t('userpage')}
+               {username !== t('there') ? username: t('userpage')}
             </button>
          </div>
          <div className="flex row watcher">

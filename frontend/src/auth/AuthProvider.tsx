@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
-   const [token , setToken] = useState(localStorage.getItem('jwt-token') ?? '')
+   const [token , setToken] = useState(localStorage.getItem('jwt') ?? '')
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
@@ -24,13 +24,13 @@ export default function AuthProvider({children}:{children :ReactNode}) {
             }
          })
          .then(text => {
-                  localStorage.setItem('jwt-token', text)
+                  localStorage.setItem('jwt', text)
                   setToken(text);
          })
    }
    
    const logout = () => {
-      localStorage.setItem('jwt-token', '')
+      localStorage.setItem('jwt', '')
       setToken('')
    }
    
