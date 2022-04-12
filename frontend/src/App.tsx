@@ -29,7 +29,7 @@ function App() {
       } else {
          nav('/login')
       }
-   }, [])
+   }, [nav])
    
    const loginOrLogout = () => {
       localStorage.setItem('jwt', '');
