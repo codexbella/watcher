@@ -69,61 +69,73 @@ export default function ShowDetailsPage() {
             'Content-Type': 'application/json'
          }
       })
-         .then(response => {if (response.status >= 200 && response.status < 300) {nav('/watcherlist')}})
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               nav('/watcherlist')
+            }
+         })
    }
    
    return <div>
       {show.id &&
          <div className='margin-bottom'>
-         <div className='flex row'>
-      
-         <img src={show.posterPath ? "https://image.tmdb.org/t/p/w154" + show.posterPath : alternateImage} alt={show.name}
-           onError={(ev) => {
-              ev.currentTarget.onerror = null;
-              ev.currentTarget.src = alternateImage
-           }}
-              className='height-231 width-154px'/>
-      
-      <div className='color-lighter flex result-details'>
-         <div className='flex space-between'>
-            <div className='margin-bottom'>
-               <div className='large bold small-caps overflow-1'>{show.name}</div>
-               <div>{show.airDate ? new Date(show.airDate).getFullYear() : ''}</div>
-            </div>
-            <div className='flex column align-end'>
-            <div className='margin-bottom'>
-               <img src={vote >= 0.5 ? (vote >= 1 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='1'/>
-               <img src={vote >= 1.5 ? (vote >= 2 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='2'/>
-               <img src={vote >= 2.5 ? (vote >= 3 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='3'/>
-               <img src={vote >= 3.5 ? (vote >= 4 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='4'/>
-               <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
-            </div>
-            <div className='flex column gap-10 center'>
-               <div onClick={() => {if (window.confirm(`${t('sure-of-deletion')}?`)) {deleteShow()}}}
-                    className='pointer'>
-                  <img src={deleteSymbol} width='20' alt='delete'/>
+            <div className='flex row'>
+               
+               <img src={show.posterPath ? "https://image.tmdb.org/t/p/w154" + show.posterPath : alternateImage} alt={show.name}
+                    onError={(ev) => {
+                       ev.currentTarget.onerror = null;
+                       ev.currentTarget.src = alternateImage
+                    }}
+                    className='height-231 width-154px'/>
+               
+               <div className='color-lighter flex result-details'>
+                  
+                  <div className='flex space-between'>
+                     <div className='margin-bottom'>
+                        <div className='large bold small-caps overflow-1'>{show.name}</div>
+                        <div className='margin-top-small margin-bottom italic'>{show.tagline}</div>
+                        <div className='margin-bottom'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})</div>
+                        <div className='flex gap-10 align-center margin-bottom'>
+                           <div className='border-dark color-lighter center height-18 width-150px'>
+                              <div className='background-dark height-18' style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
+                           </div>
+                           <div>{show.voteCount} {t('votes')}</div>
+                        </div>
+                        <div className='margin-bottom'>{show.seasons.length - 1} {t('seasons')}</div>
+                     </div>
+                     
+                     <div className='flex column align-end'>
+                        <div className='margin-bottom'>
+                           <img src={vote >= 0.5 ? (vote >= 1 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='1'/>
+                           <img src={vote >= 1.5 ? (vote >= 2 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='2'/>
+                           <img src={vote >= 2.5 ? (vote >= 3 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='3'/>
+                           <img src={vote >= 3.5 ? (vote >= 4 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='4'/>
+                           <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
+                        </div>
+                        <div className='flex column gap-10 center'>
+                           <div onClick={() => {
+                              if (window.confirm(`${t('sure-of-deletion')}?`)) {
+                                 deleteShow()
+                              }
+                           }}
+                                className='pointer'>
+                              <img src={deleteSymbol} width='20' alt='delete'/>
+                           </div>
+                           <div><img src={determineEyeSource(show.seen)} width='33' alt='seen status'/></div>
+                        </div>
+                     </div>
+                     
+                  </div>
+                  
+
+                  
+                  {error && <div className='margin-bottom'>{error}.</div>}
                </div>
-               <div><img src={determineEyeSource(show.seen)} width='33' alt='seen status'/></div>
             </div>
+            <div className='margin-top'>{show.overview}</div>
+         
          </div>
-
-      </div>
-         <div className='flex gap-10 align-center margin-bottom'>
-            <div className='border-dark color-lighter center height-18 width-150px'>
-               <div className='background-dark height-18' style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
-            </div>
-            <div>{show.voteCount} {t('votes')}</div>
-         </div>
-   
-         <div className='margin-bottom'>{show.seasons.length - 1} {t('seasons')}</div>
-
-         {error && <div className='margin-bottom'>{error}.</div>}
-      </div>
-         </div>
-         <div className='margin-top'>{show.overview}</div>
-
-      </div>
-      
+         
       }
    </div>
 }

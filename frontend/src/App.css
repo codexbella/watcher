@@ -67,8 +67,11 @@
 .margin-top {
     margin-top: 15px;
 }
+.margin-top-small {
+    margin-top: 5px;
+}
 .margin-bottom {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .padding-15 {
     padding: 15px;
@@ -148,6 +151,9 @@ input:focus {
 }
 .bold {
     font-weight: bold;
+}
+.italic {
+    font-style: italic;
 }
 .small-caps {
     font-variant: small-caps;
