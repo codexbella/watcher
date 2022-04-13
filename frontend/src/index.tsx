@@ -20,8 +20,8 @@ ReactDOM.render(
                      <Route path='register' element={<UserRegistration/>}/>
                      <Route path='login' element={<UserLogin/>}/>
                      <Route path='search' element={<SearchPage/>}/>
-                     <Route path='users/:username' element={<UserPage/>}/>
-                     <Route path='*' element={<UserPage/>}/>
+                     <Route path='users/watcherlist' element={<UserPage/>}/>
+                     <Route path='*' element={<SearchPage/>}/>
                   </Route>
                </Routes>
             </AuthProvider>

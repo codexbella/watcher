@@ -19,7 +19,7 @@ function App() {
       <div className="margins-left-right margin-top">
          <div className="margin-bottom">
             <button onClick={loginOrLogout} className='no-decoration-text color-lighter large'>
-               {auth.token && auth.expiration ? t('logout') : t('login')}
+               {auth.token? t('logout') : t('login')}
             </button>
             {!auth.token &&
                <button onClick={() => nav('/register')} className='no-decoration-text color-lighter large'>
@@ -28,7 +28,7 @@ function App() {
             <button onClick={() => nav('/search')} className='no-decoration-text color-lighter large'>
                {t('search')}
             </button>
-            <button onClick={() => {nav('/users/'+auth.username);}} className='no-decoration-text color-lighter large'>
+            <button onClick={() => {nav('/users/watcherlist');}} className='no-decoration-text color-lighter large'>
                Watcherlist
             </button>
          </div>
@@ -36,7 +36,6 @@ function App() {
             <img height={100} src={watcherLogo} alt=""/>
             <h1 className="color-lighter">atcher</h1>
          </div>
-         {!auth.expiration && <div className='margin-bottom'>{t('login-first')}.</div>}
          <div><Outlet/></div>
          
          <div className="flex row baseline gap-20 center">

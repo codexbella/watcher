@@ -1,26 +1,18 @@
 import './App.css';
 import {useTranslation} from 'react-i18next';
-import {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useState} from "react";
 import {ShowSearchData} from "./models/ShowInfo";
 import SearchResult from "./components/SearchResult";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from "./auth/AuthProvider";
 
 export default function SearchPage() {
    const {t} = useTranslation();
    const nav = useNavigate();
-   const auth = useAuth()
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
    const [searched, setSearched] = useState(false);
    const [searchedTerm, setSearchedTerm] = useState('')
    const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
-   
-   useEffect(() => {
-      if (!auth.token || !auth.expiration) {
-         nav('/login')
-      }
-   }, [nav, auth.token, auth.expiration])
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -37,7 +29,7 @@ export default function SearchPage() {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
                } else if (response.status === 401) {
-                  auth.logout()
+                  nav('/login')
                } else {
                   throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
                }

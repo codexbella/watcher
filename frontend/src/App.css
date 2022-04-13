@@ -25,6 +25,9 @@
 .space-between {
     justify-content: space-between;
 }
+.align-center {
+    align-items: center;
+}
 .result-details {
     width: 100%;
     padding: 10px 15px;
@@ -143,8 +146,9 @@ input:focus {
 .pointer {
     cursor: pointer;
 }
-
-.height-231 {
+.height-18 {
+    height: 18px;
+}.height-231 {
     height: 231px;
 }
 .width-500px {

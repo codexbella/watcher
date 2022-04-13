@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import Show from "./components/Show";
 import {useCallback, useEffect, useState} from "react";
@@ -7,7 +7,6 @@ import {useAuth} from "./auth/AuthProvider";
 
 export default function UserPage() {
    const {t} = useTranslation();
-   const params = useParams();
    const nav = useNavigate();
    const auth = useAuth()
    const [error, setError] = useState('');
@@ -27,28 +26,31 @@ export default function UserPage() {
             if (response.status >= 200 && response.status < 300) {
                return response.json();
             } else if (response.status === 401) {
-               auth.logout()
-            }
+               throw new Error(`${response.status}`)
+            } else {
             throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
+            }
          })
          .then((list: Array<ShowData>) => {
+            setGotShows(true)
             setShows(list);
             setError('');
          })
-         .then(() => setGotShows(true))
-         .catch(e => setError(e.message))
-   }, [t]);
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }, [nav, t]);
    
    useEffect(() => {
-      if (!auth.token || !auth.expiration) {
-         nav('/login')
-      } else {
          getAllShows();
-      }
-   }, [nav, getAllShows, auth.token, auth.expiration])
+   }, [getAllShows])
    
    return <div>
-      <div className='color-lighter margin-bottom larger'>{t('hello')} {params.username ?? t('there')}!</div>
+      <div className='color-lighter margin-bottom larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
