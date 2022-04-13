@@ -1,17 +1,17 @@
-import {ShowData} from "../models/ShowInfo";
-import ratingStarEmpty from '../images/rating-star-empty.png';
-import ratingStarFull from '../images/rating-star-full.png';
-import ratingStarHalf from '../images/rating-star-half.png';
-import deleteSymbol from '../images/delete.png';
-import alternateImage from "../images/alt-image.png";
+import {ShowData} from "./models/ShowInfo";
+import ratingStarEmpty from './images/rating-star-empty.png';
+import ratingStarFull from './images/rating-star-full.png';
+import ratingStarHalf from './images/rating-star-half.png';
+import deleteSymbol from './images/delete.png';
+import alternateImage from "./images/alt-image.png";
 import {useTranslation} from "react-i18next";
-import eyeNotSeen from '../images/eye-not-seen.png';
-import eyeSeen from '../images/eye-seen.png';
-import eyePartial from '../images/eye-partially-seen.png';
+import eyeNotSeen from './images/eye-not-seen.png';
+import eyeSeen from './images/eye-seen.png';
+import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-export default function ShowDetails() {
+export default function ShowDetailsPage() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const params = useParams();

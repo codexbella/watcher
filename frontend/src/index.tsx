@@ -9,7 +9,7 @@ import UserRegistration from "./UserRegistration";
 import './i18n';
 import AuthProvider from "./auth/AuthProvider";
 import Watcherlist from "./Watcherlist";
-import ShowDetails from "./components/ShowDetails";
+import ShowDetailsPage from "./ShowDetailsPage";
 
 ReactDOM.render(
    <React.StrictMode>
@@ -22,7 +22,7 @@ ReactDOM.render(
                      <Route path='login' element={<UserLogin/>}/>
                      <Route path='search' element={<SearchPage/>}/>
                      <Route path='shows/watcherlist' element={<Watcherlist/>}/>
-                     <Route path='shows/:id' element={<ShowDetails/>}/>
+                     <Route path='shows/:id' element={<ShowDetailsPage/>}/>
                      <Route path='*' element={<SearchPage/>}/>
                   </Route>
                </Routes>
