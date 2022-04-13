@@ -38,7 +38,7 @@ function App() {
          </div>
          <div><Outlet/></div>
          
-         <div className="flex row baseline gap-20 center">
+         <div className="flex row align-baseline gap-20 justify-center">
             <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
             <div className="tmdb-sentence">{t('tmdb-sentence')}.</div>
          </div>
