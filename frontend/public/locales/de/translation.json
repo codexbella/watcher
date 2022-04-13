@@ -26,12 +26,15 @@
   "filter-list": "Liste filtern",
   "edit": "Bearbeiten",
   "password-again": "Password wiederholen",
-  "logout-login": "Bitte einmal aus- und wieder einloggen",
+  "login-first": "Bitte neu einloggen",
   "register": "Registrieren",
   "sure-of-deletion": "Bist du sicher, dass du die Serie aus deiner Liste löschen möchtest",
   "show-already-saved": "Die Serie befindet sich bereits in deiner Liste",
   "hello": "Hallo",
+  "there": "duda",
   "you-have": "Du hast",
   "shows-in-your-list": "Serien in deiner Liste",
-  "seasons": "Staffeln"
+  "seasons": "Staffeln",
+  "search": "Suchen",
+  "userpage": "Nutzerseite"
 }

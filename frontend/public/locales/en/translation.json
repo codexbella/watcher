@@ -26,12 +26,15 @@
   "filter-list": "Filter list",
   "edit": "Edit",
   "password-again": "Repeat password",
-  "logout-login": "Please log yourself out and back in again",
+  "login-first": "Please log back in",
   "register": "Register",
   "sure-of-deletion": "Are you sure you want to delete this show from your list",
   "show-already-saved": "The show is already in your list",
   "hello": "Hello",
+  "there": "there",
   "you-have": "You have",
   "shows-in-your-list": "shows in your list",
-  "seasons": "Seasons"
+  "seasons": "Seasons",
+  "search": "Search",
+  "userpage": "Userpage"
 }

@@ -4,21 +4,23 @@ import {FormEvent, useEffect, useState} from "react";
 import {ShowSearchData} from "./models/ShowInfo";
 import SearchResult from "./components/SearchResult";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "./auth/AuthProvider";
 
 export default function SearchPage() {
    const {t} = useTranslation();
+   const nav = useNavigate();
+   const auth = useAuth()
    const [error, setError] = useState('');
    const [searchTerm, setSearchTerm] = useState('');
    const [searched, setSearched] = useState(false);
    const [searchedTerm, setSearchedTerm] = useState('')
    const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
-   const nav = useNavigate();
    
    useEffect(() => {
-      if (!localStorage.getItem('jwt-token')) {
+      if (!auth.token || !auth.expiration) {
          nav('/login')
       }
-   }, [nav])
+   }, [nav, auth.token, auth.expiration])
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -27,15 +29,18 @@ export default function SearchPage() {
             fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
                method: 'GET',
                headers: {
-                  Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+                  Authorization: `Bearer ${localStorage.getItem('jwt')}`,
                   'Content-Type': 'application/json'
                }
             })
             .then(response => {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
+               } else if (response.status === 401) {
+                  throw new Error(`${t('search-request-error')}. ${t('logout-login')}`)
+               } else {
+                  throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
                }
-               throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ShowSearchData>) => {
                setShowResults(list);
@@ -52,9 +57,9 @@ export default function SearchPage() {
          searchForShow(ev);
          setShowResults([])
       }} className="margin-bottom">
-         <input className='color-lighter' type='text' placeholder={t('search-term')} value={searchTerm}
+         <input className='color-lighter large' type='text' placeholder={t('search-term')} value={searchTerm}
                 onChange={typed => setSearchTerm(typed.target.value)}/>
-         <button type='submit'>{t('send-search-request')}</button>
+         <button className='large' type='submit'>{t('send-search-request')}</button>
       </form>
       {searched ?
          showResults.length > 0
@@ -70,12 +75,15 @@ export default function SearchPage() {
                </div>
             </div>
             :
+            !error ?
             <div className="lds-ellipsis">
                <div/>
                <div/>
                <div/>
                <div/>
             </div>
+               :
+               <div/>
          :
          <div/>
       }

@@ -20,7 +20,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
          method: 'GET',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
          }
       })
@@ -39,7 +39,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${props.show.apiId}`, {
          method: 'DELETE',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt-token')}`,
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
          }
       })
@@ -55,7 +55,7 @@ export default function SearchResult(props: SearchResultProps) {
          .catch(e => setError(e.message))
    }
    
-   return <div className="border shadow height-231 flex row margin-bottom">
+   return <div className="border-dark shadow height-231 flex row margin-bottom">
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {
@@ -78,7 +78,7 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
          </div>
          
-         <div className="margin-top"><p className="overflow">{props.show.overview}</p></div>
+         <div className="margin-top"><p className="overflow-4">{props.show.overview}</p></div>
          <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
       {error && <div>{error}.</div>}

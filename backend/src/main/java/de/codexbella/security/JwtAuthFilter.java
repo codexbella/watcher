@@ -20,7 +20,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
    private final JwtService jwtService;
 
    @Override
-   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+         throws ServletException, IOException {
       String tokenFromRequest = getAuthToken(request);
 
       if (tokenFromRequest != null && !tokenFromRequest.isBlank()) {
@@ -33,8 +34,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                   List.of()
             );
             SecurityContextHolder.getContext().setAuthentication(token);
+
             filterChain.doFilter(request, response);
-         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException |
+               IllegalArgumentException e) {
             response.setStatus(401);
          }
       } else {
