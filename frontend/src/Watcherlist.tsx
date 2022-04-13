@@ -5,7 +5,7 @@ import {useCallback, useEffect, useState} from "react";
 import {ShowData} from "./models/ShowInfo";
 import {useAuth} from "./auth/AuthProvider";
 
-export default function UserPage() {
+export default function Watcherlist() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const auth = useAuth()
