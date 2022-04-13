@@ -95,7 +95,8 @@ export default function ShowDetailsPage() {
                         <div className='large bold small-caps overflow-1'>{show.name}</div>
                         <div className='margin-top-small margin-bottom italic'>{show.tagline}</div>
                         <div className='margin-bottom'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})</div>
-                        <div className='flex gap-10 align-center margin-bottom'>
+      
+                           <div className='flex gap-10 align-center margin-bottom'>
                            <div className='border-dark color-lighter center height-18 width-150px'>
                               <div className='background-dark height-18' style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
                            </div>
