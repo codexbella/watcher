@@ -5,6 +5,7 @@ import {ShowSearchData} from "../models/ShowInfo";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
+import {useAuth} from "../auth/AuthProvider";
 
 interface SearchResultProps {
    show: ShowSearchData;
@@ -12,6 +13,7 @@ interface SearchResultProps {
 
 export default function SearchResult(props: SearchResultProps) {
    const {t} = useTranslation();
+   const auth = useAuth()
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
    
@@ -20,7 +22,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
          method: 'GET',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            Authorization: `Bearer ${auth.token}`,
             'Content-Type': 'application/json'
          }
       })
@@ -39,7 +41,7 @@ export default function SearchResult(props: SearchResultProps) {
       fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${props.show.apiId}`, {
          method: 'DELETE',
          headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            Authorization: `Bearer ${auth.token}`,
             'Content-Type': 'application/json'
          }
       })

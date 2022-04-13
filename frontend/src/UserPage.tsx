@@ -55,7 +55,9 @@ export default function UserPage() {
             <div className="large color-light margin-bottom">
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
-            <div className='flex wrap gap margin-bottom'>{shows.map(item => <Show show={item} key={item.id}/>)}</div>
+            <div className='flex wrap gap margin-bottom'>
+               {shows.map(item => <Show show={item} key={item.id} onChange={getAllShows}/>)}
+            </div>
          </div>
          :
          !error ?
