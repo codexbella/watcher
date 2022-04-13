@@ -53,12 +53,12 @@ export default function Show(props: ShowsProps) {
                <div className='large bold small-caps overflow-1'>{props.show.name}</div>
                <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='center'>
+            <div className='flex column gap-10 center'>
                <div onClick={() => {if (window.confirm(`${t('sure-of-deletion')}?`)) {deleteShow()}}}
                     className='pointer'>
                   <img src={starFull} width='30' alt='unlike'/>
                </div>
-               <div><img src={determineEyeSource(props.show.seen)} width='38' alt='seen status'/></div>
+               <div><img src={determineEyeSource(props.show.seen)} width='33' alt='seen status'/></div>
             </div>
          </div>
          

@@ -29,7 +29,7 @@ function App() {
                {t('search')}
             </button>
             <button onClick={() => {nav('/users/'+auth.username);}} className='no-decoration-text color-lighter large'>
-               {auth.username !== t('there') ? auth.username: t('userpage')}
+               Watcherlist
             </button>
          </div>
          <div className="flex row watcher">
@@ -39,7 +39,7 @@ function App() {
          {!auth.expiration && <div className='margin-bottom'>{t('login-first')}.</div>}
          <div><Outlet/></div>
          
-         <div className="flex row baseline gap center">
+         <div className="flex row baseline gap-20 center">
             <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
             <div className="tmdb-sentence">{t('tmdb-sentence')}.</div>
          </div>

@@ -37,7 +37,7 @@ export default function SearchPage() {
                if (response.status >= 200 && response.status < 300) {
                   return response.json();
                } else if (response.status === 401) {
-                  throw new Error(`${t('search-request-error')}. ${t('logout-login')}`)
+                  auth.logout()
                } else {
                   throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
                }

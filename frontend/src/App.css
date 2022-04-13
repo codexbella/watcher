@@ -4,11 +4,17 @@
 .row {
     flex-direction: row;
 }
+.column {
+    flex-direction: column;
+}
 .wrap {
     flex-wrap: wrap;
 }
-.gap {
+.gap-20 {
     gap: 20px;
+}
+.gap-10 {
+    gap: 10px;
 }
 .baseline {
     align-items: baseline;

@@ -27,7 +27,7 @@ export default function UserPage() {
             if (response.status >= 200 && response.status < 300) {
                return response.json();
             } else if (response.status === 401) {
-               throw new Error(`${t('logout-login')}`)
+               auth.logout()
             }
             throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
          })
@@ -55,7 +55,7 @@ export default function UserPage() {
             <div className="large color-light margin-bottom">
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
-            <div className='flex wrap gap margin-bottom'>
+            <div className='flex wrap gap-20 margin-bottom'>
                {shows.map(item => <Show show={item} key={item.id} onChange={getAllShows}/>)}
             </div>
          </div>
