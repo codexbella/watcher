@@ -28,7 +28,7 @@ function App() {
             <button onClick={() => nav('/search')} className='no-decoration-text color-lighter large'>
                {t('search')}
             </button>
-            <button onClick={() => {nav('/shows/watcherlist');}} className='no-decoration-text color-lighter large'>
+            <button onClick={() => {nav('/watcherlist');}} className='no-decoration-text color-lighter large'>
                Watcherlist
             </button>
          </div>

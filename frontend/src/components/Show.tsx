@@ -47,7 +47,8 @@ export default function Show(props: ShowsProps) {
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }} onClick={() => nav('/shows/'+props.show.id)} className='pointer'/>
+           }}
+           onClick={() => nav('/shows/'+props.show.id)} className='pointer'/>
       
       <div className='color-lighter flex result-details'>
          <div className='flex space-between'>
@@ -74,7 +75,7 @@ export default function Show(props: ShowsProps) {
             <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
          </div>
          <div className='flex gap-10 align-center'>
-            <div className='border-dark color-lighter center height-18' style={{width: '60%'}}>
+            <div className='border-dark color-lighter center height-18 width-150px'>
                <div className='background-dark height-18' style={{width: `${props.show.voteAverage * 10}%`}}>{props.show.voteAverage}</div>
             </div>
             <div>{props.show.voteCount} {t('votes')}</div>

@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ShowRepository extends MongoRepository<Show, String> {
    Optional<Show> findByApiIdAndUsername(int apiId, String username);
    List<Show> findAllByUsername(String username);
+
+   Optional<Show> findByIdAndUsername(String id, String username);
 }

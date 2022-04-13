@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @CrossOrigin
@@ -43,4 +44,9 @@ public class ContentController {
    public List<Show> getAllShows(Principal principal) {
       return contentService.getAllShows(principal.getName());
    }
+   @GetMapping("/getshow/{id}")
+   public ResponseEntity<Show> getShow(@PathVariable String id, Principal principal) {
+      return ResponseEntity.of(contentService.getShow(id, principal.getName()));
+   }
 }
+

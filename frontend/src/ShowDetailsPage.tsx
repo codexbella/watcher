@@ -9,7 +9,7 @@ import eyeNotSeen from './images/eye-not-seen.png';
 import eyeSeen from './images/eye-seen.png';
 import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
@@ -18,7 +18,7 @@ export default function ShowDetailsPage() {
    const [show, setShow] = useState({} as ShowData);
    const [error, setError] = useState();
    
-   const getShow = () => (
+   const getShow = useCallback(() => (
       fetch(`${process.env.REACT_APP_BASE_URL}/getshow/${params.id}`, {
          method: 'GET',
          headers: {
@@ -43,11 +43,11 @@ export default function ShowDetailsPage() {
                setError(e.message);
             }
          })
-   )
+   ), [nav, t, params.id])
    
    useEffect(() => {
       getShow()
-   }, [getShow()])
+   }, [getShow])
    
    const vote = show.vote / 2;
    
@@ -69,10 +69,11 @@ export default function ShowDetailsPage() {
             'Content-Type': 'application/json'
          }
       })
-         .then(response => {if (response.status >= 200 && response.status < 300) {nav('/shows/watcherlist')}})
+         .then(response => {if (response.status >= 200 && response.status < 300) {nav('/watcherlist')}})
    }
    
-   return <div className='border-dark shadow height-231 width-500px flex row'>
+   return <div>
+      {show.id && <div className='border-dark shadow flex row margin-bottom'>
       
       <img src={show.posterPath ? "https://image.tmdb.org/t/p/w154" + show.posterPath : alternateImage} alt={show.name}
            onError={(ev) => {
@@ -105,12 +106,13 @@ export default function ShowDetailsPage() {
             <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
          </div>
          <div className='flex gap-10 align-center'>
-            <div className='border-dark color-lighter center height-18' style={{width: '60%'}}>
+            <div className='border-dark color-lighter center height-18 width-150px'>
                <div className='background-dark height-18' style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
             </div>
             <div>{show.voteCount} {t('votes')}</div>
          </div>
          {error && <div className='margin-bottom'>{error}.</div>}
       </div>
+   </div>}
    </div>
 }

@@ -21,7 +21,7 @@ ReactDOM.render(
                      <Route path='register' element={<UserRegistration/>}/>
                      <Route path='login' element={<UserLogin/>}/>
                      <Route path='search' element={<SearchPage/>}/>
-                     <Route path='shows/watcherlist' element={<Watcherlist/>}/>
+                     <Route path='watcherlist' element={<Watcherlist/>}/>
                      <Route path='shows/:id' element={<ShowDetailsPage/>}/>
                      <Route path='*' element={<SearchPage/>}/>
                   </Route>
