@@ -1,4 +1,4 @@
-import {ShowData} from "./models/ShowInfo";
+import {Season, ShowData} from "./models/ShowInfo";
 import ratingStarEmpty from './images/rating-star-empty.png';
 import ratingStarFull from './images/rating-star-full.png';
 import ratingStarHalf from './images/rating-star-half.png';
@@ -17,6 +17,7 @@ export default function ShowDetailsPage() {
    const params = useParams();
    const [show, setShow] = useState({} as ShowData);
    const [error, setError] = useState();
+   const [seasonNames, setSeasonNames] = useState([] as Array<Season>)
    
    const getShow = useCallback(() => (
       fetch(`${process.env.REACT_APP_BASE_URL}/getshow/${params.id}`, {
@@ -35,7 +36,10 @@ export default function ShowDetailsPage() {
                throw new Error(`${t('get-show-error')}, ${t('error')}: ${response.status}`)
             }
          })
-         .then(responseBody => setShow(responseBody))
+         .then((responseBody: ShowData) => {
+            setShow(responseBody);
+            setSeasonNames(responseBody.seasons.slice(1,responseBody.seasons.length+1).reverse());
+         })
          .catch(e => {
             if (e.message === '401') {
                nav('/login')
@@ -128,16 +132,16 @@ export default function ShowDetailsPage() {
                            <div><img src={determineEyeSource(show.seen)} width='33' alt='seen status'/></div>
                         </div>
                      </div>
-                     
                   </div>
                   
-
-                  
-                  {error && <div className='margin-bottom'>{error}.</div>}
                </div>
             </div>
-            <div className='margin-top'>{show.overview}</div>
-         
+            <div className='margin-top margin-bottom'>{show.overview}</div>
+            {error && <div className='margin-bottom'>{error}.</div>}
+            <div>{seasonNames.map((item, index) =>
+               <div key={index} className='border-dark shadow margin-bottom padding-15'>{item.seasonName}</div>
+            )}</div>
+
          </div>
          
       }

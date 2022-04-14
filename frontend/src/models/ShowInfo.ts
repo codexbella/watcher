@@ -32,11 +32,11 @@ export interface ShowData {
    vote: number;
 }
 
-interface Genre {
+export interface Genre {
    apiId: number;
    name: string;
 }
-interface Season {
+export interface Season {
    apiId: number;
    seasonNumber: number;
    seasonName: string;
@@ -48,7 +48,7 @@ interface Season {
    seen: Seen;
    vote: number;
 }
-interface Episode {
+export interface Episode {
    apiId: number;
    seasonNumber: number;
    episodeNumber: number;
