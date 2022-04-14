@@ -1,13 +1,12 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import Show from "./components/Show";
 import {useCallback, useEffect, useState} from "react";
 import {ShowData} from "./models/ShowInfo";
 import {useAuth} from "./auth/AuthProvider";
 
-export default function UserPage() {
+export default function Watcherlist() {
    const {t} = useTranslation();
-   const params = useParams();
    const nav = useNavigate();
    const auth = useAuth()
    const [error, setError] = useState('');
@@ -27,35 +26,40 @@ export default function UserPage() {
             if (response.status >= 200 && response.status < 300) {
                return response.json();
             } else if (response.status === 401) {
-               throw new Error(`${t('logout-login')}`)
-            }
+               throw new Error(`${response.status}`)
+            } else {
             throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
+            }
          })
          .then((list: Array<ShowData>) => {
+            setGotShows(true)
             setShows(list);
             setError('');
          })
-         .then(() => setGotShows(true))
-         .catch(e => setError(e.message))
-   }, [t]);
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }, [nav, t]);
    
    useEffect(() => {
-      if (!auth.token || !auth.expiration) {
-         nav('/login')
-      } else {
          getAllShows();
-      }
-   }, [nav, getAllShows, auth.token, auth.expiration])
+   }, [getAllShows])
    
    return <div>
-      <div className='color-lighter margin-bottom larger'>{t('hello')} {params.username ?? t('there')}!</div>
+      <div className='color-lighter margin-bottom larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
             <div className="large color-light margin-bottom">
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
-            <div className='flex wrap gap margin-bottom'>{shows.map(item => <Show show={item} key={item.id}/>)}</div>
+            <div className='flex wrap gap-20 margin-bottom'>
+               {shows.map(item => <Show show={item} key={item.id} onChange={getAllShows}/>)}
+            </div>
          </div>
          :
          !error ?

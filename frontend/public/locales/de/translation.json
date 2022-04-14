@@ -5,6 +5,7 @@
   "get-show-request-error": "Serie konnte nicht geladen werden",
   "bad-credentials-error": "Falsche Zugangsdaten",
   "get-all-shows-error": "Serien konnten nicht geladen werden",
+  "get-show-error": "Serie konnte nicht geladen werden",
   "error": "Fehler",
   "origin-country": "Herkunftsland",
   "vote-average": "Bewertung",
@@ -33,8 +34,7 @@
   "hello": "Hallo",
   "there": "duda",
   "you-have": "Du hast",
-  "shows-in-your-list": "Serien in deiner Liste",
+  "shows-in-your-list": "Serien auf deiner Watcherlist",
   "seasons": "Staffeln",
-  "search": "Suchen",
-  "userpage": "Nutzerseite"
+  "search": "Suchen"
 }

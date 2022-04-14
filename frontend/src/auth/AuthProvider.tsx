@@ -8,18 +8,14 @@ export default function AuthProvider({children}:{children :ReactNode}) {
    const nav = useNavigate();
    const [token , setToken] = useState(localStorage.getItem('jwt') ?? '')
    const [username, setUsername] = useState(t('there') as string);
-   const [expiration, setExpiration] = useState(false);
    
    useEffect(() => {
       if (token) {
          const tokenDetails = JSON.parse(window.atob(token.split('.')[1]));
          setUsername(tokenDetails.sub);
-         if (tokenDetails.exp < Date.now()) {
-            setExpiration(true)
-         } else {
-            setExpiration(false)
-         }
-   }
+      } else {
+         nav('/login')
+      }
       }, [nav, token])
    
    const login = (username: string, password : string) => {
@@ -50,7 +46,7 @@ export default function AuthProvider({children}:{children :ReactNode}) {
       setToken('')
    }
    
-   return <AuthContext.Provider value={{token, username, expiration, login, logout}} >{children}</AuthContext.Provider>;
+   return <AuthContext.Provider value={{token, username, login, logout}} >{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext)

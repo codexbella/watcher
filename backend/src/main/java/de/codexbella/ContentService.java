@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -79,5 +80,9 @@ public class ContentService {
 
    public List<Show> getAllShows(String username) {
       return showRepository.findAllByUsername(username);
+   }
+
+   public Optional<Show> getShow(String id, String username) {
+      return showRepository.findByIdAndUsername(id, username);
    }
 }

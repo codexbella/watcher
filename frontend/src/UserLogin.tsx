@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "./auth/AuthProvider";
 
@@ -10,12 +10,6 @@ export default function UserLogin() {
    const [usernameField, setUsernameField] = useState('');
    const [passwordField, setPasswordField] = useState('');
    const [error, setError] = useState('');
-   
-   useEffect(() => {
-      if (auth.token && auth.expiration) {
-         nav('/users/'+auth.username)
-      }
-   }, [nav, auth.token, auth.expiration, auth.username])
    
    const login = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()

@@ -13,10 +13,10 @@ export default function UserRegistration() {
    const [error, setError] = useState('');
    
    useEffect(() => {
-      if (auth.token && auth.expiration) {
+      if (auth.token) {
          nav('/users/'+auth.username)
       }
-   }, [nav, auth.token, auth.expiration, auth.username])
+   }, [nav, auth.token, auth.username])
    
    const register = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
