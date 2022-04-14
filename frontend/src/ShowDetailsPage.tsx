@@ -10,6 +10,7 @@ import eyeSeen from './images/eye-seen.png';
 import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
+import SeasonDetails from "./components/SeasonDetails";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
@@ -17,7 +18,9 @@ export default function ShowDetailsPage() {
    const params = useParams();
    const [show, setShow] = useState({} as ShowData);
    const [error, setError] = useState();
-   const [seasonNames, setSeasonNames] = useState([] as Array<Season>)
+   const [seasonsSimple, setSeasonsSimple] = useState([] as Array<Season>)
+   const [seasons, setSeasons] = useState([] as Array<Season>)
+   const [seasonInfo, setSeasonInfo] = useState([] as Array<boolean>)
    
    const getShow = useCallback(() => (
       fetch(`${process.env.REACT_APP_BASE_URL}/getshow/${params.id}`, {
@@ -38,7 +41,8 @@ export default function ShowDetailsPage() {
          })
          .then((responseBody: ShowData) => {
             setShow(responseBody);
-            setSeasonNames(responseBody.seasons.slice(1,responseBody.seasons.length+1).reverse());
+            setSeasonsSimple(responseBody.seasons.slice(1, responseBody.seasons.length + 1).reverse());
+
          })
          .catch(e => {
             if (e.message === '401') {
@@ -52,6 +56,41 @@ export default function ShowDetailsPage() {
    useEffect(() => {
       getShow()
    }, [getShow])
+   
+   const getSeason = (apiId: number, index: number) => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${apiId}`, {
+         method: 'GET',
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               return response.json();
+            } else if (response.status === 401) {
+               throw new Error(`${response.status}`)
+            } else {
+               throw new Error(`${t('get-season-error')}, ${t('error')}: ${response.status}`)
+            }
+         })
+         .then((responseBody: Season) => {
+            const seasonArray = seasons;
+            seasons[index] = responseBody;
+            setSeasons(seasonArray);
+            
+            const seasonInfoArray = seasonInfo;
+            seasonInfoArray[index] = true;
+            setSeasonInfo(seasonInfoArray);
+         })
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }
    
    const vote = show.vote / 2;
    
@@ -98,14 +137,17 @@ export default function ShowDetailsPage() {
                      <div className='margin-bottom'>
                         <div className='large bold small-caps overflow-1'>{show.name}</div>
                         <div className='margin-top-small margin-bottom italic'>{show.tagline}</div>
-                        <div className='margin-bottom'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})</div>
+                        <div className='margin-bottom'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})
+                        </div>
                         <div className='margin-bottom color-darker'>{show.genres.map((item, index) =>
-                           <div className='background-light padding-2 display margin-inline-end border-radius-5' key={index}>{item.name}</div>
+                           <div className='background-light padding-2 display margin-inline-end border-radius-5'
+                                key={index}>{item.name}</div>
                         )}</div>
-      
-                           <div className='flex gap-10 align-center margin-bottom'>
+                        
+                        <div className='flex gap-10 align-center margin-bottom'>
                            <div className='border-dark color-lighter center height-18 width-150px'>
-                              <div className='background-dark height-18' style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
+                              <div className='background-dark height-18'
+                                   style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
                            </div>
                            <div>{show.voteCount} {t('votes')}</div>
                         </div>
@@ -133,15 +175,17 @@ export default function ShowDetailsPage() {
                         </div>
                      </div>
                   </div>
-                  
+               
                </div>
             </div>
             <div className='margin-top margin-bottom'>{show.overview}</div>
             {error && <div className='margin-bottom'>{error}.</div>}
-            <div>{seasonNames.map((item, index) =>
-               <div key={index} className='border-dark shadow margin-bottom padding-15'>{item.seasonName}</div>
-            )}</div>
-
+            
+            <div>
+               {seasonsSimple.map((item, index) =>
+                  <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(item.apiId, index)}/>)}
+            </div>
+         
          </div>
          
       }
