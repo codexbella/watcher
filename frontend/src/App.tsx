@@ -16,8 +16,8 @@ function App() {
    }
    
    return (
-      <div className="margins-left-right margin-top">
-         <div className="margin-bottom">
+      <div className="margins-left-0px-right-15px margin-top-15px">
+         <div className="margin-bottom-15px">
             <button onClick={loginOrLogout} className='no-decoration-text color-lighter large'>
                {auth.token? t('logout') : t('login')}
             </button>
@@ -32,13 +32,13 @@ function App() {
                Watcherlist
             </button>
          </div>
-         <div className="flex row watcher">
+         <div className="flex row align-baseline">
             <img height={100} src={watcherLogo} alt=""/>
             <h1 className="color-lighter">atcher</h1>
          </div>
          <div><Outlet/></div>
          
-         <div className="flex row align-baseline gap-20 justify-center">
+         <div className="flex row align-baseline gap-20px justify-center">
             <img src={tmdbLogo} alt="logo of tmdb" height={20}/>
             <div className="tmdb-sentence">{t('tmdb-sentence')}.</div>
          </div>

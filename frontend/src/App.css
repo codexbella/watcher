@@ -10,10 +10,10 @@
 .wrap {
     flex-wrap: wrap;
 }
-.gap-20 {
+.gap-20px {
     gap: 20px;
 }
-.gap-10 {
+.gap-10px {
     gap: 10px;
 }
 .align-baseline {
@@ -22,24 +22,22 @@
 .align-center {
     align-items: center;
 }
-.align-end {
+.align-flex-end {
     align-items: flex-end;
 }
 .justify-center {
     justify-content: center;
 }
-.flex-end {
+.justify-flex-end {
     justify-content: flex-end;
 }
-.space-between {
+.justify-space-between {
     justify-content: space-between;
 }
 .result-details {
     width: 100%;
     padding: 10px 15px;
     box-sizing: border-box;
-    flex-wrap: wrap;
-    flex-direction: column;
 }
 
 .overflow-4 {
@@ -58,38 +56,34 @@
     overflow: hidden;
     margin: 0;
 }
-.margins-left-right {
+.margins-left-0px-right-15px {
     margin: 0px 15px;
 }
-.margin-left {
+.margin-left-15px {
     margin-left: 15px;
 }
-.margin-top {
+.margin-top-15px {
     margin-top: 15px;
 }
-.margin-top-small {
+.margin-top-5px {
     margin-top: 5px;
 }
-.margin-bottom {
+.margin-bottom-15px {
     margin-bottom: 15px;
 }
-.margin-inline-end {
+.margin-inline-end-5px {
     margin-inline-end: 5px;
 }
-.padding-2 {
+.padding-5px {
     padding: 5px;
 }
-.padding-15 {
+.padding-15px {
     padding: 15px;
 }
 .display {
     display: inline-block;
 }
-.results {
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-.border-radius-5 {
+.border-radius-10px {
     border-radius: 10px;
 }
 
@@ -118,9 +112,6 @@
 }
 .border-light {
     border: 2px solid #A12568;
-}
-.border-lighter {
-    border: 1px solid #FEC260;
 }
 .background-dark {
     background-color: #3B185F;
@@ -156,7 +147,7 @@ input:focus {
 .no-decoration-text {
     text-decoration: none;
 }
-.center {
+.text-center {
     text-align: center;
 }
 .bold {
@@ -171,11 +162,17 @@ input:focus {
 .pointer {
     cursor: pointer;
 }
-.height-18 {
+.height-18px {
     height: 18px;
 }
-.height-231 {
+.height-100px {
+    height: 100px;
+}
+.height-231px {
     height: 231px;
+}
+.height-100percent {
+    height: 100%;
 }
 .width-150px {
     width: 150px;
@@ -185,13 +182,6 @@ input:focus {
 }
 .width-500px {
     width: 500px;
-}
-
-.logo-main {
-    height: 100px;
-}
-.watcher {
-    align-items: baseline;
 }
 
 .tmdb-sentence {

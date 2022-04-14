@@ -4,7 +4,7 @@ import {useState} from "react";
 interface SeasonProps {
    season: Season;
    seasonInfo: boolean;
-   onOpen: (apiId: string, index: number) => void;
+   onOpen: (apiId: number, index: number) => void;
 }
 
 export default function SeasonDetails(props: SeasonProps) {
@@ -12,12 +12,12 @@ export default function SeasonDetails(props: SeasonProps) {
    
    const checkOpenStatus = () => {
       if (!open) {
-         props.onOpen
+         props.onOpen(1855, 1)
       }
       setOpen(!open);
    }
    
-   return <details onClick={() => checkOpenStatus()} id={props.season.seasonName} key={props.season.seasonName} className='border-dark shadow margin-bottom padding-15'>
+   return <details onClick={() => checkOpenStatus()} id={props.season.seasonName} key={props.season.seasonName} className='border-dark shadow margin-bottom-15px padding-15px'>
       <summary className='pointer'>{props.season.seasonName}</summary>
       {props.seasonInfo ?
          <div>...</div>

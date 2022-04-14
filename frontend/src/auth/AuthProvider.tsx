@@ -16,7 +16,7 @@ export default function AuthProvider({children}:{children :ReactNode}) {
          setUsername(tokenDetails.sub);
       } else if (location.pathname !== "/register") {
          nav('/login')
-      }}, [nav, token])
+      }}, [nav, token, location.pathname])
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
