@@ -1,4 +1,5 @@
 import {Season} from "../models/ShowInfo";
+import {useState} from "react";
 
 interface SeasonProps {
    season: Season;
@@ -7,9 +8,17 @@ interface SeasonProps {
 }
 
 export default function SeasonDetails(props: SeasonProps) {
+   const [open, setOpen] = useState(false);
    
-   return <details onClick={() => props.onOpen} id={props.season.seasonName} key={props.season.seasonName} className='border-dark shadow margin-bottom padding-15'>
-      <summary>{props.season.seasonName}</summary>
+   const checkOpenStatus = () => {
+      if (!open) {
+         props.onOpen
+      }
+      setOpen(!open);
+   }
+   
+   return <details onClick={() => checkOpenStatus()} id={props.season.seasonName} key={props.season.seasonName} className='border-dark shadow margin-bottom padding-15'>
+      <summary className='pointer'>{props.season.seasonName}</summary>
       {props.seasonInfo ?
          <div>...</div>
          :

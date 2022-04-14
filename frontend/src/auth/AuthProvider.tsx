@@ -1,11 +1,12 @@
 import {ReactNode, useContext, useEffect, useState} from "react";
 import AuthContext from "./AuthContext";
 import {useTranslation} from "react-i18next";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
    const nav = useNavigate();
+   const location = useLocation()
    const [token , setToken] = useState(localStorage.getItem('jwt') ?? '')
    const [username, setUsername] = useState(t('there') as string);
    
@@ -13,10 +14,9 @@ export default function AuthProvider({children}:{children :ReactNode}) {
       if (token) {
          const tokenDetails = JSON.parse(window.atob(token.split('.')[1]));
          setUsername(tokenDetails.sub);
-      } else {
+      } else if (location.pathname !== "/register") {
          nav('/login')
-      }
-      }, [nav, token])
+      }}, [nav, token])
    
    const login = (username: string, password : string) => {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{

@@ -179,13 +179,13 @@ export default function ShowDetailsPage() {
                </div>
             </div>
             <div className='margin-top margin-bottom'>{show.overview}</div>
-            {error && <div className='margin-bottom'>{error}.</div>}
             
             <div>
                {seasonsSimple.map((item, index) =>
                   <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(item.apiId, index)}/>)}
             </div>
-         
+            
+            {error && <div className='margin-bottom'>{error}.</div>}
          </div>
          
       }
