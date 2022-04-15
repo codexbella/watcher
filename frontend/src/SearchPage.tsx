@@ -48,7 +48,7 @@ export default function SearchPage() {
       <form onSubmit={ev => {
          searchForShow(ev);
          setShowResults([])
-      }} className="margin-bottom">
+      }} className="margin-bottom-15px">
          <input className='color-lighter large' type='text' placeholder={t('search-term')} value={searchTerm}
                 onChange={typed => setSearchTerm(typed.target.value)}/>
          <button className='large' type='submit'>{t('send-search-request')}</button>
@@ -58,12 +58,12 @@ export default function SearchPage() {
             ?
             <div>
                {searchedTerm &&
-                  <div className="large color-light margin-bottom">
+                  <div className="large color-light margin-bottom-15px">
                      {showResults.length} {t('search-results-for-search-term')} "{searchedTerm}":
                   </div>
                }
                
-               <div className='margin-bottom'>{showResults.map(item => <SearchResult show={item} key={item.apiId}/>)}
+               <div className='margin-bottom-15px'>{showResults.map(item => <SearchResult show={item} key={item.apiId}/>)}
                </div>
             </div>
             :
@@ -79,6 +79,6 @@ export default function SearchPage() {
          :
          <div/>
       }
-      {error && <div className='margin-bottom'>{error}.</div>}
+      {error && <div className='margin-bottom-15px'>{error}.</div>}
    </div>
 }

@@ -19,7 +19,7 @@ export default function UserLogin() {
    }
    
    return <div className='color-lighter'>
-      <form onSubmit={ev => login(ev)} className='margin-bottom'>
+      <form onSubmit={ev => login(ev)} className='margin-bottom-15px'>
          <input className='large' type='text' placeholder={t('username')} value={usernameField} onChange={ev => {
             setUsernameField(ev.target.value)
          }}/>
@@ -28,6 +28,6 @@ export default function UserLogin() {
          }}/>
          <button className='large' type='submit'>{t('login')}</button>
       </form>
-      {error && <div className='color-lighter margin-bottom'>{error}.</div>}
+      {error && <div className='color-lighter margin-bottom-15px'>{error}.</div>}
    </div>
 }

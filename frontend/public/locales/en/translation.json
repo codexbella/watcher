@@ -6,6 +6,7 @@
   "bad-credentials-error": "Bad credentials",
   "get-all-shows-error": "Shows could not be loaded",
   "get-show-error": "Show could not be loaded",
+  "get-season-error": "Staffel konnte nicht geladen werden",
   "error": "Error",
   "origin-country": "Country of origin",
   "vote-average": "Rating",

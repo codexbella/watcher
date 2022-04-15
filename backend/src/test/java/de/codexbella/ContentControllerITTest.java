@@ -164,6 +164,15 @@ class ContentControllerITTest {
 
       assertThat(arrayShows[0].getApiId()).isEqualTo(1855);
 
+      // should get show details
+      ResponseEntity<Show> responseShow = restTemplate.exchange("/api/getshow/"+arrayShows[0].getId(),
+            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      assertThat(responseShow.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseShow.getBody()).isNotNull();
+      Show show = responseShow.getBody();
+
+      assertThat(show.getApiId()).isEqualTo(1855);
+
       // should delete show
       restTemplate.exchange("/api/deleteshow/1855", HttpMethod.DELETE, httpEntityUser1Get, Void.class);
 
@@ -174,6 +183,7 @@ class ContentControllerITTest {
       Show[] arrayShowsAfterDelte = responseAllShowsAfterDelete.getBody();
 
       assertThat(arrayShowsAfterDelte.length).isEqualTo(0);
+
    }
 
 

@@ -143,12 +143,28 @@ class ContentServiceTest {
       Show show2 = new Show();
       show2.setId("test-id2");
       show1.setUsername("testuser");
-      when(mockShowRepo.findAllByUsername("testuser"))
-            .thenReturn(List.of(show1, show2));
+      when(mockShowRepo.findAllByUsername("testuser")).thenReturn(List.of(show1, show2));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
       assertThat(contentService.getAllShows("testuser")).isEqualTo(List.of(show1, show2));
+   }
+   @Test
+   void shouldGetShowDetails() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show show1 = new Show();
+      show1.setId("test-id1");
+      show1.setUsername("testuser");
+      show1.setName("test-show");
+      when(mockShowRepo.findByIdAndUsername("test-id1", "testuser"))
+            .thenReturn(Optional.of(show1));
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      Optional<Show> showOptional = contentService.getShow("test-id1", "testuser");
+      assertThat(showOptional).isPresent();
+      assertThat(showOptional.get().getName()).isEqualTo("test-show");
    }
 
    private final String searchResultOnePage = "{\n" +

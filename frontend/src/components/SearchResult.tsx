@@ -55,7 +55,7 @@ export default function SearchResult(props: SearchResultProps) {
          .catch(e => setError(e.message))
    }
    
-   return <div className="border-dark shadow height-231 flex row margin-bottom">
+   return <div className="border-dark shadow height-231px flex row margin-bottom-15px">
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {
@@ -63,8 +63,8 @@ export default function SearchResult(props: SearchResultProps) {
               ev.currentTarget.src = alternateImage
            }}/>
       
-      <div className="color-lighter flex result-details">
-         <div className="flex space-between">
+      <div className="color-lighter flex result-details wrap column">
+         <div className="flex justify-space-between">
             <div>
             <div className="large bold small-caps">
                {props.show.name}
@@ -78,8 +78,8 @@ export default function SearchResult(props: SearchResultProps) {
             </div>
          </div>
          
-         <div className="margin-top"><p className="overflow-4">{props.show.overview}</p></div>
-         <div className="margin-top">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
+         <div className="margin-top-15px"><p className="overflow-4">{props.show.overview}</p></div>
+         <div className="margin-top-15px">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
       {error && <div>{error}.</div>}
    </div>

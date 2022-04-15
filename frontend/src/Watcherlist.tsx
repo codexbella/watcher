@@ -50,14 +50,14 @@ export default function Watcherlist() {
    }, [getAllShows])
    
    return <div>
-      <div className='color-lighter margin-bottom larger'>{t('hello')} {auth.username ?? t('there')}!</div>
+      <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
-            <div className="large color-light margin-bottom">
+            <div className="large color-light margin-bottom-15px">
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
-            <div className='flex wrap gap-20 margin-bottom'>
+            <div className='flex wrap gap-20px margin-bottom-15px'>
                {shows.map(item => <Show show={item} key={item.id} onChange={getAllShows}/>)}
             </div>
          </div>
@@ -73,6 +73,6 @@ export default function Watcherlist() {
             <div/>
       }
       
-      {error && <div className='margin-bottom'>{error}.</div>}
+      {error && <div className='margin-bottom-15px'>{error}.</div>}
    </div>
 }
