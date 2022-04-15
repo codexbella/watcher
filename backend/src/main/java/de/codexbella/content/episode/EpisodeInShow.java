@@ -1,9 +1,10 @@
-package de.codexbella.content;
+package de.codexbella.content.episode;
 
+import de.codexbella.content.Seen;
 import lombok.Data;
 
 @Data
-public class Episode {
+public class EpisodeInShow {
    private int apiId;
    private int seasonNumber;
    private int episodeNumber;

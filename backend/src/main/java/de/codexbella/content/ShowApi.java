@@ -1,6 +1,7 @@
 package de.codexbella.content;
 
 import com.google.gson.annotations.SerializedName;
+import de.codexbella.content.season.SeasonInShowApi;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -37,5 +38,5 @@ public class ShowApi {
    @SerializedName("poster_path")
    private String posterPath;
 
-   private List<SeasonApi> seasons = new ArrayList<>();
+   private List<SeasonInShowApi> seasons = new ArrayList<>();
 }

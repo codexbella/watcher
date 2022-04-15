@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import de.codexbella.content.ContentMapper;
 import de.codexbella.content.Show;
 import de.codexbella.content.ShowApi;
+import de.codexbella.content.season.Season;
+import de.codexbella.content.season.SeasonApi;
 import de.codexbella.search.SearchResultShows;
 import de.codexbella.search.ShowSearchData;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -63,7 +64,7 @@ public class ContentService {
          ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
          Show show = contentMapper.toShow(showApi);
          show.setUsername(username);
-         show.getSeasons().stream().flatMap(season -> {
+         show.getSeasonInShows().stream().flatMap(season -> {
             season.setUsername(username);
             return season.getEpisodes().stream();
          }).forEach(episode -> episode.setUsername(username));
@@ -82,7 +83,19 @@ public class ContentService {
       return showRepository.findAllByUsername(username);
    }
 
-   public Optional<Show> getShow(String id, String username) {
-      return showRepository.findByIdAndUsername(id, username);
+   public Optional<Show> getShow(String showId, String username) {
+      return showRepository.findByIdAndUsername(showId, username);
+   }
+
+   public Optional<Show> getSeason(String language, int showApiId, int seasonNumber, String username) {
+      Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
+      if (showOptional.isPresent()) {
+         String response = restTemplate.getForObject(
+               "https://api.themoviedb.org/3/tv/"+showApiId+"/season/"+seasonNumber+"?api_key="+apiKey+"&language="+language, String.class);
+         SeasonApi seasonApi = new Gson().fromJson(response, SeasonApi.class);
+         Season season = contentMapper.toSeason(seasonApi);
+         showOptional.get().getSeasons().set(seasonNumber+1, season);
+      }
+      return showOptional;
    }
 }

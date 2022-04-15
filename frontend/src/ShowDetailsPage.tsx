@@ -57,8 +57,8 @@ export default function ShowDetailsPage() {
       getShow();
    }, [getShow])
    
-   const getSeason = (apiId: number, index: number) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${apiId}`, {
+   const getSeason = (showApiId: number, index: number) => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${showApiId}?season=${index}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -187,7 +187,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsSimple.map((item, index) =>
-                  <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(item.apiId, index)}/>)}
+                  <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index)}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

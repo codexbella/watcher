@@ -1,10 +1,10 @@
-package de.codexbella.content;
+package de.codexbella.content.episode;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-public class EpisodeApi {
+public class EpisodeInShowApi {
    @SerializedName("id")
    private int apiId;
 

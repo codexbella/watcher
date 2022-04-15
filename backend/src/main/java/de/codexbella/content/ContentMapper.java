@@ -1,5 +1,13 @@
 package de.codexbella.content;
 
+import de.codexbella.content.episode.EpisodeInSeason;
+import de.codexbella.content.episode.EpisodeInSeasonApi;
+import de.codexbella.content.episode.EpisodeInShow;
+import de.codexbella.content.episode.EpisodeInShowApi;
+import de.codexbella.content.season.Season;
+import de.codexbella.content.season.SeasonApi;
+import de.codexbella.content.season.SeasonInShow;
+import de.codexbella.content.season.SeasonInShowApi;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,39 +27,67 @@ public class ContentMapper {
       show.setVoteAverage(showApi.getVoteAverage());
       show.setVoteCount(showApi.getVoteCount());
       show.setPosterPath(showApi.getPosterPath());
-      show.setSeasons(toSeasonList(showApi.getSeasons()));
+      show.setSeasonInShows(toSeasonInShowList(showApi.getSeasons()));
       return show;
    }
 
-   private List<Season> toSeasonList(List<SeasonApi> seasonApiList) {
-      return seasonApiList.stream().map(seasonApi -> toSeason(seasonApi)).toList();
+   private List<SeasonInShow> toSeasonInShowList(List<SeasonInShowApi> seasonApiList) {
+      return seasonApiList.stream().map(seasonApi -> toSeasonInShow(seasonApi)).toList();
+   }
+
+   public SeasonInShow toSeasonInShow(SeasonInShowApi seasonApi) {
+      SeasonInShow seasonInShow = new SeasonInShow();
+      seasonInShow.setApiId(seasonApi.getApiId());
+      seasonInShow.setSeasonNumber(seasonApi.getSeasonNumber());
+      seasonInShow.setName(seasonApi.getName());
+      seasonInShow.setNumberOfEpisodes(seasonApi.getNumberOfEpisodes());
+      seasonInShow.setOverview(seasonApi.getOverview());
+      seasonInShow.setPosterPath(seasonApi.getPosterPath());
+      seasonInShow.setEpisodes(toEpisodeInShowList(seasonApi.getEpisodes()));
+      return seasonInShow;
+   }
+
+   private List<EpisodeInShow> toEpisodeInShowList(List<EpisodeInShowApi> episodeApiList) {
+      return episodeApiList.stream().map(episodeApi -> toEpisodeInShow(episodeApi)).toList();
+   }
+   
+   private EpisodeInShow toEpisodeInShow(EpisodeInShowApi episodeApi) {
+      EpisodeInShow episodeInShow = new EpisodeInShow();
+      episodeInShow.setApiId(episodeApi.getApiId());
+      episodeInShow.setSeasonNumber(episodeApi.getSeasonNumber());
+      episodeInShow.setName(episodeApi.getName());
+      episodeInShow.setOverview(episodeApi.getOverview());
+      episodeInShow.setVoteAverage(episodeApi.getVoteAverage());
+      episodeInShow.setVoteCount(episodeApi.getVoteCount());
+      episodeInShow.setStillPath(episodeApi.getStillPath());
+      return episodeInShow;
    }
 
    public Season toSeason(SeasonApi seasonApi) {
       Season season = new Season();
       season.setApiId(seasonApi.getApiId());
-      season.setSeasonNumber(seasonApi.getSeasonNumber());
-      season.setSeasonName(seasonApi.getSeasonName());
-      season.setNumberOfEpisodes(seasonApi.getNumberOfEpisodes());
+      season.setName(seasonApi.getName());
       season.setOverview(seasonApi.getOverview());
+      season.setAirDate(seasonApi.getAirDate());
+      season.setSeasonNumber(seasonApi.getSeasonNumber());
       season.setPosterPath(seasonApi.getPosterPath());
-      season.setEpisodes(toEpisodeList(seasonApi.getEpisodes()));
+      season.setEpisodes(toEpisodeInSeasonList(seasonApi.getEpisodes()));
       return season;
    }
-
-   private List<Episode> toEpisodeList(List<EpisodeApi> episodeApiList) {
-      return episodeApiList.stream().map(episodeApi -> toEpisode(episodeApi)).toList();
+   private List<EpisodeInSeason> toEpisodeInSeasonList(List<EpisodeInSeasonApi> episodeInSeasonApiList) {
+      return episodeInSeasonApiList.stream().map(episodeInSeasonApi -> toEpisodeInSeason(episodeInSeasonApi)).toList();
    }
-   
-   private Episode toEpisode(EpisodeApi episodeApi) {
-      Episode episode = new Episode();
-      episode.setApiId(episodeApi.getApiId());
-      episode.setSeasonNumber(episodeApi.getSeasonNumber());
-      episode.setName(episodeApi.getName());
-      episode.setOverview(episodeApi.getOverview());
-      episode.setVoteAverage(episodeApi.getVoteAverage());
-      episode.setVoteCount(episodeApi.getVoteCount());
-      episode.setStillPath(episodeApi.getStillPath());
-      return episode;
+   private EpisodeInSeason toEpisodeInSeason(EpisodeInSeasonApi episodeInSeasonApi) {
+      EpisodeInSeason episodeInSeason = new EpisodeInSeason();
+      episodeInSeason.setApiId(episodeInSeasonApi.getApiId());
+      episodeInSeason.setName(episodeInSeasonApi.getName());
+      episodeInSeason.setOverview(episodeInSeasonApi.getOverview());
+      episodeInSeason.setAirDate(episodeInSeasonApi.getAirDate());
+      episodeInSeason.setEpisodeNumber(episodeInSeasonApi.getEpisodeNumber());
+      episodeInSeason.setSeasonNumber(episodeInSeasonApi.getSeasonNumber());
+      episodeInSeason.setVoteAverage(episodeInSeasonApi.getVoteAverage());
+      episodeInSeason.setVoteCount(episodeInSeasonApi.getVoteCount());
+      episodeInSeason.setStillPath(episodeInSeasonApi.getStillPath());
+      return episodeInSeason;
    }
 }

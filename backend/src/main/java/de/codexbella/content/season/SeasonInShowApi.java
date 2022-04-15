@@ -1,13 +1,14 @@
-package de.codexbella.content;
+package de.codexbella.content.season;
 
 import com.google.gson.annotations.SerializedName;
+import de.codexbella.content.episode.EpisodeInShowApi;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class SeasonApi {
+public class SeasonInShowApi {
    @SerializedName("id")
    private int apiId;
 
@@ -15,7 +16,7 @@ public class SeasonApi {
    private int seasonNumber;
 
    @SerializedName("name")
-   private String seasonName;
+   private String name;
 
    @SerializedName("episode_count")
    private int numberOfEpisodes;
@@ -26,5 +27,5 @@ public class SeasonApi {
    private String posterPath;
 
    @SerializedName("episodes")
-   private List<EpisodeApi> episodes = new ArrayList<>();
+   private List<EpisodeInShowApi> episodes = new ArrayList<>();
 }
