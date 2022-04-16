@@ -1,4 +1,4 @@
-import {ShowData} from "../models/ShowInfo";
+import {Show} from "../models/ShowInfo";
 import ratingStarEmpty from '../images/rating-star-empty.png';
 import ratingStarFull from '../images/rating-star-full.png';
 import ratingStarHalf from '../images/rating-star-half.png';
@@ -11,7 +11,7 @@ import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate} from "react-router-dom";
 
 interface ShowsProps {
-   show: ShowData;
+   show: Show;
    onChange: () => void;
 }
 

@@ -13,7 +13,7 @@ export interface ShowSearchData {
    liked: boolean;
 }
 
-export interface ShowData {
+export interface Show {
    id: string;
    apiId: number;
    name: string;

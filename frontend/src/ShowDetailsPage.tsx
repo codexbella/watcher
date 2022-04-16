@@ -1,4 +1,4 @@
-import {Season, ShowData} from "./models/ShowInfo";
+import {Season, Show} from "./models/ShowInfo";
 import ratingStarEmpty from './images/rating-star-empty.png';
 import ratingStarFull from './images/rating-star-full.png';
 import ratingStarHalf from './images/rating-star-half.png';
@@ -16,7 +16,7 @@ export default function ShowDetailsPage() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const params = useParams();
-   const [show, setShow] = useState({} as ShowData);
+   const [show, setShow] = useState({} as Show);
    const [error, setError] = useState();
    const [seasons, setSeasons] = useState([] as Array<Season>)
    const [seasonInfo, setSeasonInfo] = useState([] as Array<boolean>)
@@ -38,10 +38,9 @@ export default function ShowDetailsPage() {
                throw new Error(`${t('get-show-error')}, ${t('error')}: ${response.status}`)
             }
          })
-         .then((responseBody: ShowData) => {
+         .then((responseBody: Show) => {
             setShow(responseBody);
-            setSeasons(responseBody.seasons.slice(1, responseBody.seasons.length + 1).reverse());
-            
+            setSeasons(responseBody.seasons.reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -56,8 +55,8 @@ export default function ShowDetailsPage() {
       getShow();
    }, [getShow])
    
-   const getSeason = (showApiId: number, index: number) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${showApiId}?season=${index}`, {
+   const getSeason = (showApiId: number, seasonNumber: number) => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${showApiId}?season=${seasonNumber}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -75,9 +74,10 @@ export default function ShowDetailsPage() {
          })
          .then(responseBody => {
             setShow(responseBody)
-            
+            setSeasons(responseBody.seasons.reverse());
+   
             const seasonInfoArray = seasonInfo;
-            seasonInfoArray[index] = true;
+            seasonInfoArray[seasonNumber-1] = true;
             setSeasonInfo(seasonInfoArray);
          })
          .catch(e => {
