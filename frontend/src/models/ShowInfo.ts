@@ -1,6 +1,6 @@
 import {Seen} from "../Seen";
 
-export interface ShowSearchData {
+export interface SearchResult {
    apiId: number;
    name: string;
    overview: string;

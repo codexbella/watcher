@@ -1,13 +1,13 @@
 import {Season} from "../models/ShowInfo";
 import {useState} from "react";
 
-interface SeasonProps {
+interface SeasonComponentProps {
    season: Season;
    seasonInfo: boolean;
-   onOpen: (apiId: number, index: number) => void;
+   onOpen: (apiId: number, seasonNumber: number) => void;
 }
 
-export default function SeasonDetails(props: SeasonProps) {
+export default function SeasonComponent(props: SeasonComponentProps) {
    const [open, setOpen] = useState(false);
    
    const checkOpenStatus = () => {

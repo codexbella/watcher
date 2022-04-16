@@ -10,12 +10,12 @@ import eyeSeen from '../images/eye-seen.png';
 import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate} from "react-router-dom";
 
-interface ShowsProps {
+interface ShowComponentProps {
    show: Show;
    onChange: () => void;
 }
 
-export default function ShowComponent(props: ShowsProps) {
+export default function ShowComponent(props: ShowComponentProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
    const vote = props.show.vote / 2;

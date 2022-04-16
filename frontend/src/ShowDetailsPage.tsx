@@ -10,7 +10,7 @@ import eyeSeen from './images/eye-seen.png';
 import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
-import SeasonDetails from "./components/SeasonDetails";
+import SeasonComponent from "./components/SeasonComponent";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
@@ -184,7 +184,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasons.map((item, index) =>
-                  <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index)}/>)}
+                  <SeasonComponent season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index+1)}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}
