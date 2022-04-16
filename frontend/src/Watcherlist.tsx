@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import Show from "./components/Show";
+import ShowComponent from "./components/ShowComponent";
 import {useCallback, useEffect, useState} from "react";
 import {ShowData} from "./models/ShowInfo";
 import {useAuth} from "./auth/AuthProvider";
@@ -58,7 +58,7 @@ export default function Watcherlist() {
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {shows.map(item => <Show show={item} key={item.id} onChange={getAllShows}/>)}
+               {shows.map(item => <ShowComponent show={item} key={item.id} onChange={getAllShows}/>)}
             </div>
          </div>
          :

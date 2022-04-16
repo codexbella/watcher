@@ -18,7 +18,6 @@ export default function ShowDetailsPage() {
    const params = useParams();
    const [show, setShow] = useState({} as ShowData);
    const [error, setError] = useState();
-   const [seasonsSimple, setSeasonsSimple] = useState([] as Array<Season>)
    const [seasons, setSeasons] = useState([] as Array<Season>)
    const [seasonInfo, setSeasonInfo] = useState([] as Array<boolean>)
    
@@ -41,7 +40,7 @@ export default function ShowDetailsPage() {
          })
          .then((responseBody: ShowData) => {
             setShow(responseBody);
-            setSeasonsSimple(responseBody.seasons.slice(1, responseBody.seasons.length + 1).reverse());
+            setSeasons(responseBody.seasons.slice(1, responseBody.seasons.length + 1).reverse());
             
          })
          .catch(e => {
@@ -74,10 +73,8 @@ export default function ShowDetailsPage() {
                throw new Error(`${t('get-season-error')}, ${t('error')}: ${response.status}`)
             }
          })
-         .then((responseBody: Season) => {
-            const seasonArray = seasons;
-            seasons[index] = responseBody;
-            setSeasons(seasonArray);
+         .then(responseBody => {
+            setShow(responseBody)
             
             const seasonInfoArray = seasonInfo;
             seasonInfoArray[index] = true;
@@ -186,7 +183,7 @@ export default function ShowDetailsPage() {
             <div className='margin-top-15px margin-bottom-15px'>{show.overview}</div>
             
             <div>
-               {seasonsSimple.map((item, index) =>
+               {seasons.map((item, index) =>
                   <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index)}/>)}
             </div>
             

@@ -27,6 +27,7 @@ export interface ShowData {
    voteCount: number;
    posterPath: string;
    seasons: Array<Season>;
+   
    username: string;
    seen: Seen;
    vote: number;
@@ -38,25 +39,28 @@ export interface Genre {
 }
 export interface Season {
    apiId: number;
-   seasonNumber: number;
-   seasonName: string;
-   numberOfEpisodes: number;
+   name: string;
    overview: string;
+   airDate: string;
+   seasonNumber: number;
    posterPath: string;
    episodes: Array<Episode>;
+   
    username: string;
    seen: Seen;
    vote: number;
 }
 export interface Episode {
-   apiId: number;
-   seasonNumber: number;
-   episodeNumber: number;
+   apiId: number,
    name: string;
    overview: string;
+   airDate: string;
+   episodeNumber: number;
+   seasonNumber: number;
    voteAverage: number;
    voteCount: number;
    stillPath: string;
+   
    username: string;
    seen: Seen;
    vote: number;

@@ -176,7 +176,7 @@ class ContentServiceTest {
       voyager.setName("Star Trek Voyager");
       SeasonInShow season1 = new SeasonInShow();
       season1.setApiId(5307);
-      voyager.setSeasonInShows(List.of(season1));
+      voyager.setSeasonsInShow(List.of(season1));
       when(mockShowRepo.findByIdAndUsername("test-id1", "testuser"))
             .thenReturn(Optional.of(voyager));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);

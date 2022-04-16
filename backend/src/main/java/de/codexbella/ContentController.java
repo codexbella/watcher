@@ -23,20 +23,20 @@ public class ContentController {
       return contentService.searchForShows(language, searchTerm, principal.getName());
    }
 
-   @GetMapping("/saveshow/{apiId}")
+   @GetMapping("/saveshow/{showApiId}")
    public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language,
-                                          @PathVariable int apiId, Principal principal) {
+                                          @PathVariable int showApiId, Principal principal) {
       try {
-         contentService.saveShow(language, apiId, principal.getName());
+         contentService.saveShow(language, showApiId, principal.getName());
          return new ResponseEntity<>("Show saved", HttpStatus.OK);
       } catch (IllegalArgumentException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
    }
 
-   @DeleteMapping("/deleteshow/{apiId}")
-   public void deleteShow(@PathVariable int apiId, Principal principal) {
-      contentService.deleteShow(apiId, principal.getName());
+   @DeleteMapping("/deleteshow/{showApiId}")
+   public void deleteShow(@PathVariable int showApiId, Principal principal) {
+      contentService.deleteShow(showApiId, principal.getName());
    }
 
    @GetMapping("/getallshows")

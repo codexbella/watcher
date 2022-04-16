@@ -4,15 +4,15 @@ import de.codexbella.content.Seen;
 import lombok.Data;
 
 @Data
-public class EpisodeInSeason {
-      private String apiId;
+public class Episode {
+      private int apiId;
       private String name;
       private String overview;
       private String airDate;
-      private String episodeNumber;
-      private String seasonNumber;
-      private String voteAverage;
-      private String voteCount;
+      private int episodeNumber;
+      private int seasonNumber;
+      private double voteAverage;
+      private int voteCount;
       private String stillPath;
 
       private String username = "";

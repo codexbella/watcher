@@ -1,6 +1,5 @@
 package de.codexbella.content;
 
-import de.codexbella.content.season.SeasonInShow;
 import de.codexbella.content.season.Season;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -25,7 +24,6 @@ public class Show {
    private double voteAverage;
    private int voteCount;
    private String posterPath;
-   private List<SeasonInShow> seasonInShows = new ArrayList<>();
    private List<Season> seasons = new ArrayList<>();
 
    private String username = "";

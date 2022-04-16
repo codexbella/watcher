@@ -4,23 +4,21 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-public class EpisodeInSeasonApi {
+public class EpisodeApi {
       @SerializedName("id")
-      private String apiId;
-      @SerializedName("name")
+      private int apiId;
       private String name;
-      @SerializedName("overview")
       private String overview;
       @SerializedName("air_date")
       private String airDate;
       @SerializedName("episode_number")
-      private String episodeNumber;
+      private int episodeNumber;
       @SerializedName("season_number")
-      private String seasonNumber;
+      private int seasonNumber;
       @SerializedName("vote_average")
-      private String voteAverage;
+      private double voteAverage;
       @SerializedName("vote_count")
-      private String voteCount;
+      private int voteCount;
       @SerializedName("still_path")
       private String stillPath;
 }

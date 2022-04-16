@@ -15,7 +15,7 @@ interface ShowsProps {
    onChange: () => void;
 }
 
-export default function Show(props: ShowsProps) {
+export default function ShowComponent(props: ShowsProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
    const vote = props.show.vote / 2;
