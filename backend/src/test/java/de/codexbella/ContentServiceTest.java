@@ -216,12 +216,10 @@ class ContentServiceTest {
       when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
             .thenReturn(Optional.empty());
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
       Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
             "testuser");
-
       assertThat(showOptional).isEmpty();
 
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
