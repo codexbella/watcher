@@ -133,10 +133,7 @@
 .background-lighter {
     background-color: #FEC260;
 }
-.gradient {
-    background-image: linear-gradient(rgba(255,0,0,0), #3B185F);
 
-}
 .shadow-darkest {
     box-shadow: 0px 0px 15px 10px #15003c;
 }
