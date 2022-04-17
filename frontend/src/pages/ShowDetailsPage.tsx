@@ -1,16 +1,16 @@
-import {Season, Show} from "./models/ShowInfo";
-import ratingStarEmpty from './images/rating-star-empty.png';
-import ratingStarFull from './images/rating-star-full.png';
-import ratingStarHalf from './images/rating-star-half.png';
-import deleteSymbol from './images/delete.png';
-import alternateImage from "./images/alt-image.png";
+import {Season, Show} from "../models/ShowInfo";
+import ratingStarEmpty from '../images/rating-star-empty.png';
+import ratingStarFull from '../images/rating-star-full.png';
+import ratingStarHalf from '../images/rating-star-half.png';
+import deleteSymbol from '../images/delete.png';
+import alternateImage from "../images/alt-image.png";
 import {useTranslation} from "react-i18next";
-import eyeNotSeen from './images/eye-not-seen.png';
-import eyeSeen from './images/eye-seen.png';
-import eyePartial from './images/eye-partially-seen.png';
+import eyeNotSeen from '../images/eye-not-seen.png';
+import eyeSeen from '../images/eye-seen.png';
+import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
-import SeasonComponent from "./components/SeasonComponent";
+import SeasonComponent from "../components/SeasonComponent";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();

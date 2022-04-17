@@ -1,9 +1,9 @@
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import ShowComponent from "./components/ShowComponent";
+import ShowComponent from "../components/ShowComponent";
 import {useCallback, useEffect, useState} from "react";
-import {Show} from "./models/ShowInfo";
-import {useAuth} from "./auth/AuthProvider";
+import {Show} from "../models/ShowInfo";
+import {useAuth} from "../auth/AuthProvider";
 
 export default function Watcherlist() {
    const {t} = useTranslation();
