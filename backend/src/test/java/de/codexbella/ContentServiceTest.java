@@ -198,7 +198,7 @@ class ContentServiceTest {
                   "resultVoyagerSeason1.txt")));
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
-      Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
+      Optional<Show> showOptional = contentService.saveSeason("en-US", 1855, 1,
             "testuser");
       assertThat(showOptional).isPresent();
       assertThat(showOptional.get().getName()).isEqualTo("Star Trek Voyager");
@@ -216,7 +216,7 @@ class ContentServiceTest {
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
-      Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
+      Optional<Show> showOptional = contentService.saveSeason("en-US", 1855, 1,
             "testuser");
       assertThat(showOptional.isEmpty());
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");

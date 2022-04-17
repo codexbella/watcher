@@ -82,7 +82,7 @@ public class ContentService {
       return showRepository.findByIdAndUsername(showId, username);
    }
 
-   public Optional<Show> getSeason(String language, int showApiId, int seasonNumber, String username) {
+   public Optional<Show> saveSeason(String language, int showApiId, int seasonNumber, String username) {
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isPresent()) {
          String response = restTemplate.getForObject(

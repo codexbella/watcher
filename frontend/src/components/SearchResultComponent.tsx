@@ -18,7 +18,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
    const addShow = () => {
       setError('');
       fetch(`${process.env.REACT_APP_BASE_URL}/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
-         method: 'GET',
+         method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
