@@ -194,17 +194,37 @@ class ContentServiceTest {
       when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
             .thenReturn(Optional.of(voyager));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
-      when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key=xxx&language=en-US", String.class))
+      when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key=xxx&language=en-US",
+            String.class))
             .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
                   "resultVoyagerSeason1.txt")));
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
-      Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1, "testuser");
+      Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
+            "testuser");
       assertThat(showOptional).isPresent();
       assertThat(showOptional.get().getName()).isEqualTo("Star Trek Voyager");
       assertThat(showOptional.get().getSeasons().get(0).getEpisodes().get(0).getName()).isEqualTo("Caretaker (1)");
       assertThat(showOptional.get().getSeasons().get(0).getEpisodes().get(0).getUsername()).isEqualTo("testuser");
 
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+   }
+   @Test
+   void shouldNotGetSeason(){
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
+            .thenReturn(Optional.empty());
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
+            "testuser");
+
+      assertThat(showOptional).isEmpty();
+
+      verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verifyNoMoreInteractions(mockShowRepo);
    }
 }
