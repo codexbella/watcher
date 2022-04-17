@@ -1,5 +1,9 @@
 package de.codexbella.content;
 
+import de.codexbella.content.episode.Episode;
+import de.codexbella.content.episode.EpisodeApi;
+import de.codexbella.content.season.Season;
+import de.codexbella.content.season.SeasonApi;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,31 +28,32 @@ public class ContentMapper {
    }
 
    private List<Season> toSeasonList(List<SeasonApi> seasonApiList) {
-      return seasonApiList.stream().map(seasonApi -> toSeason(seasonApi)).toList();
+      return seasonApiList.stream().filter(seasonApi -> seasonApi.getSeasonNumber() != 0)
+            .map(seasonApi -> toSeason(seasonApi)).toList();
    }
-
    public Season toSeason(SeasonApi seasonApi) {
       Season season = new Season();
       season.setApiId(seasonApi.getApiId());
-      season.setSeasonNumber(seasonApi.getSeasonNumber());
-      season.setSeasonName(seasonApi.getSeasonName());
-      season.setNumberOfEpisodes(seasonApi.getNumberOfEpisodes());
+      season.setName(seasonApi.getName());
       season.setOverview(seasonApi.getOverview());
+      season.setAirDate(seasonApi.getAirDate());
+      season.setSeasonNumber(seasonApi.getSeasonNumber());
       season.setPosterPath(seasonApi.getPosterPath());
+      season.setNumberOfEpisodes(seasonApi.getNumberOfEpisodes());
       season.setEpisodes(toEpisodeList(seasonApi.getEpisodes()));
       return season;
    }
-
    private List<Episode> toEpisodeList(List<EpisodeApi> episodeApiList) {
       return episodeApiList.stream().map(episodeApi -> toEpisode(episodeApi)).toList();
    }
-   
    private Episode toEpisode(EpisodeApi episodeApi) {
       Episode episode = new Episode();
       episode.setApiId(episodeApi.getApiId());
-      episode.setSeasonNumber(episodeApi.getSeasonNumber());
       episode.setName(episodeApi.getName());
       episode.setOverview(episodeApi.getOverview());
+      episode.setAirDate(episodeApi.getAirDate());
+      episode.setEpisodeNumber(episodeApi.getEpisodeNumber());
+      episode.setSeasonNumber(episodeApi.getSeasonNumber());
       episode.setVoteAverage(episodeApi.getVoteAverage());
       episode.setVoteCount(episodeApi.getVoteCount());
       episode.setStillPath(episodeApi.getStillPath());

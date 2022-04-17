@@ -1,4 +1,4 @@
-import {ShowData} from "../models/ShowInfo";
+import {Show} from "../models/ShowInfo";
 import ratingStarEmpty from '../images/rating-star-empty.png';
 import ratingStarFull from '../images/rating-star-full.png';
 import ratingStarHalf from '../images/rating-star-half.png';
@@ -10,12 +10,12 @@ import eyeSeen from '../images/eye-seen.png';
 import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate} from "react-router-dom";
 
-interface ShowsProps {
-   show: ShowData;
+interface ShowComponentProps {
+   show: Show;
    onChange: () => void;
 }
 
-export default function Show(props: ShowsProps) {
+export default function ShowComponent(props: ShowComponentProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
    const vote = props.show.vote / 2;

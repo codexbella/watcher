@@ -1,8 +1,8 @@
 import './App.css';
 import {useTranslation} from 'react-i18next';
 import {FormEvent, useState} from "react";
-import {ShowSearchData} from "./models/ShowInfo";
-import SearchResult from "./components/SearchResult";
+import {SearchResult} from "./models/ShowInfo";
+import SearchResultComponent from "./components/SearchResultComponent";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {
@@ -12,7 +12,7 @@ export default function SearchPage() {
    const [searchTerm, setSearchTerm] = useState('');
    const [searched, setSearched] = useState(false);
    const [searchedTerm, setSearchedTerm] = useState('')
-   const [showResults, setShowResults] = useState([] as Array<ShowSearchData>);
+   const [showResults, setShowResults] = useState([] as Array<SearchResult>);
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -34,7 +34,7 @@ export default function SearchPage() {
                   throw new Error(`${t('search-request-error')}, ${t('error')}: ${response.status}`)
                }
             })
-            .then((list: Array<ShowSearchData>) => {
+            .then((list: Array<SearchResult>) => {
                setShowResults(list);
                setError('');
                setSearchedTerm(searchTerm)
@@ -63,7 +63,7 @@ export default function SearchPage() {
                   </div>
                }
                
-               <div className='margin-bottom-15px'>{showResults.map(item => <SearchResult show={item} key={item.apiId}/>)}
+               <div className='margin-bottom-15px'>{showResults.map(item => <SearchResultComponent show={item} key={item.apiId}/>)}
                </div>
             </div>
             :

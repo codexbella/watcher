@@ -1,5 +1,6 @@
 package de.codexbella.content;
 
+import de.codexbella.content.season.Season;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

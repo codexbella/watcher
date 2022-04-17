@@ -1,0 +1,192 @@
+{
+    "adult": false,
+    "backdrop_path": "/7YFranrnnIcCrgsLYQsoq8aE3Ir.jpg",
+    "created_by": [
+        {
+            "id": 1745,
+            "credit_id": "5257177419c295711409ca4e",
+            "name": "Gene Roddenberry",
+            "gender": 2,
+            "profile_path": "/qY3gWqAMDrrvNVUrwZ8lSa4IKtS.jpg"
+        },
+        {
+            "id": 2514,
+            "credit_id": "5dbd6a069638640014e14d24",
+            "name": "Michael Piller",
+            "gender": 2,
+            "profile_path": "/gRVdvhnkO93FBIq4GuIWcw5scmD.jpg"
+        },
+        {
+            "id": 1213783,
+            "credit_id": "5257177419c295711409ca48",
+            "name": "Rick Berman",
+            "gender": 2,
+            "profile_path": "/mEznRUFYLmpD6jPPeZKLWkHtPdn.jpg"
+        },
+        {
+            "id": 1219348,
+            "credit_id": "5257177419c295711409ca42",
+            "name": "Jeri Taylor",
+            "gender": 1,
+            "profile_path": null
+        }
+    ],
+    "episode_run_time": [
+        45,
+        60
+    ],
+    "first_air_date": "1995-01-16",
+    "genres": [
+        {
+            "id": 10765,
+            "name": "Sci-Fi & Fantasy"
+        },
+        {
+            "id": 18,
+            "name": "Drama"
+        },
+        {
+            "id": 10759,
+            "name": "Action & Adventure"
+        }
+    ],
+    "homepage": "https://www.startrek.com/shows/star-trek-voyager",
+    "id": 1855,
+    "in_production": false,
+    "languages": [
+        "en"
+    ],
+    "last_air_date": "2001-05-23",
+    "last_episode_to_air": {
+        "air_date": "2001-05-23",
+        "episode_number": 26,
+        "id": 1132734,
+        "name": "Endgame (2)",
+        "overview": "Stardate: Unknown. After a decades-long journey to reach the Alpha Quadrant, Admiral Kathryn Janeway makes a bold decision to change the past in an attempt to undo the toll taken on the crew during their arduous journey home.\n\nThis is the final episode of the series.",
+        "production_code": "",
+        "season_number": 7,
+        "still_path": "/6dtn51OtnndcEx43ey3YhFiYdZT.jpg",
+        "vote_average": 7.8,
+        "vote_count": 5
+    },
+    "name": "Star Trek: Voyager",
+    "next_episode_to_air": null,
+    "networks": [
+        {
+            "name": "UPN",
+            "id": 40,
+            "logo_path": "/333LtWX9Z7H9uRrNcCl1JcTvdpR.png",
+            "origin_country": "US"
+        }
+    ],
+    "number_of_episodes": 172,
+    "number_of_seasons": 7,
+    "origin_country": [
+        "US"
+    ],
+    "original_language": "en",
+    "original_name": "Star Trek: Voyager",
+    "overview": "Pulled to the far side of the galaxy, where the Federation is 75 years away at maximum warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.",
+    "popularity": 75.496,
+    "poster_path": "/5iROn4oot6R0kkpWD6oJdHB15ZU.jpg",
+    "production_companies": [
+        {
+            "id": 9223,
+            "logo_path": "/of4mmVt6egYaO9oERJbuUxMOTkj.png",
+            "name": "Paramount Television Studios",
+            "origin_country": "US"
+        }
+    ],
+    "production_countries": [
+        {
+            "iso_3166_1": "US",
+            "name": "United States of America"
+        }
+    ],
+    "seasons": [
+        {
+            "air_date": "1995-01-09",
+            "episode_count": 90,
+            "id": 5314,
+            "name": "Specials",
+            "overview": "",
+            "poster_path": "/86HvbmgLzdRZQw9MrAkENwjBgXz.jpg",
+            "season_number": 0
+        },
+        {
+            "air_date": "1995-01-16",
+            "episode_count": 16,
+            "id": 5307,
+            "name": "Season 1",
+            "overview": "Pulled to the far side of the galaxy, where the Federation is 75 years away at maximum warp speed, a Starfleet ship must cooperate with Maquis rebels to find a way home.",
+            "poster_path": "/7XtNLDCcKQe6N11X1cyrJRYl4JE.jpg",
+            "season_number": 1
+        },
+        {
+            "air_date": "1995-08-28",
+            "episode_count": 26,
+            "id": 5308,
+            "name": "Season 2",
+            "overview": "",
+            "poster_path": "/lun9USO2YwAByRFxEzo2eygtfhx.jpg",
+            "season_number": 2
+        },
+        {
+            "air_date": "1996-09-04",
+            "episode_count": 26,
+            "id": 5309,
+            "name": "Season 3",
+            "overview": "",
+            "poster_path": "/aEWmLsXPQKKTzFkHZhuxrxYhfkH.jpg",
+            "season_number": 3
+        },
+        {
+            "air_date": "1997-09-03",
+            "episode_count": 26,
+            "id": 5310,
+            "name": "Season 4",
+            "overview": "",
+            "poster_path": "/4ALy9tEwhGoELY13qXKTkeTxVtH.jpg",
+            "season_number": 4
+        },
+        {
+            "air_date": "1998-10-14",
+            "episode_count": 26,
+            "id": 5311,
+            "name": "Season 5",
+            "overview": "",
+            "poster_path": "/lOcILt6umTmgbeDu9Xc3eV0F7u0.jpg",
+            "season_number": 5
+        },
+        {
+            "air_date": "1999-09-22",
+            "episode_count": 26,
+            "id": 5312,
+            "name": "Season 6",
+            "overview": "",
+            "poster_path": "/xUS4prP6vuNzhRkkdEdW1LSzsQj.jpg",
+            "season_number": 6
+        },
+        {
+            "air_date": "2000-10-04",
+            "episode_count": 26,
+            "id": 5313,
+            "name": "Season 7",
+            "overview": "",
+            "poster_path": "/4dWUr7QahimtvwNeQPd73bM6f4t.jpg",
+            "season_number": 7
+        }
+    ],
+    "spoken_languages": [
+        {
+            "english_name": "English",
+            "iso_639_1": "en",
+            "name": "English"
+        }
+    ],
+    "status": "Ended",
+    "tagline": "Charting the new frontier",
+    "type": "Scripted",
+    "vote_average": 7.9,
+    "vote_count": 615
+}

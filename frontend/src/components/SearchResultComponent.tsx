@@ -1,16 +1,16 @@
 import '../App.css';
 import starEmpty from '../images/star-empty.png';
 import starFull from '../images/star-full.png';
-import {ShowSearchData} from "../models/ShowInfo";
+import {SearchResult} from "../models/ShowInfo";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
 
-interface SearchResultProps {
-   show: ShowSearchData;
+interface SearchResultComponentProps {
+   show: SearchResult;
 }
 
-export default function SearchResult(props: SearchResultProps) {
+export default function SearchResultComponent(props: SearchResultComponentProps) {
    const {t} = useTranslation();
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');

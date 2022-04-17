@@ -1,4 +1,4 @@
-import {Season, ShowData} from "./models/ShowInfo";
+import {Season, Show} from "./models/ShowInfo";
 import ratingStarEmpty from './images/rating-star-empty.png';
 import ratingStarFull from './images/rating-star-full.png';
 import ratingStarHalf from './images/rating-star-half.png';
@@ -10,15 +10,14 @@ import eyeSeen from './images/eye-seen.png';
 import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
-import SeasonDetails from "./components/SeasonDetails";
+import SeasonComponent from "./components/SeasonComponent";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const params = useParams();
-   const [show, setShow] = useState({} as ShowData);
+   const [show, setShow] = useState({} as Show);
    const [error, setError] = useState();
-   const [seasonsSimple, setSeasonsSimple] = useState([] as Array<Season>)
    const [seasons, setSeasons] = useState([] as Array<Season>)
    const [seasonInfo, setSeasonInfo] = useState([] as Array<boolean>)
    
@@ -39,10 +38,9 @@ export default function ShowDetailsPage() {
                throw new Error(`${t('get-show-error')}, ${t('error')}: ${response.status}`)
             }
          })
-         .then((responseBody: ShowData) => {
+         .then((responseBody: Show) => {
             setShow(responseBody);
-            setSeasonsSimple(responseBody.seasons.slice(1, responseBody.seasons.length + 1).reverse());
-            
+            setSeasons(responseBody.seasons.reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -57,8 +55,8 @@ export default function ShowDetailsPage() {
       getShow();
    }, [getShow])
    
-   const getSeason = (apiId: number, index: number) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${apiId}`, {
+   const getSeason = (showApiId: number, seasonNumber: number) => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${showApiId}?season=${seasonNumber}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -74,13 +72,12 @@ export default function ShowDetailsPage() {
                throw new Error(`${t('get-season-error')}, ${t('error')}: ${response.status}`)
             }
          })
-         .then((responseBody: Season) => {
-            const seasonArray = seasons;
-            seasons[index] = responseBody;
-            setSeasons(seasonArray);
-            
+         .then(responseBody => {
+            setShow(responseBody)
+            setSeasons(responseBody.seasons.reverse());
+   
             const seasonInfoArray = seasonInfo;
-            seasonInfoArray[index] = true;
+            seasonInfoArray[seasonNumber-1] = true;
             setSeasonInfo(seasonInfoArray);
          })
          .catch(e => {
@@ -186,8 +183,8 @@ export default function ShowDetailsPage() {
             <div className='margin-top-15px margin-bottom-15px'>{show.overview}</div>
             
             <div>
-               {seasonsSimple.map((item, index) =>
-                  <SeasonDetails season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(item.apiId, index)}/>)}
+               {seasons.map((item, index) =>
+                  <SeasonComponent season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index+1)}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}
