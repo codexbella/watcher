@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import de.codexbella.content.Show;
+import de.codexbella.content.season.Season;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
 import de.codexbella.user.RegisterData;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,10 +39,12 @@ class ContentControllerITTest {
       registerDataUser1.setPassword("very-safe-password");
       registerDataUser1.setPasswordAgain("very-safe-password");
 
-      ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1, String.class);
+      ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1,
+            String.class);
 
       assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-      assertEquals("New user created with username " + registerDataUser1.getUsername(), responseRegister.getBody());
+      assertEquals("New user created with username " + registerDataUser1.getUsername(),
+            responseRegister.getBody());
 
       // should not register new user because passwords do not match
       RegisterData registerDataUser2 = new RegisterData();
@@ -48,8 +52,8 @@ class ContentControllerITTest {
       registerDataUser2.setPassword("tadada");
       registerDataUser2.setPasswordAgain("tududu");
 
-      ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
-            String.class);
+      ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register",
+            registerDataUser2, String.class);
 
       assertThat(responseNotRegister1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertEquals("Passwords mismatched", responseNotRegister1.getBody());
@@ -57,18 +61,20 @@ class ContentControllerITTest {
       // should not register new user because username already in use
       registerDataUser2.setPasswordAgain("tadada");
 
-      ResponseEntity<String> responseNotRegister2 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
-            String.class);
+      ResponseEntity<String> responseNotRegister2 = restTemplate.postForEntity("/api/users/register",
+            registerDataUser2, String.class);
 
       assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-      assertEquals("Username " + registerDataUser2.getUsername() + " already in use", responseNotRegister2.getBody());
+      assertEquals("Username " + registerDataUser2.getUsername() + " already in use",
+            responseNotRegister2.getBody());
 
       // should log in user
       LoginData user1 = new LoginData();
       user1.setUsername("whoever");
       user1.setPassword("very-safe-password");
 
-      ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1, String.class);
+      ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1,
+            String.class);
 
       assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
@@ -91,8 +97,9 @@ class ContentControllerITTest {
             .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
                   "searchResultOnePage.txt")));
 
-      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange("/api/search/game+of+thrones?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
+      ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange(
+            "/api/search/game+of+thrones?language=en-US", HttpMethod.GET, httpEntityUser1Get,
+            ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
       ShowSearchData[] arraySearch = responseSearch.getBody();
@@ -102,7 +109,8 @@ class ContentControllerITTest {
       assertThat(arraySearch[1].getApiId()).isEqualTo(138757);
       assertThat(arraySearch[1].getName()).isEqualTo("Autópsia Game Of Thrones");
 
-      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=game+of+thrones", String.class);
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
+            +"&language=en-US&query=game+of+thrones", String.class);
       verifyNoMoreInteractions(mockTemplate);
 
       // should search api with two page result
@@ -115,8 +123,8 @@ class ContentControllerITTest {
             .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
                   "searchResultTwoPageSecondPage.txt")));
 
-      ResponseEntity<ShowSearchData[]> responseSearchTwoPage = restTemplate.exchange("/api/search/voyager?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
+      ResponseEntity<ShowSearchData[]> responseSearchTwoPage = restTemplate.exchange(
+            "/api/search/voyager?language=en-US", HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
       assertThat(responseSearchTwoPage.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearchTwoPage.getBody()).isNotNull();
       ShowSearchData[] arraySearchTwoPage = responseSearchTwoPage.getBody();
@@ -132,14 +140,16 @@ class ContentControllerITTest {
       assertThat(arraySearchTwoPage[21].getApiId()).isEqualTo(12152);
       assertThat(arraySearchTwoPage[21].getName()).isEqualTo("This Is America, Charlie Brown");
 
-      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager", String.class);
-      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language=en-US&query=voyager&page=2", String.class);
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
+            +"&language=en-US&query=voyager", String.class);
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
+            +"&language=en-US&query=voyager&page=2", String.class);
       verifyNoMoreInteractions(mockTemplate);
 
       // should save show
-      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class))
-            .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
-                  "searchResultVoyager.txt")));
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US",
+            String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
+            "codexbella", "data", "searchResultVoyager.txt")));
 
       ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
             HttpMethod.GET, httpEntityUser1Get, String.class);
@@ -149,7 +159,8 @@ class ContentControllerITTest {
 
       assertThat(creationMessage).isEqualTo("Show saved");
 
-      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US", String.class);
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US",
+            String.class);
       verifyNoMoreInteractions(mockTemplate);
 
       // should not save show because already in database
@@ -159,7 +170,7 @@ class ContentControllerITTest {
       assertThat(responseNotSavedShow.getBody()).isNotNull();
       String showAlreadyExistsMessage = responseNotSavedShow.getBody();
 
-      assertThat(showAlreadyExistsMessage).isEqualTo("Show Star Trek: Voyager with id 1855 already saved");
+      assertThat(showAlreadyExistsMessage).isEqualTo("Show Star Trek: Voyager with api id 1855 already saved");
 
       verifyNoMoreInteractions(mockTemplate);
 
@@ -181,6 +192,23 @@ class ContentControllerITTest {
 
       assertThat(show.getApiId()).isEqualTo(1855);
 
+      // should get season
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key="+apiKey
+            +"&language=en-US", String.class)).thenReturn(Files.readString(Path.of(".", "src",
+            "test", "java", "de", "codexbella", "data", "resultVoyagerSeason1.txt")));
+
+      ResponseEntity<Show> responseGetSeason = restTemplate.exchange("/api/getseason/1855?seasonNumber=1",
+            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      assertThat(responseGetSeason.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseGetSeason.getBody()).isNotNull();
+      List<Season> seasons = responseGetSeason.getBody().getSeasons();
+
+      assertThat(seasons.get(0).getEpisodes().get(0).getName()).isEqualTo("Caretaker (1)");
+
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key="+apiKey
+            +"&language=en-US", String.class);
+      verifyNoMoreInteractions(mockTemplate);
+
       // should delete show
       restTemplate.exchange("/api/deleteshow/1855", HttpMethod.DELETE, httpEntityUser1Get, Void.class);
 
@@ -188,9 +216,15 @@ class ContentControllerITTest {
             HttpMethod.GET, httpEntityUser1Get, Show[].class);
       assertThat(responseAllShowsAfterDelete.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAllShowsAfterDelete.getBody()).isNotNull();
-      Show[] arrayShowsAfterDelte = responseAllShowsAfterDelete.getBody();
+      Show[] arrayShowsAfterDelete = responseAllShowsAfterDelete.getBody();
 
-      assertThat(arrayShowsAfterDelte.length).isEqualTo(0);
+      assertThat(arrayShowsAfterDelete.length).isEqualTo(0);
 
+      // should not get season because show not saved anymore
+      ResponseEntity<Show> responseNotFound = restTemplate.exchange("/api/getseason/1855?seasonNumber=1",
+            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      assertThat(responseNotFound.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+      assertThat(responseNotFound.getBody()).isEqualTo(null);
+      verifyNoMoreInteractions(mockTemplate);
    }
 }

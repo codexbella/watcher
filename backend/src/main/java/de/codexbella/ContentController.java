@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -50,7 +51,8 @@ public class ContentController {
    @GetMapping("/getseason/{showApiId}")
    public ResponseEntity<Show> getSeason(@PathVariable int showApiId, @RequestParam(defaultValue = "en-US")
          String language, @RequestParam int seasonNumber, Principal principal) {
-      return ResponseEntity.of(contentService.getSeason(language, showApiId, seasonNumber, principal.getName()));
+      Optional<Show> showOptional = contentService.getSeason(language, showApiId, seasonNumber, principal.getName());
+      return ResponseEntity.of(showOptional);
    }
 }
 

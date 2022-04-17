@@ -186,7 +186,6 @@ class ContentServiceTest {
       Season season1 = new Season();
       season1.setApiId(5307);
       season1.setName("Season 1");
-      Season season2 = new Season();
       List<Season> seasons = new ArrayList<>();
       seasons.add(season1);
       voyager.setSeasons(seasons);
@@ -219,8 +218,7 @@ class ContentServiceTest {
 
       Optional<Show> showOptional = contentService.getSeason("en-US", 1855, 1,
             "testuser");
-      assertThat(showOptional).isEmpty();
-
+      assertThat(showOptional.isEmpty());
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
    }
