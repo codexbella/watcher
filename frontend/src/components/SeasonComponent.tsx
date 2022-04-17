@@ -12,7 +12,7 @@ export default function SeasonComponent(props: SeasonComponentProps) {
    
    const checkOpenStatus = () => {
       if (!open) {
-         props.onOpen(1855, 1)
+         props.onOpen(props.season.apiId, props.season.seasonNumber)
       }
       setOpen(!open);
    }
