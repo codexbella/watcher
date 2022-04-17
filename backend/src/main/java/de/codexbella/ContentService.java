@@ -91,9 +91,9 @@ public class ContentService {
                "https://api.themoviedb.org/3/tv/"+showApiId+"/season/"+seasonNumber+"?api_key="+apiKey+"&language="+language, String.class);
          SeasonApi seasonApi = new Gson().fromJson(response, SeasonApi.class);
          Season season = contentMapper.toSeason(seasonApi);
-         season.setUsername(username);
          season.getEpisodes().forEach(episode -> episode.setUsername(username));
          showOptional.get().getSeasons().set(seasonNumber-1, season);
+         showRepository.save(showOptional.get());
       }
       return showOptional;
    }

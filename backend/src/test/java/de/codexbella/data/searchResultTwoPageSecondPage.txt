@@ -1,0 +1,103 @@
+{
+    "page": 2,
+    "results": [
+        {
+            "backdrop_path": null,
+            "first_air_date": "",
+            "genre_ids": [],
+            "id": 39976,
+            "name": "The Voyages of Young Doctor Dolittle",
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "The Voyages of Young Doctor Dolittle",
+            "overview": "",
+            "popularity": 0.6,
+            "poster_path": null,
+            "vote_average": 0,
+            "vote_count": 0
+        },
+        {
+            "backdrop_path": "/rz4uGR4FBwllOISGL0rw0fJl1YH.jpg",
+            "first_air_date": "1988-10-21",
+            "genre_ids": [
+                16
+            ],
+            "id": 12152,
+            "name": "This Is America, Charlie Brown",
+            "origin_country": [
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "This Is America, Charlie Brown",
+            "overview": "The Peanuts gang visit important events in United States history.",
+            "popularity": 3.237,
+            "poster_path": "/1q745vkaoHZ9F9zaElmbUK6cwsV.jpg",
+            "vote_average": 7,
+            "vote_count": 14
+        },
+        {
+            "backdrop_path": null,
+            "first_air_date": "1992-09-08",
+            "genre_ids": [
+                16
+            ],
+            "id": 22785,
+            "name": "Gulliver's Travels",
+            "origin_country": [
+                "FR",
+                "US"
+            ],
+            "original_language": "en",
+            "original_name": "Gulliver's Travels",
+            "overview": "Follows the fortunes of sailor Dr. Lemuel Gulliver who decided to explore the whole world. During his travel Gulliver meets the world, and he's accompanied by a Dr. Flim, his wife Fosla, her daughter Folia and best friend Raphael.",
+            "popularity": 0.6,
+            "poster_path": "/bvSiVnlVe48nxlwz81x9LDGNt7e.jpg",
+            "vote_average": 0,
+            "vote_count": 0
+        },
+        {
+            "backdrop_path": null,
+            "first_air_date": "2000-12-24",
+            "genre_ids": [
+                16,
+                10765,
+                10759
+            ],
+            "id": 132372,
+            "name": "Jules Verne's Amazing Journeys",
+            "origin_country": [
+                "FR"
+            ],
+            "original_language": "fr",
+            "original_name": "Les Voyages extraordinaires de Jules Verne",
+            "overview": "Jules Verne’s exciting, imaginative classics are among the unbeatable book experiences of several generations. We love the characters, we get excited about them as we get to know the different peoples of the Earth, and with the help of our imagination it flies us all over the world.",
+            "popularity": 0.6,
+            "poster_path": "/907J7US3mNH4A6MQZzCT0C0OSlo.jpg",
+            "vote_average": 7,
+            "vote_count": 1
+        },
+        {
+            "backdrop_path": "/n2NQnm7gqJFVCOcoKeaMbKgAEjH.jpg",
+            "first_air_date": "1971-12-29",
+            "genre_ids": [
+                99
+            ],
+            "id": 123375,
+            "name": "Attenborough in Paradise and Other Personal Voyages",
+            "origin_country": [
+                "GB"
+            ],
+            "original_language": "en",
+            "original_name": "Attenborough in Paradise and Other Personal Voyages",
+            "overview": "A collection of seven David Attenborough specials, Attenborough in Paradise represents some of the famed naturalist's most personal quests and passionate enthusiasms. Programming includes Attenborough tracing a piece of amber in The Amber Time Machine, discovering the history behind a strange figurine in The Lost Gods of Easter Island, and realizing a childhood dream by visiting New Guinea to record the spectacular courtship displays of the birds of paradise. The set also includes Life on Air, a 2002 tribute to Attenborough, chronicling the world-renowned natural history expert's 50-year career at the BBC, presented by Michael Palin",
+            "popularity": 0.6,
+            "poster_path": "/yustSwJWh5WIEXAX7jVxbC0q7nQ.jpg",
+            "vote_average": 0,
+            "vote_count": 0
+        }
+    ],
+    "total_pages": 2,
+    "total_results": 25
+}
