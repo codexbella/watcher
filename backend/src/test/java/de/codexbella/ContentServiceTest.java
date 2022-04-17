@@ -6,7 +6,6 @@ import de.codexbella.content.season.Season;
 import de.codexbella.search.ShowSearchData;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
