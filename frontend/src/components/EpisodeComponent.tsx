@@ -1,5 +1,4 @@
 import {Episode} from "../models/ShowInfo";
-import {useTranslation} from "react-i18next";
 import alternateImage from "../images/alt-image.png";
 import VoteComponent from "./sub-components/VoteComponent";
 import SeenComponent from "./sub-components/SeenComponent";
@@ -10,7 +9,6 @@ interface EpisodeComponentProps {
 }
 
 export default function EpisodeComponent(props: EpisodeComponentProps) {
-   const {t} = useTranslation();
    
    return <div className='flex border-dark gap-20px justify-space-between margin-bottom-15px padding-15px shadow-dark'>
       <div className='flex column gap-5px width-100percent'>
