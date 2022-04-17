@@ -44,6 +44,7 @@ export interface Season {
    airDate: string;
    seasonNumber: number;
    posterPath: string;
+   numberOfEpisodes: number;
    episodes: Array<Episode>;
    
    username: string;

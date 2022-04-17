@@ -41,7 +41,7 @@ export default function ShowComponent(props: ShowComponentProps) {
          .then(response => {if (response.status >= 200 && response.status < 300) {props.onChange()}})
    }
    
-   return <div className='border-dark shadow height-231px width-500px flex row'>
+   return <div className='border-dark shadow-darkest height-231px width-500px flex row'>
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {

@@ -6,7 +6,7 @@
   "bad-credentials-error": "Bad credentials",
   "get-all-shows-error": "Shows could not be loaded",
   "get-show-error": "Show could not be loaded",
-  "get-season-error": "Staffel konnte nicht geladen werden",
+  "get-season-error": "Season could not be loaded",
   "error": "Error",
   "origin-country": "Country of origin",
   "vote-average": "Rating",
@@ -37,5 +37,6 @@
   "you-have": "You have",
   "shows-in-your-list": "shows in your Watcherlist",
   "seasons": "Seasons",
+  "episodes": "episodes",
   "search": "Search"
 }

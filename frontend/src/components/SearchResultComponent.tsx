@@ -55,7 +55,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
          .catch(e => setError(e.message))
    }
    
-   return <div className="border-dark shadow height-231px flex row margin-bottom-15px">
+   return <div className="border-dark shadow-darkest height-231px flex row margin-bottom-15px">
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {
