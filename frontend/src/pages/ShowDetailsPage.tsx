@@ -124,16 +124,14 @@ export default function ShowDetailsPage() {
          })
    }
    
-   const rateShow = (rating?: number, season?: number, episode?: number) => {
-      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.apiId}`;
+   const determineRatingUrl = (rating?: number, season?: number, episode?: number) => {
+      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.apiId}?`;
       if (episode) {
-         url = url + `/${season}/${episode}?rating=${rating}`;
+         url = url + `season=${season}&episode=${episode}&`;
       } else if (season) {
-         url = url + `/${season}?rating=${rating}`;
-      } else {
-         url = url + `?rating=${rating}`;
+         url = url + `season=${season}&`;
       }
-      console.log('url :'+url)
+      url = url + `rating=${rating}`;
       editShow(url)
    }
    
@@ -172,7 +170,7 @@ export default function ShowDetailsPage() {
                      </div>
                      
                      <div className='flex column align-flex-end'>
-                        <RatingComponent rating={show.vote} onRating={rateShow}/>
+                        <RatingComponent rating={show.vote} onRating={determineRatingUrl}/>
                         <div className='flex column gap-10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
@@ -193,7 +191,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={rateShow}/>)}
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

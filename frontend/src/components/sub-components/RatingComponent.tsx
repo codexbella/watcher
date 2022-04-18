@@ -10,7 +10,6 @@ export default function RatingComponent(props: RatingComponentProps) {
    const vote = props.rating/2;
    
    const rate = (rating: number) => {
-      console.log('rating: '+rating)
       props.onRating(rating);
    }
    

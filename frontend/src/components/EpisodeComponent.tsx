@@ -12,7 +12,6 @@ interface EpisodeComponentProps {
 export default function EpisodeComponent(props: EpisodeComponentProps) {
    
    const rateEpisode = (rating: number) => {
-      console.log('rating: '+rating+', Season '+props.episode.seasonNumber+', Episode '+props.episode.episodeNumber);
       props.onRating(rating, props.episode.seasonNumber, props.episode.episodeNumber);
    }
    

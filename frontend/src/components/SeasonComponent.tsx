@@ -18,7 +18,6 @@ export default function SeasonComponent(props: SeasonComponentProps) {
    
    const checkOpenStatus = () => {
       if (!open && props.season.episodes.length === 0) {
-         console.log(props.season.seasonNumber)
          props.onOpen(props.season.seasonNumber)
       }
       setOpen(!open);
@@ -26,10 +25,8 @@ export default function SeasonComponent(props: SeasonComponentProps) {
    
    const rateSeason = (rating: number, season?: number, episode?: number) => {
       if (episode) {
-         console.log('rating: '+rating+', Season '+season+', Episode '+episode);
          props.onRating(rating, season, episode);
       } else {
-         console.log('rating: '+rating+', Season '+props.season.seasonNumber);
          props.onRating(rating, props.season.seasonNumber)
       }
    }
