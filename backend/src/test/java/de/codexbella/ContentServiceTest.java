@@ -93,8 +93,7 @@ class ContentServiceTest {
    void shouldNotSaveShow() throws IOException {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
-      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
-            .thenReturn(Optional.of(new Show()));
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser")).thenReturn(Optional.of(new Show()));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
@@ -116,8 +115,7 @@ class ContentServiceTest {
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       Show voyager = new Show();
       voyager.setId("test-id");
-      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
-            .thenReturn(Optional.of(voyager));
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser")).thenReturn(Optional.of(voyager));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
@@ -131,8 +129,7 @@ class ContentServiceTest {
    void shouldNotDeleteShow() {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
-      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
-            .thenReturn(Optional.empty());
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser")).thenReturn(Optional.empty());
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
@@ -165,8 +162,7 @@ class ContentServiceTest {
       show1.setId("test-id1");
       show1.setUsername("testuser");
       show1.setName("test-show");
-      when(mockShowRepo.findByIdAndUsername("test-id1", "testuser"))
-            .thenReturn(Optional.of(show1));
+      when(mockShowRepo.findByIdAndUsername("test-id1", "testuser")).thenReturn(Optional.of(show1));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
@@ -189,8 +185,7 @@ class ContentServiceTest {
       List<Season> seasons = new ArrayList<>();
       seasons.add(season1);
       voyager.setSeasons(seasons);
-      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
-            .thenReturn(Optional.of(voyager));
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser")).thenReturn(Optional.of(voyager));
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key=xxx&language=en-US",
             String.class))
@@ -211,8 +206,7 @@ class ContentServiceTest {
    void shouldNotGetSeason(){
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
-      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser"))
-            .thenReturn(Optional.empty());
+      when(mockShowRepo.findByApiIdAndUsername(1855, "testuser")).thenReturn(Optional.empty());
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
@@ -220,6 +214,28 @@ class ContentServiceTest {
             "testuser");
       assertThat(showOptional.isEmpty());
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
+      verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
+   void shouldEditShow() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show show = new Show();
+      show.setId("test-id");
+      show.setUsername("testuser");
+      show.setRating(2);
+      when(mockShowRepo.findByIdAndUsername("test-id", "testuser")).thenReturn(Optional.of(show));
+      when(mockShowRepo.save(show)).thenReturn(show);
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
+
+      Optional<Show> showOptional = contentService.editShow(show, "testuser");
+
+      assertThat(showOptional.isPresent());
+      assertThat(showOptional.get().getId()).isEqualTo("test-id");
+      assertThat(showOptional.get().getRating()).isEqualTo(2);
+      verify(mockShowRepo).findByIdAndUsername("test-id", "testuser");
+      verify(mockShowRepo).save(show);
       verifyNoMoreInteractions(mockShowRepo);
    }
 }
