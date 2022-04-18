@@ -1,27 +1,23 @@
-import {Season, Show} from "./models/ShowInfo";
-import ratingStarEmpty from './images/rating-star-empty.png';
-import ratingStarFull from './images/rating-star-full.png';
-import ratingStarHalf from './images/rating-star-half.png';
-import deleteSymbol from './images/delete.png';
-import alternateImage from "./images/alt-image.png";
+import {Season, Show} from "../models/ShowInfo";
+import deleteSymbol from '../images/delete.png';
+import alternateImage from "../images/alt-image.png";
 import {useTranslation} from "react-i18next";
-import eyeNotSeen from './images/eye-not-seen.png';
-import eyeSeen from './images/eye-seen.png';
-import eyePartial from './images/eye-partially-seen.png';
 import {useNavigate, useParams} from "react-router-dom";
-import {useCallback, useEffect, useState} from "react";
-import SeasonComponent from "./components/SeasonComponent";
+import {useEffect, useState} from "react";
+import SeasonComponent from "../components/SeasonComponent";
+import VoteComponent from "../components/sub-components/VoteComponent";
+import SeenComponent from "../components/sub-components/SeenComponent";
+import VoteAverageComponent from "../components/sub-components/VoteAverageComponent";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const params = useParams();
    const [show, setShow] = useState({} as Show);
-   const [error, setError] = useState();
-   const [seasons, setSeasons] = useState([] as Array<Season>)
-   const [seasonInfo, setSeasonInfo] = useState([] as Array<boolean>)
+   const [error, setError] = useState('');
+   const [seasonsReverse, setSeasonsReverse] = useState([] as Array<Season>)
    
-   const getShow = useCallback(() => (
+   useEffect(() => {
       fetch(`${process.env.REACT_APP_BASE_URL}/getshow/${params.id}`, {
          method: 'GET',
          headers: {
@@ -40,7 +36,7 @@ export default function ShowDetailsPage() {
          })
          .then((responseBody: Show) => {
             setShow(responseBody);
-            setSeasons(responseBody.seasons.reverse());
+            setSeasonsReverse(responseBody.seasons.reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -49,15 +45,13 @@ export default function ShowDetailsPage() {
                setError(e.message);
             }
          })
-   ), [nav, t, params.id])
+   }, [nav, t, params.id])
    
-   useEffect(() => {
-      getShow();
-   }, [getShow])
-   
-   const getSeason = (showApiId: number, seasonNumber: number) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/getseason/${showApiId}?season=${seasonNumber}`, {
-         method: 'GET',
+   const getSeason = (seasonNumber: number) => {
+      setError('');
+      fetch(`${process.env.REACT_APP_BASE_URL}/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`
+         +`&language=${localStorage.getItem('i18nextLng')}`, {
+         method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
@@ -74,11 +68,7 @@ export default function ShowDetailsPage() {
          })
          .then(responseBody => {
             setShow(responseBody)
-            setSeasons(responseBody.seasons.reverse());
-   
-            const seasonInfoArray = seasonInfo;
-            seasonInfoArray[seasonNumber-1] = true;
-            setSeasonInfo(seasonInfoArray);
+            setSeasonsReverse(responseBody.seasons.reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -87,18 +77,6 @@ export default function ShowDetailsPage() {
                setError(e.message);
             }
          })
-   }
-   
-   const vote = show.vote / 2;
-   
-   const determineEyeSource = (seen: string) => {
-      if (seen === "NO") {
-         return eyeNotSeen
-      } else if (seen === "YES") {
-         return eyeSeen
-      } else {
-         return eyePartial
-      }
    }
    
    const deleteShow = () => {
@@ -145,25 +123,13 @@ export default function ShowDetailsPage() {
                               <div className='background-light padding-5px display margin-inline-end-5px border-radius-10px'
                                    key={index}>{item.name}</div>
                            )}</div>
-                           
-                           <div className='flex gap-10px align-center'>
-                              <div className='border-dark color-lighter text-center height-18px width-150px'>
-                                 <div className='background-dark height-18px'
-                                      style={{width: `${show.voteAverage * 10}%`}}>{show.voteAverage}</div>
-                              </div>
-                              <div>{show.voteCount} {t('votes')}</div>
-                           </div>
+   
+                           <VoteAverageComponent voteAverage={show.voteAverage} voteCount={show.voteCount}/>
                         </div>
                      </div>
                      
                      <div className='flex column align-flex-end'>
-                        <div className='margin-bottom-15px'>
-                           <img src={vote >= 0.5 ? (vote >= 1 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='1'/>
-                           <img src={vote >= 1.5 ? (vote >= 2 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='2'/>
-                           <img src={vote >= 2.5 ? (vote >= 3 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='3'/>
-                           <img src={vote >= 3.5 ? (vote >= 4 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='4'/>
-                           <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
-                        </div>
+                        <VoteComponent vote={show.vote}/>
                         <div className='flex column gap-10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
@@ -173,18 +139,18 @@ export default function ShowDetailsPage() {
                                 className='pointer'>
                               <img src={deleteSymbol} width='20' alt='delete'/>
                            </div>
-                           <div><img src={determineEyeSource(show.seen)} width='33' alt='seen status'/></div>
+                           <SeenComponent seen={show.seen}/>
                         </div>
                      </div>
                   </div>
                
                </div>
             </div>
-            <div className='margin-top-15px margin-bottom-15px'>{show.overview}</div>
+            <div className='margin-top-25px margin-bottom-40px'>{show.overview}</div>
             
             <div>
-               {seasons.map((item, index) =>
-                  <SeasonComponent season={item} seasonInfo={seasonInfo[index]} onOpen={() => getSeason(show.apiId, index+1)}/>)}
+               {seasonsReverse.map(season =>
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

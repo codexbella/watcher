@@ -10,17 +10,26 @@
 .wrap {
     flex-wrap: wrap;
 }
-.gap-20px {
-    gap: 20px;
+.nowrap {
+    flex-wrap: nowrap;
+}
+.gap-5px {
+    gap: 5px;
 }
 .gap-10px {
     gap: 10px;
+}
+.gap-20px {
+    gap: 20px;
 }
 .align-baseline {
     align-items: baseline;
 }
 .align-center {
     align-items: center;
+}
+.align-flex-start {
+    align-items: flex-start;
 }
 .align-flex-end {
     align-items: flex-end;
@@ -62,14 +71,23 @@
 .margin-left-15px {
     margin-left: 15px;
 }
-.margin-top-15px {
-    margin-top: 15px;
-}
 .margin-top-5px {
     margin-top: 5px;
 }
+.margin-top-15px {
+    margin-top: 15px;
+}
+.margin-top-25px {
+    margin-top: 25px;
+}
+.margin-bottom-5px {
+    margin-bottom: 5px;
+}
 .margin-bottom-15px {
     margin-bottom: 15px;
+}
+.margin-bottom-40px {
+    margin-bottom: 40px;
 }
 .margin-inline-end-5px {
     margin-inline-end: 5px;
@@ -100,13 +118,6 @@
     color: #2A0944;
 }
 
-.large {
-    font-size: 1.5em;
-}
-.larger {
-    font-size: 1.8em;
-}
-
 .border-dark {
     border: 2px solid #3B185F;
 }
@@ -122,8 +133,15 @@
 .background-lighter {
     background-color: #FEC260;
 }
-.shadow {
+
+.shadow-darkest {
     box-shadow: 0px 0px 15px 10px #15003c;
+}
+.shadow-dark {
+    box-shadow: 0px 0px 5px 10px #3B185F;
+}
+.text-shadow {
+    text-shadow: 3px 3px 3px #15003c;
 }
 
 
@@ -144,8 +162,21 @@ input:focus {
     outline:solid 2px #FEC260;
 }
 
+
+.large {
+    font-size: 1.5em;
+}
+.larger {
+    font-size: 1.8em;
+}
+.very-large {
+    font-size: 45px;
+}
 .no-decoration-text {
     text-decoration: none;
+}
+.font-courier {
+    font-family: 'Courier New', monospace;
 }
 .text-center {
     text-align: center;
@@ -168,11 +199,17 @@ input:focus {
 .height-100px {
     height: 100px;
 }
+.height-139px {
+    height: 139px;
+}
 .height-231px {
     height: 231px;
 }
 .height-100percent {
     height: 100%;
+}
+.width-70px {
+    width: 70px;
 }
 .width-150px {
     width: 150px;
@@ -180,8 +217,14 @@ input:focus {
 .width-154px {
     width: 154px;
 }
+.width-185px {
+    width: 185px;
+}
 .width-500px {
     width: 500px;
+}
+.width-100percent {
+    width: 100%;
 }
 
 .tmdb-sentence {

@@ -152,7 +152,7 @@ class ContentControllerITTest {
             "codexbella", "data", "searchResultVoyager.txt")));
 
       ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, String.class);
+            HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseSavedShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShow.getBody()).isNotNull();
       String creationMessage = responseSavedShow.getBody();
@@ -165,7 +165,7 @@ class ContentControllerITTest {
 
       // should not save show because already in database
       ResponseEntity<String> responseNotSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
-            HttpMethod.GET, httpEntityUser1Get, String.class);
+            HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseNotSavedShow.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertThat(responseNotSavedShow.getBody()).isNotNull();
       String showAlreadyExistsMessage = responseNotSavedShow.getBody();
@@ -192,13 +192,13 @@ class ContentControllerITTest {
 
       assertThat(show.getApiId()).isEqualTo(1855);
 
-      // should get season
+      // should save season
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855/season/1?api_key="+apiKey
             +"&language=en-US", String.class)).thenReturn(Files.readString(Path.of(".", "src",
             "test", "java", "de", "codexbella", "data", "resultVoyagerSeason1.txt")));
 
-      ResponseEntity<Show> responseGetSeason = restTemplate.exchange("/api/getseason/1855?seasonNumber=1",
-            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      ResponseEntity<Show> responseGetSeason = restTemplate.exchange("/api/saveseason/1855?seasonNumber=1",
+            HttpMethod.PUT, httpEntityUser1Get, Show.class);
       assertThat(responseGetSeason.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseGetSeason.getBody()).isNotNull();
       List<Season> seasons = responseGetSeason.getBody().getSeasons();
@@ -221,8 +221,8 @@ class ContentControllerITTest {
       assertThat(arrayShowsAfterDelete.length).isEqualTo(0);
 
       // should not get season because show not saved anymore
-      ResponseEntity<Show> responseNotFound = restTemplate.exchange("/api/getseason/1855?seasonNumber=1",
-            HttpMethod.GET, httpEntityUser1Get, Show.class);
+      ResponseEntity<Show> responseNotFound = restTemplate.exchange("/api/saveseason/1855?seasonNumber=1",
+            HttpMethod.PUT, httpEntityUser1Get, Show.class);
       assertThat(responseNotFound.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
       assertThat(responseNotFound.getBody()).isEqualTo(null);
       verifyNoMoreInteractions(mockTemplate);

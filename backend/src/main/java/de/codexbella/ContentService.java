@@ -62,9 +62,7 @@ public class ContentService {
          String response = restTemplate.getForObject(
                "https://api.themoviedb.org/3/tv/" + showApiId + "?api_key=" + apiKey + "&language=" + language, String.class);
          ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
-         Show show = contentMapper.toShow(showApi);
-         show.setUsername(username);
-         show.getSeasons().forEach(season -> season.setUsername(username));
+         Show show = contentMapper.toShow(showApi, username);
          showRepository.save(show);
       } else {
          throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with api id "+showApiId+" already saved");
@@ -84,15 +82,15 @@ public class ContentService {
       return showRepository.findByIdAndUsername(showId, username);
    }
 
-   public Optional<Show> getSeason(String language, int showApiId, int seasonNumber, String username) {
+   public Optional<Show> saveSeason(String language, int showApiId, int seasonNumber, String username) {
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isPresent()) {
          String response = restTemplate.getForObject(
                "https://api.themoviedb.org/3/tv/"+showApiId+"/season/"+seasonNumber+"?api_key="+apiKey
                      +"&language="+language, String.class);
          SeasonApi seasonApi = new Gson().fromJson(response, SeasonApi.class);
-         Season season = contentMapper.toSeason(seasonApi);
-         season.getEpisodes().forEach(episode -> episode.setUsername(username));
+         Season season = contentMapper.toSeason(seasonApi, username);
+         season.setNumberOfEpisodes(showOptional.get().getSeasons().get(seasonNumber-1).getNumberOfEpisodes());
          showOptional.get().getSeasons().set(seasonNumber-1, season);
          showRepository.save(showOptional.get());
       }

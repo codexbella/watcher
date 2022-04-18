@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from "./auth/AuthProvider";
+import {useAuth} from "../auth/AuthProvider";
 
 export default function UserLogin() {
    const {t} = useTranslation();

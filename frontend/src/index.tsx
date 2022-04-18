@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SearchPage from "./SearchPage";
-import UserLogin from "./UserLogin";
-import UserRegistration from "./UserRegistration";
+import SearchPage from "./pages/SearchPage";
+import UserLogin from "./pages/UserLogin";
+import UserRegistration from "./pages/UserRegistration";
 import './i18n';
 import AuthProvider from "./auth/AuthProvider";
-import Watcherlist from "./Watcherlist";
-import ShowDetailsPage from "./ShowDetailsPage";
+import Watcherlist from "./pages/Watcherlist";
+import ShowDetailsPage from "./pages/ShowDetailsPage";
 
 ReactDOM.render(
    <React.StrictMode>

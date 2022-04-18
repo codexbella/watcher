@@ -1,8 +1,8 @@
-import './App.css';
+import '../App.css';
 import {useTranslation} from 'react-i18next';
 import {FormEvent, useState} from "react";
-import {SearchResult} from "./models/ShowInfo";
-import SearchResultComponent from "./components/SearchResultComponent";
+import {SearchResult} from "../models/ShowInfo";
+import SearchResultComponent from "../components/SearchResultComponent";
 import {useNavigate} from "react-router-dom";
 
 export default function SearchPage() {

@@ -24,7 +24,7 @@ public class ContentController {
       return contentService.searchForShows(language, searchTerm, principal.getName());
    }
 
-   @GetMapping("/saveshow/{showApiId}")
+   @PutMapping("/saveshow/{showApiId}")
    public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language,
                                           @PathVariable int showApiId, Principal principal) {
       try {
@@ -48,10 +48,10 @@ public class ContentController {
    public ResponseEntity<Show> getShow(@PathVariable String showId, Principal principal) {
       return ResponseEntity.of(contentService.getShow(showId, principal.getName()));
    }
-   @GetMapping("/getseason/{showApiId}")
-   public ResponseEntity<Show> getSeason(@PathVariable int showApiId, @RequestParam(defaultValue = "en-US")
+   @PutMapping("/saveseason/{showApiId}")
+   public ResponseEntity<Show> saveSeason(@PathVariable int showApiId, @RequestParam(defaultValue = "en-US")
          String language, @RequestParam int seasonNumber, Principal principal) {
-      Optional<Show> showOptional = contentService.getSeason(language, showApiId, seasonNumber, principal.getName());
+      Optional<Show> showOptional = contentService.saveSeason(language, showApiId, seasonNumber, principal.getName());
       return ResponseEntity.of(showOptional);
    }
 }
