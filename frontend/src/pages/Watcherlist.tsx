@@ -35,7 +35,7 @@ export default function Watcherlist() {
             }
          })
          .then(responseBody => {
-            const showsAfter = shows;
+            const showsAfter = [...shows];
             showsAfter[index] = responseBody;
             setShows(showsAfter);
          })

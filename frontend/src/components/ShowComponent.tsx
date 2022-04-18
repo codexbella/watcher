@@ -40,7 +40,11 @@ export default function ShowComponent(props: ShowComponentProps) {
             'Content-Type': 'application/json'
          }
       })
-         .then(response => {if (response.status >= 200 && response.status < 300) {props.onChange()}})
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               props.onChange()
+            }
+         })
    }
    
    return <div className='border-dark shadow-darkest height-231px width-500px flex row'>
@@ -50,7 +54,7 @@ export default function ShowComponent(props: ShowComponentProps) {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
            }}
-           onClick={() => nav('/shows/'+props.show.id)} className='pointer'/>
+           onClick={() => nav('/shows/' + props.show.id)} className='pointer'/>
       
       <div className='color-lighter flex result-details wrap column'>
          <div className='flex justify-space-between'>
@@ -59,7 +63,11 @@ export default function ShowComponent(props: ShowComponentProps) {
                <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
             <div className='flex column gap-10px text-center'>
-               <div onClick={() => {if (window.confirm(`${t('sure-of-deletion')}?`)) {deleteShow()}}}
+               <div onClick={() => {
+                  if (window.confirm(`${t('sure-of-deletion')}?`)) {
+                     deleteShow()
+                  }
+               }}
                     className='pointer'>
                   <img src={deleteSymbol} width='20' alt='delete'/>
                </div>
@@ -68,11 +76,13 @@ export default function ShowComponent(props: ShowComponentProps) {
          </div>
          
          <div className='margin-bottom-15px'>{props.show.seasons.length} {t('seasons')}</div>
-   
-         <RatingComponent rating={props.show.rating} onRating={determineRatingUrl}/>
+         
+         <div className='flex'><RatingComponent rating={props.show.rating} onRating={determineRatingUrl}/><div/></div>
+         
          <div className='flex gap-10px align-center'>
             <div className='border-dark color-lighter text-center height-18px width-150px'>
-               <div className='background-dark height-18px' style={{width: `${props.show.voteAverage * 10}%`}}>{props.show.voteAverage}</div>
+               <div className='background-dark height-18px'
+                    style={{width: `${props.show.voteAverage * 10}%`}}>{props.show.voteAverage}</div>
             </div>
             <div>{props.show.voteCount} {t('votes')}</div>
          </div>
