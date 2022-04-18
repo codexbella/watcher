@@ -17,5 +17,5 @@ public class Episode {
 
       private String username = "";
       private Seen seen = Seen.NO;
-      private double vote = 5;
+      private int rating = 0;
 }

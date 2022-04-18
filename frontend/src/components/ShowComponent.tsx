@@ -1,7 +1,4 @@
 import {Show} from "../models/ShowInfo";
-import ratingStarEmpty from '../images/rating-star-empty.png';
-import ratingStarFull from '../images/rating-star-full.png';
-import ratingStarHalf from '../images/rating-star-half.png';
 import deleteSymbol from '../images/delete.png';
 import alternateImage from "../images/alt-image.png";
 import {useTranslation} from "react-i18next";
@@ -9,16 +6,17 @@ import eyeNotSeen from '../images/eye-not-seen.png';
 import eyeSeen from '../images/eye-seen.png';
 import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate} from "react-router-dom";
+import RatingComponent from "./sub-components/RatingComponent";
 
 interface ShowComponentProps {
    show: Show;
    onChange: () => void;
+   onRating: (id: string, rating: number) => void;
 }
 
 export default function ShowComponent(props: ShowComponentProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
-   const vote = props.show.vote / 2;
    
    const determineEyeSource = (seen: string) => {
       if (seen === "NO") {
@@ -28,6 +26,10 @@ export default function ShowComponent(props: ShowComponentProps) {
       } else {
          return eyePartial
       }
+   }
+   
+   const determineRatingUrl = (rating: number) => {
+      props.onRating(props.show.id, rating);
    }
    
    const deleteShow = () => {
@@ -65,15 +67,9 @@ export default function ShowComponent(props: ShowComponentProps) {
             </div>
          </div>
          
-         <div className='margin-bottom-15px'>{props.show.seasons.length - 1} {t('seasons')}</div>
-
-         <div className='margin-bottom-15px'>
-            <img src={vote >= 0.5 ? (vote >= 1 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='1'/>
-            <img src={vote >= 1.5 ? (vote >= 2 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='2'/>
-            <img src={vote >= 2.5 ? (vote >= 3 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='3'/>
-            <img src={vote >= 3.5 ? (vote >= 4 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='4'/>
-            <img src={vote >= 4.5 ? (vote >= 5 ? ratingStarFull : ratingStarHalf) : ratingStarEmpty} height='18' alt='5'/>
-         </div>
+         <div className='margin-bottom-15px'>{props.show.seasons.length} {t('seasons')}</div>
+   
+         <RatingComponent rating={props.show.rating} onRating={determineRatingUrl}/>
          <div className='flex gap-10px align-center'>
             <div className='border-dark color-lighter text-center height-18px width-150px'>
                <div className='background-dark height-18px' style={{width: `${props.show.voteAverage * 10}%`}}>{props.show.voteAverage}</div>

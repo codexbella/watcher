@@ -96,4 +96,8 @@ public class ContentService {
       }
       return showOptional;
    }
+
+   public Optional<Show> editShow(Show show, String username) {
+      return null;
+   }
 }

@@ -63,7 +63,7 @@ export default function SeasonComponent(props: SeasonComponentProps) {
          </div>
          
          <div className='flex column align-flex-end'>
-            <RatingComponent rating={props.season.vote} onRating={rateSeason}/>
+            <RatingComponent rating={props.season.rating} onRating={rateSeason}/>
             <SeenComponent seen={props.season.seen}/>
          </div>
       </div>

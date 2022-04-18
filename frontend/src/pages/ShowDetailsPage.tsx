@@ -94,9 +94,10 @@ export default function ShowDetailsPage() {
          })
    }
    
-   const editShow = (url: string) => {
-      fetch(url, {
+   const editShow = (showToChange: Show) => {
+      fetch(`${process.env.REACT_APP_BASE_URL}/editshow`, {
          method: 'PUT',
+         body: JSON.stringify(showToChange),
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
@@ -124,15 +125,16 @@ export default function ShowDetailsPage() {
          })
    }
    
-   const determineRatingUrl = (rating?: number, season?: number, episode?: number) => {
-      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.apiId}?`;
+   const changeRating = (rating: number, season?: number, episode?: number) => {
+      const showToSend = show;
       if (episode) {
-         url = url + `season=${season}&episode=${episode}&`;
+         showToSend.seasons.at(season!)!.episodes.at(episode!)!.rating = rating;
       } else if (season) {
-         url = url + `season=${season}&`;
+         showToSend.seasons.at(season!)!.rating = rating;
+      } else {
+         showToSend.rating = rating;
       }
-      url = url + `rating=${rating}`;
-      editShow(url)
+      editShow(showToSend);
    }
    
    return <div>
@@ -170,7 +172,7 @@ export default function ShowDetailsPage() {
                      </div>
                      
                      <div className='flex column align-flex-end'>
-                        <RatingComponent rating={show.vote} onRating={determineRatingUrl}/>
+                        <RatingComponent rating={show.rating} onRating={changeRating}/>
                         <div className='flex column gap-10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
@@ -191,7 +193,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={changeRating}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

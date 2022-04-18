@@ -37,7 +37,7 @@ export default function EpisodeComponent(props: EpisodeComponentProps) {
             </div>
             
             <div className='flex column align-flex-end'>
-               <RatingComponent rating={props.episode.vote} onRating={rateEpisode}/>
+               <RatingComponent rating={props.episode.rating} onRating={rateEpisode}/>
                <SeenComponent seen={props.episode.seen}/>
             </div>
          </div>

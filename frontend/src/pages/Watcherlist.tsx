@@ -13,6 +13,41 @@ export default function Watcherlist() {
    const [shows, setShows] = useState([] as Array<Show>);
    const [gotShows, setGotShows] = useState(false);
    
+   const editShow = (showId: string, rating: number) => {
+      const index = shows.findIndex(show => show.id === showId);
+      const showToChange = shows[index];
+      showToChange.rating = rating;
+      fetch(`${process.env.REACT_APP_BASE_URL}/editshow`, {
+         method: 'PUT',
+         body: JSON.stringify(showToChange),
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               return response.json();
+            } else if (response.status === 401) {
+               throw new Error(`${response.status}`)
+            } else {
+               throw new Error(`${t('edit-show-error')}, ${t('error')}: ${response.status}`)
+            }
+         })
+         .then(responseBody => {
+            const showsAfter = shows;
+            showsAfter[index] = responseBody;
+            setShows(showsAfter);
+         })
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }
+   
    const getAllShows = useCallback(() => {
       setGotShows(false);
       fetch(`${process.env.REACT_APP_BASE_URL}/getallshows`, {
@@ -58,7 +93,7 @@ export default function Watcherlist() {
                {t('you-have')} {shows.length} {t('shows-in-your-list')}:
             </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {shows.map(item => <ShowComponent show={item} key={item.id} onChange={getAllShows}/>)}
+               {shows.map(item => <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={editShow}/>)}
             </div>
          </div>
          :
