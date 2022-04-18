@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -98,6 +99,10 @@ public class ContentService {
    }
 
    public Optional<Show> editShow(Show show, String username) {
-      return null;
+      Optional<Show> showOptional = showRepository.findByIdAndUsername(show.getId(), username);
+      if (showOptional.isPresent()) {
+         return Optional.of(showRepository.save(show));
+      }
+      return Optional.empty();
    }
 }
