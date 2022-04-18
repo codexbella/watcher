@@ -1,14 +1,20 @@
 import {Episode} from "../models/ShowInfo";
 import alternateImage from "../images/alt-image.png";
-import VoteComponent from "./sub-components/VoteComponent";
+import RatingComponent from "./sub-components/RatingComponent";
 import SeenComponent from "./sub-components/SeenComponent";
 import VoteAverageComponent from "./sub-components/VoteAverageComponent";
 
 interface EpisodeComponentProps {
    episode: Episode;
+   onRating: (rating: number, season?: number, episode?: number) => void;
 }
 
 export default function EpisodeComponent(props: EpisodeComponentProps) {
+   
+   const rateEpisode = (rating: number) => {
+      console.log('rating: '+rating+', Season '+props.episode.seasonNumber+', Episode '+props.episode.episodeNumber);
+      props.onRating(rating, props.episode.seasonNumber, props.episode.episodeNumber);
+   }
    
    return <div className='flex border-dark gap-20px justify-space-between margin-bottom-15px padding-15px shadow-dark'>
       <div className='flex column gap-5px width-100percent'>
@@ -32,7 +38,7 @@ export default function EpisodeComponent(props: EpisodeComponentProps) {
             </div>
             
             <div className='flex column align-flex-end'>
-               <VoteComponent vote={props.episode.vote}/>
+               <RatingComponent rating={props.episode.vote} onRating={rateEpisode}/>
                <SeenComponent seen={props.episode.seen}/>
             </div>
          </div>

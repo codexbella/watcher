@@ -5,7 +5,7 @@ import {useTranslation} from "react-i18next";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import SeasonComponent from "../components/SeasonComponent";
-import VoteComponent from "../components/sub-components/VoteComponent";
+import RatingComponent from "../components/sub-components/RatingComponent";
 import SeenComponent from "../components/sub-components/SeenComponent";
 import VoteAverageComponent from "../components/sub-components/VoteAverageComponent";
 
@@ -94,6 +94,49 @@ export default function ShowDetailsPage() {
          })
    }
    
+   const editShow = (url: string) => {
+      fetch(url, {
+         method: 'PUT',
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               return response.json();
+            } else if (response.status === 401) {
+               throw new Error(`${response.status}`)
+            } else {
+               throw new Error(`${t('edit-show-error')}, ${t('error')}: ${response.status}`)
+            }
+         })
+         .then(responseBody => {
+            setShow(responseBody)
+            setSeasonsReverse(responseBody.seasons.reverse());
+         })
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }
+   
+   const rateShow = (rating?: number, season?: number, episode?: number) => {
+      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.apiId}`;
+      if (episode) {
+         url = url + `/${season}/${episode}?rating=${rating}`;
+      } else if (season) {
+         url = url + `/${season}?rating=${rating}`;
+      } else {
+         url = url + `?rating=${rating}`;
+      }
+      console.log('url :'+url)
+      editShow(url)
+   }
+   
    return <div>
       {show.id &&
          <div className='margin-bottom-15px'>
@@ -129,7 +172,7 @@ export default function ShowDetailsPage() {
                      </div>
                      
                      <div className='flex column align-flex-end'>
-                        <VoteComponent vote={show.vote}/>
+                        <RatingComponent rating={show.vote} onRating={rateShow}/>
                         <div className='flex column gap-10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
@@ -150,7 +193,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={season.name} season={season} onOpen={getSeason}/>)}
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={rateShow}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

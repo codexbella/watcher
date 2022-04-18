@@ -7,6 +7,7 @@
   "get-all-shows-error": "Shows could not be loaded",
   "get-show-error": "Show could not be loaded",
   "get-season-error": "Season could not be loaded",
+  "edit-show-error": "Show could not be changed",
   "error": "Error",
   "origin-country": "Country of origin",
   "vote-average": "Rating",

@@ -7,6 +7,7 @@
   "get-all-shows-error": "Serien konnten nicht geladen werden",
   "get-show-error": "Serie konnte nicht geladen werden",
   "get-season-error": "Staffel konnte nicht geladen werden",
+  "edit-show-error": "Serie konnte nicht geändert werden",
   "error": "Fehler",
   "origin-country": "Herkunftsland",
   "vote-average": "Bewertung",
