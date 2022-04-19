@@ -28,7 +28,7 @@ export default function ShowComponent(props: ShowComponentProps) {
       }
    }
    
-   const determineRatingUrl = (rating: number) => {
+   const rate = (rating: number) => {
       props.onRating(props.show.id, rating);
    }
    
@@ -77,7 +77,9 @@ export default function ShowComponent(props: ShowComponentProps) {
          
          <div className='margin-bottom-15px'>{props.show.seasons.length} {t('seasons')}</div>
          
-         <div className='flex'><RatingComponent rating={props.show.rating} onRating={determineRatingUrl}/><div/></div>
+         <div className='flex'><RatingComponent rating={props.show.rating} onRating={rate}/>
+            <div/>
+         </div>
          
          <div className='flex gap-10px align-center'>
             <div className='border-dark color-lighter text-center height-18px width-150px'>

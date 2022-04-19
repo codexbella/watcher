@@ -94,10 +94,9 @@ export default function ShowDetailsPage() {
          })
    }
    
-   const editShow = (showToChange: Show) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/editshow`, {
+   const editShow = (url: string) => {
+      fetch(url, {
          method: 'PUT',
-         body: JSON.stringify(showToChange),
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             'Content-Type': 'application/json'
@@ -125,16 +124,16 @@ export default function ShowDetailsPage() {
          })
    }
    
-   const changeRating = (rating: number, season?: number, episode?: number) => {
-      const showToSend = show;
-      if (episode) {
-         showToSend.seasons.at(season!)!.episodes.at(episode!)!.rating = rating;
-      } else if (season) {
-         showToSend.seasons.at(season!)!.rating = rating;
+   const determineRatingUrl = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
+      let url = `${process.env.REACT_APP_BASE_URL}/editshow`;
+      if (episodeNumber && seasonNumber) {
+         url = url + `${show.id}?seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&rating=${rating}`;
+      } else if (seasonNumber) {
+         url = url + `${show.id}?seasonNumber=${seasonNumber}&rating=${rating}`;
       } else {
-         showToSend.rating = rating;
+         url = url + `${show.id}?rating=${rating}`;
       }
-      editShow(showToSend);
+      editShow(url);
    }
    
    return <div>
@@ -172,7 +171,7 @@ export default function ShowDetailsPage() {
                      </div>
                      
                      <div className='flex column align-flex-end'>
-                        <RatingComponent rating={show.rating} onRating={changeRating}/>
+                        <RatingComponent rating={show.rating} onRating={determineRatingUrl}/>
                         <div className='flex column gap-10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
@@ -193,12 +192,11 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={changeRating}/>)}
+                  <SeasonComponent key={`${show.apiId}-${season.name}`} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}
          </div>
-         
       }
    </div>
 }

@@ -9,7 +9,7 @@ import SeenComponent from "./sub-components/SeenComponent";
 interface SeasonComponentProps {
    season: Season;
    onOpen: (seasonNumber: number) => void;
-   onRating: (rating: number, season?: number, episode?: number) => void;
+   onRating: (rating: number, seasonNumber?: number, episodeNumber?: number) => void;
 }
 
 export default function SeasonComponent(props: SeasonComponentProps) {
@@ -23,9 +23,9 @@ export default function SeasonComponent(props: SeasonComponentProps) {
       setOpen(!open);
    }
    
-   const rateSeason = (rating: number, season?: number, episode?: number) => {
-      if (episode) {
-         props.onRating(rating, season, episode);
+   const rateSeason = (rating: number, episodeNumber?: number) => {
+      if (episodeNumber) {
+         props.onRating(rating, props.season.seasonNumber, episodeNumber);
       } else {
          props.onRating(rating, props.season.seasonNumber)
       }

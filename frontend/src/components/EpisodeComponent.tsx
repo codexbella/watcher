@@ -6,7 +6,7 @@ import VoteAverageComponent from "./sub-components/VoteAverageComponent";
 
 interface EpisodeComponentProps {
    episode: Episode;
-   onRating: (rating: number, season?: number, episode?: number) => void;
+   onRating: (rating: number, seasonNumber?: number, episodeNumber?: number) => void;
 }
 
 export default function EpisodeComponent(props: EpisodeComponentProps) {
@@ -50,6 +50,6 @@ export default function EpisodeComponent(props: EpisodeComponentProps) {
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }} className='height-139px width-185px'/>
+           }} className='height-105px'/>
    </div>
 }
