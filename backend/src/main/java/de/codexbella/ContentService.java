@@ -98,9 +98,17 @@ public class ContentService {
       return showOptional;
    }
 
-   public Optional<Show> editShow(Show show, String username) {
-      Optional<Show> showOptional = showRepository.findByIdAndUsername(show.getId(), username);
+   public Optional<Show> editShow(String showId, int rating, Integer seasonNumber, Integer episodeNumber, String username) {
+      Optional<Show> showOptional = showRepository.findByIdAndUsername(showId, username);
       if (showOptional.isPresent()) {
+         Show show = showOptional.get();
+         if (episodeNumber != null) {
+            show.getSeasons().get(seasonNumber).getEpisodes().get(episodeNumber).setRating(rating);
+         } else if (seasonNumber != null) {
+            show.getSeasons().get(seasonNumber).setRating(rating);
+         } else {
+            show.setRating(rating);
+         }
          return Optional.of(showRepository.save(show));
       }
       return Optional.empty();

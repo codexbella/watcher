@@ -210,11 +210,8 @@ class ContentControllerITTest {
       verifyNoMoreInteractions(mockTemplate);
 
       // should change rating of show
-      Show voyager = arrayShows[0];
-      voyager.setRating(4);
-      HttpEntity<Show> httpEntityUser1PutRating = new HttpEntity<>(voyager, headerForUser1);
-      ResponseEntity<Show> responseEditShow = restTemplate.exchange("/api/editshow",
-            HttpMethod.PUT, httpEntityUser1PutRating, Show.class);
+      ResponseEntity<Show> responseEditShow = restTemplate.exchange("/api/editshow/"+arrayShows[0].getId()+"?rating=4",
+            HttpMethod.PUT, httpEntityUser1Get, Show.class);
       assertThat(responseEditShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseEditShow.getBody()).isNotNull();
 

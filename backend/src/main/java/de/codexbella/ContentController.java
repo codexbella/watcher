@@ -54,9 +54,11 @@ public class ContentController {
       Optional<Show> showOptional = contentService.saveSeason(language, showApiId, seasonNumber, principal.getName());
       return ResponseEntity.of(showOptional);
    }
-   @PutMapping("/editshow")
-   public ResponseEntity<Show> editShow(@RequestBody Show show, Principal principal) {
-      return ResponseEntity.of(contentService.editShow(show, principal.getName()));
+   @PutMapping("/editshow/{showId}")
+   public ResponseEntity<Show> editShow(@PathVariable String showId, @RequestParam int rating,
+                                        @RequestParam(required = false) Integer seasonNumber,
+                                        @RequestParam(required = false) Integer episodeNumber, Principal principal) {
+      return ResponseEntity.of(contentService.editShow(showId, rating, seasonNumber, episodeNumber, principal.getName()));
    }
 }
 
