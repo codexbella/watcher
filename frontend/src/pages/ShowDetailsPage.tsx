@@ -125,13 +125,15 @@ export default function ShowDetailsPage() {
    }
    
    const determineRatingUrl = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
-      let url = `${process.env.REACT_APP_BASE_URL}/editshow`;
+      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
-         url = url + `${show.id}?seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&rating=${rating}`;
+         console.log('season: '+seasonNumber+', episode: '+episodeNumber)
+         url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&rating=${rating}`;
       } else if (seasonNumber) {
-         url = url + `${show.id}?seasonNumber=${seasonNumber}&rating=${rating}`;
+         console.log('season: '+seasonNumber)
+         url = url + `seasonNumber=${seasonNumber}&rating=${rating}`;
       } else {
-         url = url + `${show.id}?rating=${rating}`;
+         url = url + `rating=${rating}`;
       }
       editShow(url);
    }

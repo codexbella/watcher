@@ -10,8 +10,9 @@ import RatingComponent from "./sub-components/RatingComponent";
 
 interface ShowComponentProps {
    show: Show;
+   index: number;
    onChange: () => void;
-   onRating: (id: string, rating: number) => void;
+   onRating: (id: string, index: number, rating: number) => void;
 }
 
 export default function ShowComponent(props: ShowComponentProps) {
@@ -29,7 +30,7 @@ export default function ShowComponent(props: ShowComponentProps) {
    }
    
    const rate = (rating: number) => {
-      props.onRating(props.show.id, rating);
+      props.onRating(props.show.id, props.index, rating);
    }
    
    const deleteShow = () => {

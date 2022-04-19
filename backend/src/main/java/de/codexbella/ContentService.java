@@ -103,9 +103,9 @@ public class ContentService {
       if (showOptional.isPresent()) {
          Show show = showOptional.get();
          if (episodeNumber != null) {
-            show.getSeasons().get(seasonNumber).getEpisodes().get(episodeNumber).setRating(rating);
+            show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
          } else if (seasonNumber != null) {
-            show.getSeasons().get(seasonNumber).setRating(rating);
+            show.getSeasons().get(seasonNumber-1).setRating(rating);
          } else {
             show.setRating(rating);
          }

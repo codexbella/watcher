@@ -23,9 +23,9 @@ export default function SeasonComponent(props: SeasonComponentProps) {
       setOpen(!open);
    }
    
-   const rateSeason = (rating: number, episodeNumber?: number) => {
+   const rateSeason = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
       if (episodeNumber) {
-         props.onRating(rating, props.season.seasonNumber, episodeNumber);
+         props.onRating(rating, seasonNumber, episodeNumber);
       } else {
          props.onRating(rating, props.season.seasonNumber)
       }
