@@ -236,49 +236,6 @@ input:focus {
 }
 
 
-/*------------------------ star rating --------------------------------*/
-.star-rating {
-    display: flex;
-    align-items: center;
-    width: 160px;
-    flex-direction: row-reverse;
-    position: relative;
-}
-.star-rating input {
-    display: none;
-}
-.star-rating > label {
-    width: 25px;
-    height: 25px;
-    font-family: Arial;
-    font-size: 25px;
-    transition: 0.2s ease;
-    color: #FEC260;
-}
-.star-rating label:hover {
-    color: #A12568;
-    transition: 0.2s ease;
-}
-.star-rating label:active::before {
-    transform:scale(1.1);
-}
-.star-rating label::before {
-    content: '\2606';
-    position: absolute;
-    top: 0px;
-    line-height: 26px;
-}
-.star-rating input:checked ~ label:before {
-    content:'\2605';
-}
-@-moz-document url-prefix() {
-    .star-rating input:checked ~ label:before {
-        font-size: 36px;
-        line-height: 21px;
-    }
-}
-
-
 /*------------------------ tooltip --------------------------------*/
 .tooltip {
     position: relative;
