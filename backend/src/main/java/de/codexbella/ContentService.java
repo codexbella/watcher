@@ -87,12 +87,20 @@ public class ContentService {
    public Optional<Show> saveSeason(String language, int showApiId, int seasonNumber, String username) {
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isPresent()) {
+         Season seasonBefore = showOptional.get().getSeasons().get(seasonNumber-1);
          String response = restTemplate.getForObject(
                "https://api.themoviedb.org/3/tv/"+showApiId+"/season/"+seasonNumber+"?api_key="+apiKey
                      +"&language="+language, String.class);
          SeasonApi seasonApi = new Gson().fromJson(response, SeasonApi.class);
          Season season = contentMapper.toSeason(seasonApi, username);
-         season.setNumberOfEpisodes(showOptional.get().getSeasons().get(seasonNumber-1).getNumberOfEpisodes());
+         season.setNumberOfEpisodes(seasonBefore.getNumberOfEpisodes());
+         season.setSeen(seasonBefore.getSeen());
+         if (seasonBefore.getSeen() == Seen.YES) {
+            for (Episode episode : season.getEpisodes()) {
+               episode.setSeen(Seen.YES);
+            }
+         }
+         season.setRating(seasonBefore.getRating());
          showOptional.get().getSeasons().set(seasonNumber-1, season);
          showRepository.save(showOptional.get());
       }
