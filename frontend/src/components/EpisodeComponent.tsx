@@ -1,5 +1,5 @@
 import {Episode} from "../models/ShowInfo";
-import alternateImage from "../images/alt-image.png";
+import alternateImage from "../images/alt-image-still.png";
 import RatingComponent from "./sub-components/RatingComponent";
 import SeenComponent from "./sub-components/SeenComponent";
 import VoteAverageComponent from "./sub-components/VoteAverageComponent";
