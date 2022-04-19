@@ -4,6 +4,7 @@ import ShowComponent from "../components/ShowComponent";
 import {useCallback, useEffect, useState} from "react";
 import {Show} from "../models/ShowInfo";
 import {useAuth} from "../auth/AuthProvider";
+import {Seen} from "../Seen";
 
 export default function Watcherlist() {
    const {t} = useTranslation();
@@ -13,8 +14,8 @@ export default function Watcherlist() {
    const [shows, setShows] = useState([] as Array<Show>);
    const [gotShows, setGotShows] = useState(false);
    
-   const editShow = (showId: string, index: number, rating: number) => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?rating=${rating}`, {
+   const editShow = (url: string, index: number) => {
+      fetch(url, {
          method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -42,6 +43,13 @@ export default function Watcherlist() {
                setError(e.message);
             }
          })
+   }
+   
+   const determineRateUrl = (showId: string, index: number, rating: number) => {
+      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?rating=${rating}`, index);
+   }
+   const determineSeenUrl = (showId: string, index: number, seen: Seen) => {
+      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, index);
    }
    
    const getAllShows = useCallback(() => {
@@ -90,7 +98,8 @@ export default function Watcherlist() {
             </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
                {shows.map((item, index) =>
-                  <ShowComponent show={item} key={item.id} index={index} onChange={getAllShows} onRating={editShow}/>)}
+                  <ShowComponent show={item} key={item.id} index={index} onChange={getAllShows} onRating={determineRateUrl}
+                                 onSeen={determineSeenUrl}/>)}
             </div>
          </div>
          :

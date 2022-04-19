@@ -5,11 +5,13 @@ import {useTranslation} from "react-i18next";
 import EpisodeComponent from "./EpisodeComponent";
 import RatingComponent from "./sub-components/RatingComponent";
 import SeenComponent from "./sub-components/SeenComponent";
+import {Seen} from "../Seen";
 
 interface SeasonComponentProps {
    season: Season;
    onOpen: (seasonNumber: number) => void;
    onRating: (rating: number, seasonNumber?: number, episodeNumber?: number) => void;
+   onSeen: (seen: Seen, seasonNumber?: number, episodeNumber?: number) => void;
 }
 
 export default function SeasonComponent(props: SeasonComponentProps) {
@@ -30,12 +32,20 @@ export default function SeasonComponent(props: SeasonComponentProps) {
          props.onRating(rating, props.season.seasonNumber)
       }
    }
+   const seenSeason = (seen: Seen, seasonNumber?: number, episodeNumber?: number) => {
+      if (episodeNumber) {
+         props.onSeen(seen, seasonNumber, episodeNumber);
+      } else {
+         props.onSeen(seen, props.season.seasonNumber)
+      }
+   }
    
-   return <details onClick={() => checkOpenStatus()} id={props.season.name} key={props.season.name}
-                   className='border-dark shadow-darkest margin-bottom-15px padding-15px'>
-      <summary className='pointer'>{props.season.name}</summary>
-      <div className='flex row justify-space-between gap-20px padding-5px'>
-         <div className='flex row gap-20px'>
+   return <div className='flex justify-space-between border-dark shadow-darkest margin-bottom-15px padding-15px'>
+      <details onClick={() => checkOpenStatus()} id={props.season.name} key={props.season.name}>
+      <summary className='pointer'>
+         {props.season.name}
+      </summary>
+      <div className='flex row justify-space-between gap-20px padding-5px margin-top-15px'>
             <img src={props.season.posterPath ? "https://image.tmdb.org/t/p/w154" + props.season.posterPath : alternateImage}
                  alt={props.season.name}
                  onError={(ev) => {
@@ -49,7 +59,7 @@ export default function SeasonComponent(props: SeasonComponentProps) {
                {props.season.episodes.length > 0 ?
                   <div className='margin-bottom-15px'>
                      {props.season.episodes.map(episode => <EpisodeComponent episode={episode} onRating={rateSeason}
-                           key={episode.episodeNumber}/>)}
+                           onSeen={seenSeason} key={episode.episodeNumber}/>)}
                   </div>
                :
                   <div className="lds-ellipsis">
@@ -60,12 +70,11 @@ export default function SeasonComponent(props: SeasonComponentProps) {
                   </div>
                }
             </div>
-         </div>
-         
-         <div className='flex column align-flex-end'>
-            <RatingComponent rating={props.season.rating} onRating={rateSeason}/>
-            <SeenComponent seen={props.season.seen}/>
-         </div>
       </div>
    </details>
+      <div className='flex gap-20px align-baseline'>
+         <RatingComponent rating={props.season.rating} onRating={rateSeason}/>
+         <SeenComponent seen={props.season.seen} onSeen={seenSeason}/>
+      </div>
+   </div>
 }

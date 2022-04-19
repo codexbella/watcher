@@ -2,35 +2,28 @@ import {Show} from "../models/ShowInfo";
 import deleteSymbol from '../images/delete.png';
 import alternateImage from "../images/alt-image.png";
 import {useTranslation} from "react-i18next";
-import eyeNotSeen from '../images/eye-not-seen.png';
-import eyeSeen from '../images/eye-seen.png';
-import eyePartial from '../images/eye-partially-seen.png';
 import {useNavigate} from "react-router-dom";
 import RatingComponent from "./sub-components/RatingComponent";
+import SeenComponent from "./sub-components/SeenComponent";
+import {Seen} from "../Seen";
 
 interface ShowComponentProps {
    show: Show;
    index: number;
    onChange: () => void;
    onRating: (id: string, index: number, rating: number) => void;
+   onSeen: (id: string, index: number, seen: Seen) => void;
 }
 
 export default function ShowComponent(props: ShowComponentProps) {
    const {t} = useTranslation();
    const nav = useNavigate();
    
-   const determineEyeSource = (seen: string) => {
-      if (seen === "NO") {
-         return eyeNotSeen
-      } else if (seen === "YES") {
-         return eyeSeen
-      } else {
-         return eyePartial
-      }
-   }
-   
-   const rate = (rating: number) => {
+   const setRating = (rating: number) => {
       props.onRating(props.show.id, props.index, rating);
+   }
+   const setSeen = (seen: Seen) => {
+      props.onSeen(props.show.id, props.index, seen);
    }
    
    const deleteShow = () => {
@@ -72,13 +65,13 @@ export default function ShowComponent(props: ShowComponentProps) {
                     className='pointer'>
                   <img src={deleteSymbol} width='20' alt='delete'/>
                </div>
-               <div><img src={determineEyeSource(props.show.seen)} width='33' alt='seen status'/></div>
+               <SeenComponent seen={props.show.seen} onSeen={setSeen}/>
             </div>
          </div>
          
          <div className='margin-bottom-15px'>{props.show.seasons.length} {t('seasons')}</div>
          
-         <div className='flex'><RatingComponent rating={props.show.rating} onRating={rate}/>
+         <div className='flex'><RatingComponent rating={props.show.rating} onRating={setRating}/>
             <div/>
          </div>
          

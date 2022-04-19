@@ -5,6 +5,7 @@ import de.codexbella.content.ContentMapper;
 import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.content.ShowApi;
+import de.codexbella.content.episode.Episode;
 import de.codexbella.content.season.Season;
 import de.codexbella.content.season.SeasonApi;
 import de.codexbella.search.SearchResultShows;
@@ -104,20 +105,68 @@ public class ContentService {
          Show show = showOptional.get();
          if (rating != null) {
             if (episodeNumber != null) {
-               show.getSeasons().get(seasonNumber - 1).getEpisodes().get(episodeNumber - 1).setRating(rating);
+               show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
             } else if (seasonNumber != null) {
-               show.getSeasons().get(seasonNumber - 1).setRating(rating);
+               show.getSeasons().get(seasonNumber-1).setRating(rating);
             } else {
                show.setRating(rating);
             }
          }
+
          if (seen != null) {
             if (episodeNumber != null) {
-               show.getSeasons().get(seasonNumber - 1).getEpisodes().get(episodeNumber - 1).setSeen(seen);
+               Season season = show.getSeasons().get(seasonNumber-1);
+               show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setSeen(seen);
+               if (seen == Seen.NO) {
+                  if (season.getEpisodes().stream().noneMatch(e -> e.getSeen() != Seen.NO)) {
+                     season.setSeen(Seen.NO);
+                  } else {
+                     season.setSeen(Seen.PARTIAL);
+                  }
+                  if (show.getSeasons().stream().noneMatch(s -> s.getSeen() != Seen.NO)) {
+                     show.setSeen(Seen.NO);
+                  } else {
+                     show.setSeen(Seen.PARTIAL);
+                  }
+               } else if (seen == Seen.YES) {
+                  if (season.getEpisodes().stream().noneMatch(e -> e.getSeen() != Seen.YES)) {
+                     season.setSeen(Seen.YES);
+                     if (show.getSeasons().stream().noneMatch(s -> s.getSeen() != Seen.YES)) {
+                        show.setSeen(Seen.YES);
+                     } else {
+                        show.setSeen(Seen.PARTIAL);
+                     }
+                  }
+               } else {
+                  season.setSeen(Seen.PARTIAL);
+                  show.setSeen(Seen.PARTIAL);
+               }
             } else if (seasonNumber != null) {
-               show.getSeasons().get(seasonNumber - 1).setSeen(seen);
+               show.getSeasons().get(seasonNumber-1).setSeen(seen);
+               if (seen == Seen.YES) {
+                  for (Episode episode : show.getSeasons().get(seasonNumber-1).getEpisodes()) {
+                     episode.setSeen(Seen.YES);
+                  }
+                  if (show.getSeasons().stream().noneMatch(s -> s.getSeen() != Seen.YES)) {
+                     show.setSeen(Seen.YES);
+                  } else {
+                     show.setSeen(Seen.PARTIAL);
+                  }
+               } else if (seen == Seen.NO) {
+                  for (Episode episode : show.getSeasons().get(seasonNumber-1).getEpisodes()) {
+                     episode.setSeen(Seen.NO);
+                  }
+               }
             } else {
                show.setSeen(seen);
+               if (seen == Seen.YES || seen == Seen.NO) {
+                  for (Season season : show.getSeasons()) {
+                     season.setSeen(seen);
+                     for (Episode episode : season.getEpisodes()) {
+                        episode.setSeen(seen);
+                     }
+                  }
+               }
             }
          }
          return Optional.of(showRepository.save(show));

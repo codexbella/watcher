@@ -5,6 +5,7 @@ import eyePartial from "../../images/eye-partially-seen.png";
 
 interface SeenComponentProps {
    seen: Seen;
+   onSeen: (seen: Seen) => void;
 }
 
 export default function SeenComponent(props: SeenComponentProps) {
@@ -17,6 +18,17 @@ export default function SeenComponent(props: SeenComponentProps) {
          return eyePartial
       }
    }
+   const determineNextSeenStatus = () => {
+      if (props.seen === Seen.No) {
+         props.onSeen(Seen.Partial);
+      } else if (props.seen === Seen.Partial) {
+         props.onSeen(Seen.Yes);
+      } else {
+         props.onSeen(Seen.No);
+      }
+   }
    
-   return <div><img src={determineEyeSource(props.seen)} width='33' alt='seen status'/></div>
+   return <div className='pointer'>
+      <img onClick={determineNextSeenStatus} src={determineEyeSource(props.seen)} width='33' alt='seen status'/>
+   </div>
 }
