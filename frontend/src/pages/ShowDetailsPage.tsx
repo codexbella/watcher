@@ -192,7 +192,7 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={`${show.apiId}-${season.name}`} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}
