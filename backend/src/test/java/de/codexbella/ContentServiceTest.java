@@ -213,7 +213,7 @@ class ContentServiceTest {
 
       Optional<Show> showOptional = contentService.saveSeason("en-US", 1855, 1,
             "testuser");
-      assertThat(showOptional.isEmpty());
+      assertThat(showOptional).isEmpty();
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
    }
@@ -233,7 +233,7 @@ class ContentServiceTest {
       Optional<Show> showOptionalRating = contentService.editShow("test-id",2, null,null,
             null, "testuser");
 
-      assertThat(showOptionalRating.isPresent());
+      assertThat(showOptionalRating).isPresent();
       assertThat(showOptionalRating.get().getId()).isEqualTo("test-id");
       assertThat(showOptionalRating.get().getRating()).isEqualTo(2);
       assertThat(showOptionalRating.get().getSeen()).isEqualTo(Seen.NO);
@@ -245,7 +245,7 @@ class ContentServiceTest {
       Optional<Show> showOptionalSeen = contentService.editShow("test-id",null, Seen.PARTIAL,
             null, null, "testuser");
 
-      assertThat(showOptionalSeen.isPresent());
+      assertThat(showOptionalSeen).isPresent();
       assertThat(showOptionalRating.get().getId()).isEqualTo("test-id");
       assertThat(showOptionalRating.get().getSeen()).isEqualTo(Seen.PARTIAL);
    }
