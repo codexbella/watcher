@@ -54,7 +54,7 @@ export default function SearchPage() {
          <button className='large' type='submit'>{t('send-search-request')}</button>
       </form>
       {searched ?
-         showResults.length > 0
+         showResults
             ?
             <div>
                {searchedTerm &&

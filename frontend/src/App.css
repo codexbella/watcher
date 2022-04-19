@@ -199,8 +199,8 @@ input:focus {
 .height-100px {
     height: 100px;
 }
-.height-139px {
-    height: 139px;
+.height-105px {
+    height: 105px;
 }
 .height-231px {
     height: 231px;
@@ -236,7 +236,40 @@ input:focus {
 }
 
 
+/*------------------------ tooltip --------------------------------*/
+.tooltip {
+    position: relative;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: auto;
+    background-color: #A12568;
+    color: #FEC260;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #A12568 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
 
+
+/*------------------------ spinner --------------------------------*/
 .lds-ellipsis {
     display: inline-block;
     position: relative;

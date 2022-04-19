@@ -30,7 +30,7 @@ export interface Show {
    
    username: string;
    seen: Seen;
-   vote: number;
+   rating: number;
 }
 
 export interface Genre {
@@ -49,7 +49,7 @@ export interface Season {
    
    username: string;
    seen: Seen;
-   vote: number;
+   rating: number;
 }
 export interface Episode {
    apiId: number,
@@ -64,5 +64,5 @@ export interface Episode {
    
    username: string;
    seen: Seen;
-   vote: number;
+   rating: number;
 }

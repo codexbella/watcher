@@ -209,6 +209,17 @@ class ContentControllerITTest {
             +"&language=en-US", String.class);
       verifyNoMoreInteractions(mockTemplate);
 
+      // should change rating of show
+      ResponseEntity<Show> responseEditShow = restTemplate.exchange("/api/editshow/"+arrayShows[0].getId()+"?rating=4",
+            HttpMethod.PUT, httpEntityUser1Get, Show.class);
+      assertThat(responseEditShow.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseEditShow.getBody()).isNotNull();
+
+      Show showWithChangedRating = responseEditShow.getBody();
+
+      assertThat(showWithChangedRating.getApiId()).isEqualTo(1855);
+      assertThat(showWithChangedRating.getRating()).isEqualTo(4);
+
       // should delete show
       restTemplate.exchange("/api/deleteshow/1855", HttpMethod.DELETE, httpEntityUser1Get, Void.class);
 

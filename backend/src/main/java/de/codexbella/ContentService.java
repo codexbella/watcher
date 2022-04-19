@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -95,5 +96,21 @@ public class ContentService {
          showRepository.save(showOptional.get());
       }
       return showOptional;
+   }
+
+   public Optional<Show> editShow(String showId, int rating, Integer seasonNumber, Integer episodeNumber, String username) {
+      Optional<Show> showOptional = showRepository.findByIdAndUsername(showId, username);
+      if (showOptional.isPresent()) {
+         Show show = showOptional.get();
+         if (episodeNumber != null) {
+            show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
+         } else if (seasonNumber != null) {
+            show.getSeasons().get(seasonNumber-1).setRating(rating);
+         } else {
+            show.setRating(rating);
+         }
+         return Optional.of(showRepository.save(show));
+      }
+      return Optional.empty();
    }
 }
