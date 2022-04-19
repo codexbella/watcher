@@ -1,5 +1,6 @@
 package de.codexbella;
 
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.content.season.Season;
 import de.codexbella.search.ShowSearchData;
@@ -210,15 +211,26 @@ class ContentControllerITTest {
       verifyNoMoreInteractions(mockTemplate);
 
       // should change rating of show
-      ResponseEntity<Show> responseEditShow = restTemplate.exchange("/api/editshow/"+arrayShows[0].getId()+"?rating=4",
-            HttpMethod.PUT, httpEntityUser1Get, Show.class);
-      assertThat(responseEditShow.getStatusCode()).isEqualTo(HttpStatus.OK);
-      assertThat(responseEditShow.getBody()).isNotNull();
+      ResponseEntity<Show> responseEditShowRating = restTemplate.exchange(
+            "/api/editshow/"+arrayShows[0].getId()+"?rating=4", HttpMethod.PUT, httpEntityUser1Get, Show.class);
+      assertThat(responseEditShowRating.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseEditShowRating.getBody()).isNotNull();
 
-      Show showWithChangedRating = responseEditShow.getBody();
+      Show showWithChangedRating = responseEditShowRating.getBody();
 
       assertThat(showWithChangedRating.getApiId()).isEqualTo(1855);
       assertThat(showWithChangedRating.getRating()).isEqualTo(4);
+
+      // should change seen status of show
+      ResponseEntity<Show> responseEditShowSeenStatus = restTemplate.exchange(
+            "/api/editshow/"+arrayShows[0].getId()+"?seen="+ Seen.PARTIAL, HttpMethod.PUT, httpEntityUser1Get, Show.class);
+      assertThat(responseEditShowSeenStatus.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseEditShowSeenStatus.getBody()).isNotNull();
+
+      Show showWithChangedSeenStatus = responseEditShowSeenStatus.getBody();
+
+      assertThat(showWithChangedSeenStatus.getApiId()).isEqualTo(1855);
+      assertThat(showWithChangedSeenStatus.getSeen()).isEqualTo(Seen.PARTIAL);
 
       // should delete show
       restTemplate.exchange("/api/deleteshow/1855", HttpMethod.DELETE, httpEntityUser1Get, Void.class);
