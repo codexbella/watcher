@@ -40,5 +40,6 @@
   "seasons": "Seasons",
   "episodes": "episodes",
   "search": "Search",
-  "rating-tooltip": "Your rating"
+  "rating-tooltip": "Your rating",
+  "seen-tooltip": "Change status"
 }

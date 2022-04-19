@@ -2,6 +2,7 @@ import {Seen} from "../../Seen";
 import eyeNotSeen from "../../images/eye-not-seen.png";
 import eyeSeen from "../../images/eye-seen.png";
 import eyePartial from "../../images/eye-partially-seen.png";
+import {useTranslation} from "react-i18next";
 
 interface SeenComponentProps {
    seen: Seen;
@@ -9,6 +10,8 @@ interface SeenComponentProps {
 }
 
 export default function SeenComponent(props: SeenComponentProps) {
+   const {t} = useTranslation();
+   
    const determineEyeSource = (seen: string) => {
       if (seen === "NO") {
          return eyeNotSeen
@@ -19,16 +22,15 @@ export default function SeenComponent(props: SeenComponentProps) {
       }
    }
    const determineNextSeenStatus = () => {
-      if (props.seen === Seen.No) {
-         props.onSeen(Seen.Partial);
-      } else if (props.seen === Seen.Partial) {
-         props.onSeen(Seen.Yes);
-      } else {
+      if (props.seen === Seen.Yes) {
          props.onSeen(Seen.No);
+      } else {
+         props.onSeen(Seen.Yes);
       }
    }
    
-   return <div className='pointer'>
+   return <div className='pointer tooltip'>
+      <span className='tooltiptext margin-left--30px'>{t('seen-tooltip')}</span>
       <img onClick={determineNextSeenStatus} src={determineEyeSource(props.seen)} width='33' alt='seen status'/>
    </div>
 }
