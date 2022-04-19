@@ -27,6 +27,7 @@ export interface Show {
    voteCount: number;
    posterPath: string;
    seasons: Array<Season>;
+   inProduction: boolean;
    
    username: string;
    seen: Seen;

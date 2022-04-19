@@ -25,6 +25,7 @@ public class Show {
    private int voteCount;
    private String posterPath;
    private List<Season> seasons = new ArrayList<>();
+   private boolean inProduction;
 
    private String username = "";
    private Seen seen = Seen.NO;

@@ -27,4 +27,6 @@ public class ShowApi {
    @SerializedName("poster_path")
    private String posterPath;
    private List<SeasonApi> seasons = new ArrayList<>();
+   @SerializedName("in_production")
+   private boolean inProduction;
 }
