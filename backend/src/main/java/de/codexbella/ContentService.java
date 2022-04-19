@@ -2,6 +2,7 @@ package de.codexbella;
 
 import com.google.gson.Gson;
 import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.content.ShowApi;
 import de.codexbella.content.season.Season;
@@ -97,16 +98,27 @@ public class ContentService {
       return showOptional;
    }
 
-   public Optional<Show> editShow(String showId, int rating, Integer seasonNumber, Integer episodeNumber, String username) {
+   public Optional<Show> editShow(String showId, Integer rating, Seen seen, Integer seasonNumber, Integer episodeNumber, String username) {
       Optional<Show> showOptional = showRepository.findByIdAndUsername(showId, username);
       if (showOptional.isPresent()) {
          Show show = showOptional.get();
-         if (episodeNumber != null) {
-            show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
-         } else if (seasonNumber != null) {
-            show.getSeasons().get(seasonNumber-1).setRating(rating);
-         } else {
-            show.setRating(rating);
+         if (rating != null) {
+            if (episodeNumber != null) {
+               show.getSeasons().get(seasonNumber - 1).getEpisodes().get(episodeNumber - 1).setRating(rating);
+            } else if (seasonNumber != null) {
+               show.getSeasons().get(seasonNumber - 1).setRating(rating);
+            } else {
+               show.setRating(rating);
+            }
+         }
+         if (seen != null) {
+            if (episodeNumber != null) {
+               show.getSeasons().get(seasonNumber - 1).getEpisodes().get(episodeNumber - 1).setSeen(seen);
+            } else if (seasonNumber != null) {
+               show.getSeasons().get(seasonNumber - 1).setSeen(seen);
+            } else {
+               show.setSeen(seen);
+            }
          }
          return Optional.of(showRepository.save(show));
       }

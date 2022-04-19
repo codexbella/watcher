@@ -229,7 +229,7 @@ class ContentServiceTest {
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
-      Optional<Show> showOptional = contentService.editShow("test-id",2, null,
+      Optional<Show> showOptional = contentService.editShow("test-id",2, null,null,
             null, "testuser");
 
       assertThat(showOptional.isPresent());

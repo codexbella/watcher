@@ -1,5 +1,6 @@
 package de.codexbella;
 
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.search.ShowSearchData;
 import lombok.RequiredArgsConstructor;
@@ -55,10 +56,12 @@ public class ContentController {
       return ResponseEntity.of(showOptional);
    }
    @PutMapping("/editshow/{showId}")
-   public ResponseEntity<Show> editShow(@PathVariable String showId, @RequestParam int rating,
+   public ResponseEntity<Show> editShow(@PathVariable String showId, @RequestParam(required = false) Integer rating,
+                                        @RequestParam(required = false) Seen seen,
                                         @RequestParam(required = false) Integer seasonNumber,
                                         @RequestParam(required = false) Integer episodeNumber, Principal principal) {
-      return ResponseEntity.of(contentService.editShow(showId, rating, seasonNumber, episodeNumber, principal.getName()));
+      return ResponseEntity.of(contentService.editShow(showId, rating, seen, seasonNumber, episodeNumber,
+            principal.getName()));
    }
 }
 
