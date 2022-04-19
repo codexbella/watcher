@@ -136,6 +136,9 @@ public class ContentService {
                      } else {
                         show.setSeen(Seen.PARTIAL);
                      }
+                  } else {
+                     season.setSeen(Seen.PARTIAL);
+                     show.setSeen(Seen.PARTIAL);
                   }
                }
             } else if (seasonNumber != null) {
