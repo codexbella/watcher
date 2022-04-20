@@ -13,6 +13,7 @@ export default function Watcherlist() {
    const [error, setError] = useState('');
    const [showsFromBackend, setShowsFromBackend] = useState([] as Array<Show>);
    const [showsSorted, setShowsSorted] = useState([] as Array<Show>);
+   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'added');
    const [gotShows, setGotShows] = useState(false);
    
    const editShow = (url: string, showId: string) => {
@@ -38,7 +39,7 @@ export default function Watcherlist() {
                if (show.id === showId) {return index;} else {return -1}
             })] = responseBody;
             setShowsFromBackend(showsAfter);
-            setShowsSorted(sortShows(localStorage.getItem('sort-by') ?? 'added', [...showsAfter]))
+            setShowsSorted(sortShows(sortBy, [...showsAfter]))
          })
          .catch(e => {
             if (e.message === '401') {
@@ -56,7 +57,7 @@ export default function Watcherlist() {
       editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, showId);
    }
    
-   const sortShows = (input: string, shows: Show[] = [...showsFromBackend]) => {
+   const sortShows = useCallback((input: string, shows: Show[] = [...showsFromBackend]) => {
       localStorage.setItem('sort-by', input);
       if (input === 'notSeen') {
          shows.sort((a, b) => {
@@ -97,7 +98,7 @@ export default function Watcherlist() {
       }
       setShowsSorted(shows);
       return shows;
-   }
+   }, [showsFromBackend])
    
    const getAllShows = useCallback(() => {
       setGotShows(false);
@@ -118,9 +119,8 @@ export default function Watcherlist() {
             }
          })
          .then((list: Array<Show>) => {
-            setGotShows(true)
+            setGotShows(true);
             setShowsFromBackend(list);
-            setShowsSorted(list);
             setError('');
          })
          .catch(e => {
@@ -136,6 +136,10 @@ export default function Watcherlist() {
       getAllShows();
    }, [getAllShows])
    
+   useEffect(() => {
+      setShowsSorted(sortShows(sortBy))
+   }, [sortShows, sortBy])
+   
    return <div>
       <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
@@ -146,9 +150,9 @@ export default function Watcherlist() {
                {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
             </div>
                <div>
-               <label htmlFor='sort-by' className='large'>{t('sort-by')}: </label>
-               <select id='sort-by' className='background-dark medium color-lighter border-dark'
-                       onChange={ev => sortShows(ev.currentTarget.value)} value={localStorage.getItem('sort-by') ?? 'added'}>
+               <label htmlFor='select-sort' className='large'>{t('sort-by')}: </label>
+               <select id='select-sort' className='background-dark medium color-lighter border-dark'
+                       onChange={ev => setSortBy(ev.currentTarget.value)} value={sortBy}>
                   <option value='notSeen'>{t('not-seen')}</option>
                   <option value='rating'>{t('own-rating')}</option>
                   <option value='vote'>{t('vote-average')}</option>
@@ -161,8 +165,8 @@ export default function Watcherlist() {
                </div>
          </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {showsSorted.map(item =>
-                  <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
+               {showsSorted.map((item, index) =>
+                  <ShowComponent show={item} key={item.id+'-'+index} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
             </div>
          </div>

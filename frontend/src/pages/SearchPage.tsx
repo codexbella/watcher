@@ -16,7 +16,7 @@ export default function SearchPage() {
    
    const searchForShow = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setSearched(false)
+      setSearched(true)
       if (searchTerm !== '') {
          fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
             method: 'GET',
@@ -37,12 +37,12 @@ export default function SearchPage() {
             .then((list: Array<SearchResult>) => {
                setShowResults(list);
                setError('');
-               setSearchedTerm(searchTerm)
+               setSearchedTerm(searchTerm);
+               setSearched(false);
             })
             .catch(e => setError(e.message))
       }
       setSearchTerm('');
-      setSearched(true);
    }
    
    return <div>
@@ -54,7 +54,8 @@ export default function SearchPage() {
                 onChange={typed => setSearchTerm(typed.target.value)}/>
          <button className='large' type='submit'>{t('send-search-request')}</button>
       </form>
-      {searched || !searchTerm?
+      
+      {!searched ?
          <div>
             {searchedTerm &&
                <div className="large color-light margin-bottom-15px">
