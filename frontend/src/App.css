@@ -150,13 +150,7 @@ margin-left: -46px;
     text-shadow: 3px 3px 3px #15003c;
 }
 
-.select {
-    border: 1px solid #15003c;
-    color: #FEC260;
-    background-color: #3B185F;
-    border-radius: 5px;
-    box-shadow: 4px 4px #15003c;
-}
+
 body {
     box-sizing: border-box;
     background-color: #2A0944;
@@ -255,11 +249,7 @@ input:focus {
 .tooltip .tooltiptext {
     visibility: hidden;
     width: auto;
-    background-color: #A12568;
-    color: #FEC260;
-    text-align: center;
     border-radius: 6px;
-    padding: 5px;
     position: absolute;
     z-index: 1;
     bottom: 150%;
