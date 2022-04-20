@@ -8,6 +8,7 @@ import SeasonComponent from "../components/SeasonComponent";
 import RatingComponent from "../components/sub-components/RatingComponent";
 import SeenComponent from "../components/sub-components/SeenComponent";
 import VoteAverageComponent from "../components/sub-components/VoteAverageComponent";
+import {Seen} from "../Seen";
 
 export default function ShowDetailsPage() {
    const {t} = useTranslation();
@@ -127,13 +128,20 @@ export default function ShowDetailsPage() {
    const determineRatingUrl = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
       let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
-         url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&rating=${rating}`;
+         url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
       } else if (seasonNumber) {
-         url = url + `seasonNumber=${seasonNumber}&rating=${rating}`;
-      } else {
-         url = url + `rating=${rating}`;
+         url = url + `seasonNumber=${seasonNumber}&`;
       }
-      editShow(url);
+      editShow(url + `rating=${rating}`);
+   }
+   const determineSeenUrl = (seen: Seen, seasonNumber?: number, episodeNumber?: number) => {
+      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.id}?`;
+      if (episodeNumber && seasonNumber) {
+         url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
+      } else if (seasonNumber) {
+         url = url + `seasonNumber=${seasonNumber}&`;
+      }
+      editShow(url + `seen=${seen}`);
    }
    
    return <div>
@@ -181,7 +189,7 @@ export default function ShowDetailsPage() {
                                 className='pointer'>
                               <img src={deleteSymbol} width='20' alt='delete'/>
                            </div>
-                           <SeenComponent seen={show.seen}/>
+                           <SeenComponent seen={show.seen} onSeen={determineSeenUrl}/>
                         </div>
                      </div>
                   </div>
@@ -192,7 +200,8 @@ export default function ShowDetailsPage() {
             
             <div>
                {seasonsReverse.map(season =>
-                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={determineRatingUrl}/>)}
+                  <SeasonComponent key={season.name} season={season} onOpen={getSeason} onRating={determineRatingUrl}
+                                   onSeen={determineSeenUrl}/>)}
             </div>
             
             {error && <div className='margin-bottom-15px'>{error}.</div>}

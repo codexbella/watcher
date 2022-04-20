@@ -40,5 +40,6 @@
   "seasons": "Staffeln",
   "episodes": "Folgen",
   "search": "Suchen",
-  "rating-tooltip": "Deine Bewertung"
+  "rating-tooltip": "Deine Bewertung",
+  "seen-tooltip": "Status ändern"
 }

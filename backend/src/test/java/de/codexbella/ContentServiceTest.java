@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.content.season.Season;
 import de.codexbella.search.ShowSearchData;
@@ -212,12 +213,12 @@ class ContentServiceTest {
 
       Optional<Show> showOptional = contentService.saveSeason("en-US", 1855, 1,
             "testuser");
-      assertThat(showOptional.isEmpty());
+      assertThat(showOptional).isEmpty();
       verify(mockShowRepo).findByApiIdAndUsername(1855, "testuser");
       verifyNoMoreInteractions(mockShowRepo);
    }
    @Test
-   void shouldEditShow() {
+   void shouldEditShowRatingAndSeenStatus() {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       Show show = new Show();
@@ -229,14 +230,23 @@ class ContentServiceTest {
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper);
 
-      Optional<Show> showOptional = contentService.editShow("test-id",2, null,
+      Optional<Show> showOptionalRating = contentService.editShow("test-id",2, null,null,
             null, "testuser");
 
-      assertThat(showOptional.isPresent());
-      assertThat(showOptional.get().getId()).isEqualTo("test-id");
-      assertThat(showOptional.get().getRating()).isEqualTo(2);
+      assertThat(showOptionalRating).isPresent();
+      assertThat(showOptionalRating.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalRating.get().getRating()).isEqualTo(2);
+      assertThat(showOptionalRating.get().getSeen()).isEqualTo(Seen.NO);
       verify(mockShowRepo).findByIdAndUsername("test-id", "testuser");
       verify(mockShowRepo).save(show);
       verifyNoMoreInteractions(mockShowRepo);
+
+      show.setSeen(Seen.PARTIAL);
+      Optional<Show> showOptionalSeen = contentService.editShow("test-id",null, Seen.PARTIAL,
+            null, null, "testuser");
+
+      assertThat(showOptionalSeen).isPresent();
+      assertThat(showOptionalRating.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalRating.get().getSeen()).isEqualTo(Seen.PARTIAL);
    }
 }

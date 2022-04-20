@@ -71,6 +71,12 @@
 .margin-left-15px {
     margin-left: 15px;
 }
+.margin-left--30px {
+    margin-left: -30px;
+}
+.margin-left--46px {
+margin-left: -46px;
+}
 .margin-top-5px {
     margin-top: 5px;
 }
@@ -199,9 +205,6 @@ input:focus {
 .height-100px {
     height: 100px;
 }
-.height-105px {
-    height: 105px;
-}
 .height-231px {
     height: 231px;
 }
@@ -217,8 +220,8 @@ input:focus {
 .width-154px {
     width: 154px;
 }
-.width-185px {
-    width: 185px;
+.width-220px {
+    width: 220px;
 }
 .width-500px {
     width: 500px;
@@ -247,12 +250,11 @@ input:focus {
     color: #FEC260;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px;
     position: absolute;
     z-index: 1;
     bottom: 150%;
     left: 50%;
-    margin-left: -60px;
 }
 .tooltip .tooltiptext::after {
     content: "";

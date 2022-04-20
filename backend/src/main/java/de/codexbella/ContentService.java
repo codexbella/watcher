@@ -2,8 +2,10 @@ package de.codexbella;
 
 import com.google.gson.Gson;
 import de.codexbella.content.ContentMapper;
+import de.codexbella.content.Seen;
 import de.codexbella.content.Show;
 import de.codexbella.content.ShowApi;
+import de.codexbella.content.episode.Episode;
 import de.codexbella.content.season.Season;
 import de.codexbella.content.season.SeasonApi;
 import de.codexbella.search.SearchResultShows;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -86,28 +87,98 @@ public class ContentService {
    public Optional<Show> saveSeason(String language, int showApiId, int seasonNumber, String username) {
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isPresent()) {
+         Season seasonBefore = showOptional.get().getSeasons().get(seasonNumber-1);
          String response = restTemplate.getForObject(
                "https://api.themoviedb.org/3/tv/"+showApiId+"/season/"+seasonNumber+"?api_key="+apiKey
                      +"&language="+language, String.class);
          SeasonApi seasonApi = new Gson().fromJson(response, SeasonApi.class);
          Season season = contentMapper.toSeason(seasonApi, username);
-         season.setNumberOfEpisodes(showOptional.get().getSeasons().get(seasonNumber-1).getNumberOfEpisodes());
+         season.setNumberOfEpisodes(seasonBefore.getNumberOfEpisodes());
+         season.setSeen(seasonBefore.getSeen());
+         if (seasonBefore.getSeen() == Seen.YES) {
+            for (Episode episode : season.getEpisodes()) {
+               episode.setSeen(Seen.YES);
+            }
+         }
+         season.setRating(seasonBefore.getRating());
          showOptional.get().getSeasons().set(seasonNumber-1, season);
          showRepository.save(showOptional.get());
       }
       return showOptional;
    }
 
-   public Optional<Show> editShow(String showId, int rating, Integer seasonNumber, Integer episodeNumber, String username) {
+   public Optional<Show> editShow(String showId, Integer rating, Seen seen, Integer seasonNumber, Integer episodeNumber, String username) {
       Optional<Show> showOptional = showRepository.findByIdAndUsername(showId, username);
       if (showOptional.isPresent()) {
          Show show = showOptional.get();
-         if (episodeNumber != null) {
-            show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
-         } else if (seasonNumber != null) {
-            show.getSeasons().get(seasonNumber-1).setRating(rating);
-         } else {
-            show.setRating(rating);
+         if (rating != null) {
+            if (episodeNumber != null) {
+               show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setRating(rating);
+            } else if (seasonNumber != null) {
+               show.getSeasons().get(seasonNumber-1).setRating(rating);
+            } else {
+               show.setRating(rating);
+            }
+         }
+
+         if (seen != null) {
+            if (episodeNumber != null) {
+               Season season = show.getSeasons().get(seasonNumber-1);
+               show.getSeasons().get(seasonNumber-1).getEpisodes().get(episodeNumber-1).setSeen(seen);
+               if (seen == Seen.NO) {
+                  if (season.getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.NO)) {
+                     season.setSeen(Seen.NO);
+                  } else {
+                     season.setSeen(Seen.PARTIAL);
+                  }
+                  if (show.getSeasons().stream().allMatch(s -> s.getSeen() == Seen.NO)) {
+                     show.setSeen(Seen.NO);
+                  } else {
+                     show.setSeen(Seen.PARTIAL);
+                  }
+               } else if (seen == Seen.YES) {
+                  if (season.getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.YES)) {
+                     season.setSeen(Seen.YES);
+                     if (show.getSeasons().stream().allMatch(s -> s.getSeen() == Seen.YES)) {
+                        show.setSeen(Seen.YES);
+                     } else {
+                        show.setSeen(Seen.PARTIAL);
+                     }
+                  } else {
+                     season.setSeen(Seen.PARTIAL);
+                     show.setSeen(Seen.PARTIAL);
+                  }
+               }
+            } else if (seasonNumber != null) {
+               show.getSeasons().get(seasonNumber-1).setSeen(seen);
+               if (seen == Seen.YES) {
+                  for (Episode episode : show.getSeasons().get(seasonNumber-1).getEpisodes()) {
+                     episode.setSeen(Seen.YES);
+                  }
+                  if (show.getSeasons().stream().allMatch(s -> s.getSeen() == Seen.YES)) {
+                     show.setSeen(Seen.YES);
+                  } else {
+                     show.setSeen(Seen.PARTIAL);
+                  }
+               } else if (seen == Seen.NO) {
+                  for (Episode episode : show.getSeasons().get(seasonNumber-1).getEpisodes()) {
+                     episode.setSeen(Seen.NO);
+                  }
+                  if (show.getSeasons().stream().allMatch(s -> s.getSeen() == Seen.NO)) {
+                     show.setSeen(Seen.NO);
+                  }
+               }
+            } else {
+               show.setSeen(seen);
+               if (seen == Seen.YES || seen == Seen.NO) {
+                  for (Season season : show.getSeasons()) {
+                     season.setSeen(seen);
+                     for (Episode episode : season.getEpisodes()) {
+                        episode.setSeen(seen);
+                     }
+                  }
+               }
+            }
          }
          return Optional.of(showRepository.save(show));
       }
