@@ -35,7 +35,7 @@ export default function Watcherlist() {
          .then(responseBody => {
             const showsAfter = [...showsSorted];
             showsAfter[showsAfter.findIndex((show, index) => {
-               if (show.id === showId) {return index;}
+               if (show.id === showId) {return index;} else {return -1}
             })] = responseBody;
             setShowsFromBackend(showsAfter);
             setShowsSorted(sortShows(localStorage.getItem('sort-by') ?? 'added', [...showsAfter]))
@@ -56,50 +56,13 @@ export default function Watcherlist() {
       editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, showId);
    }
    
-   const getAllShows = useCallback(() => {
-      setGotShows(false);
-      fetch(`${process.env.REACT_APP_BASE_URL}/getallshows`, {
-         method: 'GET',
-         headers: {
-            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-            'Content-Type': 'application/json'
-         }
-      })
-         .then(response => {
-            if (response.status >= 200 && response.status < 300) {
-               return response.json();
-            } else if (response.status === 401) {
-               throw new Error(`${response.status}`)
-            } else {
-            throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
-            }
-         })
-         .then((list: Array<Show>) => {
-            setGotShows(true)
-            setShowsFromBackend(list);
-            setShowsSorted(sortShows(localStorage.getItem('sort-by') ?? 'added', list));
-            setError('');
-         })
-         .catch(e => {
-            if (e.message === '401') {
-               nav('/login')
-            } else {
-               setError(e.message);
-            }
-         })
-   }, [nav, t]);
-   
-   useEffect(() => {
-      getAllShows();
-   }, [getAllShows])
-   
    const sortShows = (input: string, shows: Show[] = [...showsFromBackend]) => {
       localStorage.setItem('sort-by', input);
       if (input === 'notSeen') {
          shows.sort((a, b) => {
             if (a.seen === b.seen) {
                return 0;
-            } else if (a.seen === Seen.Yes && b.seen !== Seen.Yes || a.seen === Seen.Partial && b.seen === Seen.No) {
+            } else if ((a.seen === Seen.Yes && b.seen !== Seen.Yes) || (a.seen === Seen.Partial && b.seen === Seen.No)) {
                return 1;
             } else {
                return -1;
@@ -135,6 +98,43 @@ export default function Watcherlist() {
       setShowsSorted(shows);
       return shows;
    }
+   
+   const getAllShows = useCallback(() => {
+      setGotShows(false);
+      fetch(`${process.env.REACT_APP_BASE_URL}/getallshows`, {
+         method: 'GET',
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            'Content-Type': 'application/json'
+         }
+      })
+         .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+               return response.json();
+            } else if (response.status === 401) {
+               throw new Error(`${response.status}`)
+            } else {
+            throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
+            }
+         })
+         .then((list: Array<Show>) => {
+            setGotShows(true)
+            setShowsFromBackend(list);
+            setShowsSorted(list);
+            setError('');
+         })
+         .catch(e => {
+            if (e.message === '401') {
+               nav('/login')
+            } else {
+               setError(e.message);
+            }
+         })
+   }, [nav, t]);
+   
+   useEffect(() => {
+      getAllShows();
+   }, [getAllShows])
    
    return <div>
       <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
