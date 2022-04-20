@@ -168,7 +168,7 @@ input:focus {
     outline:solid 2px #FEC260;
 }
 select:focus {
-    outline: solid 2px #FEC260;
+    outline: none;
 }
 
 
