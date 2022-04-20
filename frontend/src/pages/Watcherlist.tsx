@@ -5,6 +5,14 @@ import {useCallback, useEffect, useState} from "react";
 import {Show} from "../models/ShowInfo";
 import {useAuth} from "../auth/AuthProvider";
 import {Seen} from "../Seen";
+import {
+   airDateComparator,
+   inProductionComparator, nameComparator,
+   notSeenComparator,
+   ratingComparator,
+   voteAverageComparator,
+   voteCountComparator
+} from "../functions/CompareFunctions";
 
 export default function Watcherlist() {
    const {t} = useTranslation();
@@ -60,38 +68,19 @@ export default function Watcherlist() {
    const sortShows = useCallback((input: string, shows: Show[] = [...showsFromBackend]) => {
       localStorage.setItem('sort-by', input);
       if (input === 'notSeen') {
-         shows.sort((a, b) => {
-            if (a.seen === b.seen) {
-               return 0;
-            } else if ((a.seen === Seen.Yes && b.seen !== Seen.Yes) || (a.seen === Seen.Partial && b.seen === Seen.No)) {
-               return 1;
-            } else {
-               return -1;
-            }
-         });
+         shows.sort(notSeenComparator);
       } else if (input === 'rating') {
-         shows.sort((a, b) => b.rating - a.rating);
+         shows.sort(ratingComparator);
       } else if (input === 'vote') {
-         shows.sort((a, b) => b.voteAverage - a.voteAverage);
+         shows.sort(voteAverageComparator);
       } else if (input === 'voteCount') {
-         shows.sort((a, b) => b.voteCount - a.voteCount);
+         shows.sort(voteCountComparator);
       } else if (input === 'inProduction') {
-         shows.sort((a, b) => {
-            if (a.inProduction === b.inProduction) { return 0; } else if (a.inProduction) { return -1; } else { return 1; }
-         });
+         shows.sort(inProductionComparator);
       } else if (input === 'airDate') {
-         shows.sort((a, b) => new Date(b.airDate).valueOf() - new Date(a.airDate).valueOf());
+         shows.sort(airDateComparator);
       } else if (input === 'name') {
-         shows.sort((a, b) => {
-            for (let i = 0; i < a.name.length+1; i++) {
-               if (a.name.charAt(i) < b.name.charAt(i)) {
-                  return -1;
-               } else if (a.name.charAt(i) > b.name.charAt(i)) {
-                  return 1;
-               }
-            }
-            return 0;
-         });
+         shows.sort(nameComparator);
       } else if (input === 'added') {
          setShowsSorted([...showsFromBackend]);
          return showsFromBackend;
@@ -165,8 +154,8 @@ export default function Watcherlist() {
                </div>
          </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {showsSorted.map((item, index) =>
-                  <ShowComponent show={item} key={item.id+'-'+index} onChange={getAllShows} onRating={determineRateUrl}
+               {showsFromBackend.map(item =>
+                  <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
             </div>
          </div>
