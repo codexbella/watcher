@@ -9,10 +9,9 @@ import {Seen} from "../Seen";
 
 interface ShowComponentProps {
    show: Show;
-   index: number;
    onChange: () => void;
-   onRating: (id: string, index: number, rating: number) => void;
-   onSeen: (id: string, index: number, seen: Seen) => void;
+   onRating: (id: string, rating: number) => void;
+   onSeen: (id: string, seen: Seen) => void;
 }
 
 export default function ShowComponent(props: ShowComponentProps) {
@@ -20,10 +19,10 @@ export default function ShowComponent(props: ShowComponentProps) {
    const nav = useNavigate();
    
    const setRating = (rating: number) => {
-      props.onRating(props.show.id, props.index, rating);
+      props.onRating(props.show.id, rating);
    }
    const setSeen = (seen: Seen) => {
-      props.onSeen(props.show.id, props.index, seen);
+      props.onSeen(props.show.id, seen);
    }
    
    const deleteShow = () => {
