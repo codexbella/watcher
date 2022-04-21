@@ -166,6 +166,8 @@ public class ContentService {
                   }
                   if (show.getSeasons().stream().allMatch(s -> s.getSeen() == Seen.NO)) {
                      show.setSeen(Seen.NO);
+                  } else {
+                     show.setSeen(Seen.PARTIAL);
                   }
                }
             } else {
