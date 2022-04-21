@@ -42,10 +42,8 @@ export default function Watcherlist() {
             }
          })
          .then(responseBody => {
-            const showsAfter = [...showsSorted];
-            showsAfter[showsAfter.findIndex((show, index) => {
-               if (show.id === showId) {return index;} else {return -1}
-            })] = responseBody;
+            const showsAfter = [...showsFromBackend];
+            showsAfter[showsAfter.findIndex(show => show.id === showId)] = responseBody;
             setShowsFromBackend(showsAfter);
             setShowsSorted(sortShows(sortBy, [...showsAfter]))
          })
@@ -65,23 +63,23 @@ export default function Watcherlist() {
       editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, showId);
    }
    
-   const sortShows = useCallback((input: string, shows: Show[] = [...showsFromBackend]) => {
-      localStorage.setItem('sort-by', input);
-      if (input === 'notSeen') {
+   const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
+      localStorage.setItem('sort-by', selected);
+      if (selected === 'notSeen') {
          shows.sort(notSeenComparator);
-      } else if (input === 'rating') {
+      } else if (selected === 'rating') {
          shows.sort(ratingComparator);
-      } else if (input === 'vote') {
+      } else if (selected === 'vote') {
          shows.sort(voteAverageComparator);
-      } else if (input === 'voteCount') {
+      } else if (selected === 'voteCount') {
          shows.sort(voteCountComparator);
-      } else if (input === 'inProduction') {
+      } else if (selected === 'inProduction') {
          shows.sort(inProductionComparator);
-      } else if (input === 'airDate') {
+      } else if (selected === 'airDate') {
          shows.sort(airDateComparator);
-      } else if (input === 'name') {
+      } else if (selected === 'name') {
          shows.sort(nameComparator);
-      } else if (input === 'added') {
+      } else if (selected === 'added') {
          setShowsSorted([...showsFromBackend]);
          return showsFromBackend;
       }
@@ -154,7 +152,7 @@ export default function Watcherlist() {
                </div>
          </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {showsFromBackend.map(item =>
+               {showsSorted.map(item =>
                   <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
             </div>
