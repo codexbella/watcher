@@ -19,7 +19,7 @@ export default function UserLogin() {
    }
    
    return <div className='color-lighter'>
-      <form onSubmit={ev => login(ev)} className='flex column align-baseline margin-b15px'>
+      <form onSubmit={ev => login(ev)} className='flex column align-baseline gap10px margin-b15px'>
          <input className='large' type='text' placeholder={t('username')} value={usernameField} onChange={ev => {
             setUsernameField(ev.target.value)
          }}/>
