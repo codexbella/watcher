@@ -63,7 +63,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
               ev.currentTarget.src = alternateImage
            }}/>
       
-      <div className="color-lighter flex result-details wrap column">
+      <div className="color-lighter flex wrap column border-box width-100percent padding-l10px-r15px">
          <div className="flex justify-space-between">
             <div>
             <div className="large bold small-caps">

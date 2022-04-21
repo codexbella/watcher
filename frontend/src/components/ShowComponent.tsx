@@ -49,7 +49,7 @@ export default function ShowComponent(props: ShowComponentProps) {
            }}
            onClick={() => nav('/shows/' + props.show.id)} className='pointer'/>
       
-      <div className='color-lighter flex result-details wrap column'>
+      <div className='color-lighter flex wrap column border-box width-100percent padding-l10px-r15px'>
          <div className='flex justify-space-between'>
             <div className='margin-b15px'>
                <div className='large bold small-caps overflow lines1'>{props.show.name}</div>

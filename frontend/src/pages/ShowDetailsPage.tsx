@@ -156,7 +156,7 @@ export default function ShowDetailsPage() {
                     }}
                     className='height-231px width-154px'/>
                
-               <div className='color-lighter flex result-details wrap column'>
+               <div className='color-lighter flex wrap column border-box width-100percent padding-l10px-r15px'>
                   
                   <div className='height-100percent flex justify-space-between'>
                      

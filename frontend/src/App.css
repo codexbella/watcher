@@ -43,9 +43,7 @@
 .justify-space-between {
     justify-content: space-between;
 }
-.result-details {
-    width: 100%;
-    padding: 10px 15px;
+.border-box {
     box-sizing: border-box;
 }
 
@@ -101,6 +99,9 @@ margin-left: -46px;
 }
 .padding-15px {
     padding: 15px;
+}
+.padding-l10px-r15px {
+    padding: 10px 15px;
 }
 .padding-lr20px {
     padding-right: 20px;
