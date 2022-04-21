@@ -5,6 +5,7 @@ import {SearchResult} from "../models/ShowInfo";
 import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
+import VoteAverageComponent from "./sub-components/VoteAverageComponent";
 
 interface SearchResultComponentProps {
    show: SearchResult;
@@ -78,8 +79,8 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
             </div>
          </div>
          
-         <div className="margin-t15px"><p className="overflow lines4">{props.show.overview}</p></div>
-         <div className="margin-t15px">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
+         <div className="margin-t15px margin-b15px"><p className="overflow lines4">{props.show.overview}</p></div>
+         <VoteAverageComponent voteAverage={props.show.voteAverage} voteCount={props.show.voteCount}/>
       </div>
       {error && <div>{error}.</div>}
    </div>
