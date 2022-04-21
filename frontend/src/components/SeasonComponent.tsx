@@ -40,12 +40,12 @@ export default function SeasonComponent(props: SeasonComponentProps) {
       }
    }
    
-   return <div className='flex justify-space-between border-dark shadow-darkest margin-bottom-15px padding-15px'>
+   return <div className='flex justify-space-between border-dark shadow-darkest margin-b15px padding-15px'>
       <details onClick={() => checkOpenStatus()} id={props.season.name} key={props.season.name}>
       <summary className='pointer'>
          {props.season.name}
       </summary>
-      <div className='flex row justify-space-between gap-20px padding-5px margin-top-15px'>
+      <div className='flex row justify-space-between gap20px padding-5px margin-t15px'>
             <img src={props.season.posterPath ? "https://image.tmdb.org/t/p/w154" + props.season.posterPath : alternateImage}
                  alt={props.season.name}
                  onError={(ev) => {
@@ -54,10 +54,10 @@ export default function SeasonComponent(props: SeasonComponentProps) {
                  }}
                  className='height-231px width-154px'/>
             <div className=''>
-               {props.season.overview ? <div className='margin-bottom-15px'>{props.season.overview}</div> : <div/>}
-               <div className='bold margin-bottom-15px'>{props.season.numberOfEpisodes} {t('episodes')}:</div>
+               {props.season.overview ? <div className='margin-b15px'>{props.season.overview}</div> : <div/>}
+               <div className='bold margin-b15px'>{props.season.numberOfEpisodes} {t('episodes')}:</div>
                {props.season.episodes.length > 0 ?
-                  <div className='margin-bottom-15px'>
+                  <div className='margin-b15px'>
                      {props.season.episodes.map(episode => <EpisodeComponent episode={episode} onRating={rateSeason}
                            onSeen={seenSeason} key={episode.episodeNumber}/>)}
                   </div>
@@ -72,7 +72,7 @@ export default function SeasonComponent(props: SeasonComponentProps) {
             </div>
       </div>
    </details>
-      <div className='flex gap-20px align-baseline'>
+      <div className='flex gap20px align-baseline'>
          <RatingComponent rating={props.season.rating} onRating={rateSeason}/>
          <SeenComponent seen={props.season.seen} onSeen={seenSeason}/>
       </div>

@@ -51,11 +51,11 @@ export default function ShowComponent(props: ShowComponentProps) {
       
       <div className='color-lighter flex result-details wrap column'>
          <div className='flex justify-space-between'>
-            <div className='margin-bottom-15px'>
-               <div className='large bold small-caps overflow-1'>{props.show.name}</div>
+            <div className='margin-b15px'>
+               <div className='large bold small-caps overflow lines1'>{props.show.name}</div>
                <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
-            <div className='flex column gap-10px text-center'>
+            <div className='flex column gap10px text-center'>
                <div onClick={() => {
                   if (window.confirm(`${t('sure-of-deletion')}?`)) {
                      deleteShow()
@@ -68,13 +68,13 @@ export default function ShowComponent(props: ShowComponentProps) {
             </div>
          </div>
          
-         <div className='margin-bottom-15px'>{props.show.seasons.length} {t('seasons')}</div>
+         <div className='margin-b15px'>{props.show.seasons.length} {t('seasons')}</div>
          
          <div className='flex'><RatingComponent rating={props.show.rating} onRating={setRating}/>
             <div/>
          </div>
          
-         <div className='flex gap-10px align-center'>
+         <div className='flex gap10px align-center'>
             <div className='border-dark color-lighter text-center height-18px width-150px'>
                <div className='background-dark height-18px'
                     style={{width: `${props.show.voteAverage * 10}%`}}>{props.show.voteAverage}</div>

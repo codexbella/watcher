@@ -55,7 +55,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
          .catch(e => setError(e.message))
    }
    
-   return <div className="border-dark shadow-darkest height-231px flex row margin-bottom-15px">
+   return <div className="border-dark shadow-darkest height-231px flex row margin-b15px">
       
       <img src={props.show.posterPath ? "https://image.tmdb.org/t/p/w154" + props.show.posterPath : alternateImage} alt={props.show.name}
            onError={(ev) => {
@@ -78,8 +78,8 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
             </div>
          </div>
          
-         <div className="margin-top-15px"><p className="overflow-4">{props.show.overview}</p></div>
-         <div className="margin-top-15px">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
+         <div className="margin-t15px"><p className="overflow lines4">{props.show.overview}</p></div>
+         <div className="margin-t15px">{t('vote-average')}: {props.show.voteAverage} ({props.show.voteCount} {t('votes')})</div>
       </div>
       {error && <div>{error}.</div>}
    </div>

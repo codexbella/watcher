@@ -8,7 +8,7 @@ interface VoteAverageComponentProps {
 export default function VoteAverageComponent(props: VoteAverageComponentProps) {
    const {t} = useTranslation();
    
-   return <div className='flex gap-10px align-center'>
+   return <div className='flex gap10px align-center'>
       <div className='border-dark color-lighter text-center height-18px width-150px'>
          <div className='background-dark height-18px'
               style={{width: `${props.voteAverage * 10}%`}}>{props.voteAverage}</div>

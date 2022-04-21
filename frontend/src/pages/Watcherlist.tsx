@@ -128,12 +128,12 @@ export default function Watcherlist() {
    }, [sortShows, sortBy])
    
    return <div>
-      <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
+      <div className='color-lighter margin-b15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
             <div className='flex justify-space-between color-light '>
-            <div className='large margin-bottom-15px'>
+            <div className='large margin-b15px'>
                {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
             </div>
                <div>
@@ -151,7 +151,7 @@ export default function Watcherlist() {
                </select>
                </div>
          </div>
-            <div className='flex wrap gap-20px margin-bottom-15px'>
+            <div className='flex wrap gap20px margin-b15px'>
                {showsSorted.map(item =>
                   <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
@@ -169,6 +169,6 @@ export default function Watcherlist() {
             <div/>
       }
       
-      {error && <div className='margin-bottom-15px'>{error}.</div>}
+      {error && <div className='margin-b15px'>{error}.</div>}
    </div>
 }
