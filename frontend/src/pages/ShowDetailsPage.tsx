@@ -37,7 +37,7 @@ export default function ShowDetailsPage() {
          })
          .then((responseBody: Show) => {
             setShow(responseBody);
-            setSeasonsReverse(responseBody.seasons.reverse());
+            setSeasonsReverse([...responseBody.seasons].reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -69,7 +69,7 @@ export default function ShowDetailsPage() {
          })
          .then(responseBody => {
             setShow(responseBody)
-            setSeasonsReverse(responseBody.seasons.reverse());
+            setSeasonsReverse([...responseBody.seasons].reverse());
          })
          .catch(e => {
             if (e.message === '401') {
@@ -114,7 +114,7 @@ export default function ShowDetailsPage() {
          })
          .then(responseBody => {
             setShow(responseBody)
-            setSeasonsReverse(responseBody.seasons.reverse());
+            setSeasonsReverse([...responseBody.seasons].reverse());
          })
          .catch(e => {
             if (e.message === '401') {

@@ -5,16 +5,26 @@ import {useCallback, useEffect, useState} from "react";
 import {Show} from "../models/ShowInfo";
 import {useAuth} from "../auth/AuthProvider";
 import {Seen} from "../Seen";
+import {
+   airDateComparator,
+   inProductionComparator, nameComparator,
+   notSeenComparator,
+   ratingComparator,
+   voteAverageComparator,
+   voteCountComparator
+} from "../functions/CompareFunctions";
 
 export default function Watcherlist() {
    const {t} = useTranslation();
    const nav = useNavigate();
    const auth = useAuth()
    const [error, setError] = useState('');
-   const [shows, setShows] = useState([] as Array<Show>);
+   const [showsFromBackend, setShowsFromBackend] = useState([] as Array<Show>);
+   const [showsSorted, setShowsSorted] = useState([] as Array<Show>);
+   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'added');
    const [gotShows, setGotShows] = useState(false);
    
-   const editShow = (url: string, index: number) => {
+   const editShow = (url: string, showId: string) => {
       fetch(url, {
          method: 'PUT',
          headers: {
@@ -32,9 +42,10 @@ export default function Watcherlist() {
             }
          })
          .then(responseBody => {
-            const showsAfter = [...shows];
-            showsAfter[index] = responseBody;
-            setShows(showsAfter);
+            const showsAfter = [...showsFromBackend];
+            showsAfter[showsAfter.findIndex(show => show.id === showId)] = responseBody;
+            setShowsFromBackend(showsAfter);
+            setShowsSorted(sortShows(sortBy, [...showsAfter]))
          })
          .catch(e => {
             if (e.message === '401') {
@@ -45,12 +56,36 @@ export default function Watcherlist() {
          })
    }
    
-   const determineRateUrl = (showId: string, index: number, rating: number) => {
-      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?rating=${rating}`, index);
+   const determineRateUrl = (showId: string, rating: number) => {
+      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?rating=${rating}`, showId);
    }
-   const determineSeenUrl = (showId: string, index: number, seen: Seen) => {
-      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, index);
+   const determineSeenUrl = (showId: string, seen: Seen) => {
+      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, showId);
    }
+   
+   const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
+      localStorage.setItem('sort-by', selected);
+      if (selected === 'notSeen') {
+         shows.sort(notSeenComparator);
+      } else if (selected === 'rating') {
+         shows.sort(ratingComparator);
+      } else if (selected === 'vote') {
+         shows.sort(voteAverageComparator);
+      } else if (selected === 'voteCount') {
+         shows.sort(voteCountComparator);
+      } else if (selected === 'inProduction') {
+         shows.sort(inProductionComparator);
+      } else if (selected === 'airDate') {
+         shows.sort(airDateComparator);
+      } else if (selected === 'name') {
+         shows.sort(nameComparator);
+      } else if (selected === 'added') {
+         setShowsSorted([...showsFromBackend]);
+         return showsFromBackend;
+      }
+      setShowsSorted(shows);
+      return shows;
+   }, [showsFromBackend])
    
    const getAllShows = useCallback(() => {
       setGotShows(false);
@@ -71,8 +106,8 @@ export default function Watcherlist() {
             }
          })
          .then((list: Array<Show>) => {
-            setGotShows(true)
-            setShows(list);
+            setGotShows(true);
+            setShowsFromBackend(list);
             setError('');
          })
          .catch(e => {
@@ -85,20 +120,40 @@ export default function Watcherlist() {
    }, [nav, t]);
    
    useEffect(() => {
-         getAllShows();
+      getAllShows();
    }, [getAllShows])
+   
+   useEffect(() => {
+      setShowsSorted(sortShows(sortBy))
+   }, [sortShows, sortBy])
    
    return <div>
       <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
-            <div className="large color-light margin-bottom-15px">
-               {t('you-have')} {shows.length} {t('shows-in-your-list')}:
+            <div className='flex justify-space-between color-light '>
+            <div className='large margin-bottom-15px'>
+               {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
             </div>
+               <div>
+               <label htmlFor='select-sort' className='large'>{t('sort-by')}: </label>
+               <select id='select-sort' className='background-dark medium color-lighter border-dark'
+                       onChange={ev => setSortBy(ev.currentTarget.value)} value={sortBy}>
+                  <option value='notSeen'>{t('not-seen')}</option>
+                  <option value='rating'>{t('own-rating')}</option>
+                  <option value='vote'>{t('vote-average')}</option>
+                  <option value='voteCount'>{t('vote-count')}</option>
+                  <option value='inProduction'>{t('in-production')}</option>
+                  <option value='airDate'>{t('airdate')}</option>
+                  <option value='name'>{t('name')}</option>
+                  <option value='added'>{t('added')}</option>
+               </select>
+               </div>
+         </div>
             <div className='flex wrap gap-20px margin-bottom-15px'>
-               {shows.map((item, index) =>
-                  <ShowComponent show={item} key={item.id} index={index} onChange={getAllShows} onRating={determineRateUrl}
+               {showsSorted.map(item =>
+                  <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
             </div>
          </div>

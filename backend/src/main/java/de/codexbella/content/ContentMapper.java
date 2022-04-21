@@ -24,6 +24,7 @@ public class ContentMapper {
       show.setVoteCount(showApi.getVoteCount());
       show.setPosterPath(showApi.getPosterPath());
       show.setSeasons(toSeasonList(showApi.getSeasons(), username));
+      show.setInProduction(showApi.isInProduction());
       show.setUsername(username);
       return show;
    }

@@ -167,8 +167,14 @@ button, input {
 input:focus {
     outline:solid 2px #FEC260;
 }
+select:focus {
+    outline: none;
+}
 
 
+.medium {
+    font-size: 1.2em;
+}
 .large {
     font-size: 1.5em;
 }
@@ -246,11 +252,7 @@ input:focus {
 .tooltip .tooltiptext {
     visibility: hidden;
     width: auto;
-    background-color: #A12568;
-    color: #FEC260;
-    text-align: center;
     border-radius: 6px;
-    padding: 5px;
     position: absolute;
     z-index: 1;
     bottom: 150%;
