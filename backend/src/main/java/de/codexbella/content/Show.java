@@ -5,7 +5,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "shows")
@@ -30,4 +32,5 @@ public class Show {
    private String username = "";
    private Seen seen = Seen.NO;
    private int rating = 0;
+   private Long dateAdded = new Date().getTime();
 }

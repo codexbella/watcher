@@ -7,7 +7,7 @@ import {useAuth} from "../auth/AuthProvider";
 import {Seen} from "../Seen";
 import {
    airDateComparator,
-   inProductionComparator, nameComparator,
+   inProductionComparator, lastAddedComparator, nameComparator,
    notSeenComparator,
    ratingComparator,
    voteAverageComparator,
@@ -21,7 +21,7 @@ export default function Watcherlist() {
    const [error, setError] = useState('');
    const [showsFromBackend, setShowsFromBackend] = useState([] as Array<Show>);
    const [showsSorted, setShowsSorted] = useState([] as Array<Show>);
-   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'added');
+   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'last-added');
    const [gotShows, setGotShows] = useState(false);
    
    const editShow = (url: string, showId: string) => {
@@ -65,6 +65,7 @@ export default function Watcherlist() {
    
    const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
       localStorage.setItem('sort-by', selected);
+      shows.sort(lastAddedComparator);
       if (selected === 'notSeen') {
          shows.sort(notSeenComparator);
       } else if (selected === 'rating') {
@@ -79,9 +80,6 @@ export default function Watcherlist() {
          shows.sort(airDateComparator);
       } else if (selected === 'name') {
          shows.sort(nameComparator);
-      } else if (selected === 'added') {
-         setShowsSorted([...showsFromBackend]);
-         return showsFromBackend;
       }
       setShowsSorted(shows);
       return shows;
@@ -147,7 +145,7 @@ export default function Watcherlist() {
                   <option value='inProduction'>{t('in-production')}</option>
                   <option value='airDate'>{t('airdate')}</option>
                   <option value='name'>{t('name')}</option>
-                  <option value='added'>{t('added')}</option>
+                  <option value='last-added'>{t('last-added')}</option>
                </select>
                </div>
          </div>

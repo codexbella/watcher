@@ -49,5 +49,5 @@
   "airdate": "Air date",
   "name": "Name",
   "in-production": "Still in production",
-  "added": "Added"
+  "last-added": "Last added"
 }

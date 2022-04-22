@@ -41,6 +41,6 @@ export function nameComparator(a: Show, b: Show) {
    }
    return 0;
 }
-export function addedComparator(a: Show, b: Show) {
-   return 0;
+export function lastAddedComparator(a: Show, b: Show) {
+   return b.dateAdded - a.dateAdded;
 }
