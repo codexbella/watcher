@@ -58,7 +58,7 @@ export default function SeasonComponent(props: SeasonComponentProps) {
                <div className='bold margin-b15px'>{props.season.numberOfEpisodes} {t('episodes')}:</div>
                {props.season.episodes.length > 0 ?
                   <div className='margin-b15px'>
-                     {props.season.episodes.map(episode => <EpisodeComponent episode={episode} onRating={rateSeason}
+                     {[...props.season.episodes].reverse().map(episode => <EpisodeComponent episode={episode} onRating={rateSeason}
                            onSeen={seenSeason} key={episode.episodeNumber}/>)}
                   </div>
                :
