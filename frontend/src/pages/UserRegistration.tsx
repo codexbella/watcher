@@ -63,6 +63,13 @@ export default function UserRegistration() {
          <input className='large' type='password' placeholder={t('password-again')} value={passwordFieldAgain}
                 onChange={ev => setPasswordFieldAgain(ev.target.value)}/>
          <button className='large' type='submit'>{t('register')}</button>
+         <div className='flex align-center gap10px very-large'>
+            <span>🇺🇸</span>
+         <label className="switch pos-rel">
+            <input type="checkbox"/><span className="slider pos-abs pointer"></span>
+         </label>
+            <span>🇩🇪</span>
+         </div>
       </form>
       {error && <div className='color-lighter margin-b15px'>{error}.</div>}
    </div>
