@@ -2,6 +2,12 @@ import {ReactNode, useContext, useEffect, useState} from "react";
 import AuthContext from "./AuthContext";
 import {useTranslation} from "react-i18next";
 import {useLocation, useNavigate} from "react-router-dom";
+import i18n from "i18next";
+
+interface LoginResponseBody {
+   token: string;
+   language: string;
+}
 
 export default function AuthProvider({children}:{children :ReactNode}) {
    const {t} = useTranslation();
@@ -22,22 +28,25 @@ export default function AuthProvider({children}:{children :ReactNode}) {
       return fetch(`${process.env.REACT_APP_BASE_URL}/users/login`,{
          method: 'POST',
          headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept-Language': '*'
          },
          body: JSON.stringify({'username':username, 'password':password})
       })
-         .then(response => {
+         .then((response) => {
             if (response.status >= 200 && response.status < 300) {
-               return response.text()
+               return response.json();
             } else if (response.status === 403) {
                throw new Error(`${t('bad-credentials-error')}`)
             } else {
                throw new Error(`${t('error-code')} ${response.status}`)
             }
          })
-         .then(text => {
-                  localStorage.setItem('jwt', text)
-                  setToken(text);
+         .then((body: LoginResponseBody) => {
+            localStorage.setItem('i18nextLng', body.language);
+            i18n.changeLanguage(body.language);
+            localStorage.setItem('jwt', body.token);
+            setToken(body.token);
          })
    }
    

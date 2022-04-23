@@ -36,7 +36,7 @@ public class UserController {
    }
 
    @PostMapping("/login")
-   public ResponseEntity<String> login(@RequestBody LoginData loginData) {
+   public ResponseEntity<LoginResponseBody> login(@RequestBody LoginData loginData) {
          Authentication auth = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword())
          );
@@ -44,6 +44,7 @@ public class UserController {
          Map<String, Object> claims = new HashMap<>();
          claims.put("roles", roles);
          String token = jwtService.createToken(claims, loginData.getUsername());
-         return new ResponseEntity<>(token, HttpStatus.OK);
+         String userLanguage = userService.findByUsername(loginData.getUsername()).get().getLanguage();
+         return new ResponseEntity<>(new LoginResponseBody(token, userLanguage), HttpStatus.OK);
    }
 }

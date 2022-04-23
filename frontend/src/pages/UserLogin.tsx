@@ -14,7 +14,7 @@ export default function UserLogin() {
    const login = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
          auth.login(usernameField, passwordField)
-            .then(() => nav('/users/'+usernameField))
+            .then(() => nav('/watcherlist'))
             .catch(e => setError(e.message))
    }
    
