@@ -41,7 +41,7 @@
   "episodes": "Folgen",
   "search": "Suchen",
   "rating-tooltip": "Deine Bewertung",
-  "seen-tooltip": "Status ändern",
+  "seen-tooltip": "Gesehen-Status ändern",
   "sort-by": "Sortieren nach",
   "not-seen": "Noch nicht gesehen",
   "own-rating": "Eigene Bewertung",
@@ -49,5 +49,5 @@
   "airdate": "Ausstrahlungsdatum",
   "name": "Name",
   "in-production": "Läuft noch",
-  "added": "Hinzugefügt"
+  "last-added": "Zuletzt hinzugefügt"
 }

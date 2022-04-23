@@ -41,7 +41,7 @@
   "episodes": "episodes",
   "search": "Search",
   "rating-tooltip": "Your rating",
-  "seen-tooltip": "Change status",
+  "seen-tooltip": "Change seen status",
   "sort-by": "Sort by",
   "not-seen": "Not seen",
   "own-rating": "Your rating",
@@ -49,5 +49,5 @@
   "airdate": "Air date",
   "name": "Name",
   "in-production": "Still in production",
-  "added": "Added"
+  "last-added": "Last added"
 }

@@ -32,6 +32,7 @@ export interface Show {
    username: string;
    seen: Seen;
    rating: number;
+   dateAdded: number;
 }
 
 export interface Genre {

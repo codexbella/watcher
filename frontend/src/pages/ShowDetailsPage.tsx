@@ -146,7 +146,7 @@ export default function ShowDetailsPage() {
    
    return <div>
       {show.id &&
-         <div className='margin-bottom-15px'>
+         <div className='margin-b15px'>
             <div className='flex row'>
                
                <img src={show.posterPath ? "https://image.tmdb.org/t/p/w154" + show.posterPath : alternateImage} alt={show.name}
@@ -156,21 +156,21 @@ export default function ShowDetailsPage() {
                     }}
                     className='height-231px width-154px'/>
                
-               <div className='color-lighter flex result-details wrap column'>
+               <div className='color-lighter flex wrap column border-box width-100percent padding-l10px-r15px'>
                   
                   <div className='height-100percent flex justify-space-between'>
                      
                      <div className='flex column justify-space-between'>
                         <div>
-                           <div className='large bold small-caps overflow-1'>{show.name}</div>
-                           <div className='margin-top-5px margin-bottom-15px italic'>{show.tagline}</div>
-                           <div className='margin-bottom-15px'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})
+                           <div className='large bold small-caps overflow lines1'>{show.name}</div>
+                           <div className='margin-t5px margin-b15px italic'>{show.tagline}</div>
+                           <div className='margin-b15px'>{show.airDate ? new Date(show.airDate).getFullYear() : ''} ({show.originCountry})
                            </div>
                         </div>
                         
                         <div>
-                           <div className='margin-bottom-15px color-darker'>{show.genres.map((item, index) =>
-                              <div className='background-light padding-5px display margin-inline-end-5px border-radius-10px'
+                           <div className='margin-b15px color-darker'>{show.genres.map((item, index) =>
+                              <div className='background-light padding-5px display margin-inline-end-5px border-radius10px'
                                    key={index}>{item.name}</div>
                            )}</div>
    
@@ -180,7 +180,7 @@ export default function ShowDetailsPage() {
                      
                      <div className='flex column align-flex-end'>
                         <RatingComponent rating={show.rating} onRating={determineRatingUrl}/>
-                        <div className='flex column gap-10px text-center'>
+                        <div className='flex column gap10px text-center'>
                            <div onClick={() => {
                               if (window.confirm(`${t('sure-of-deletion')}?`)) {
                                  deleteShow()
@@ -196,7 +196,7 @@ export default function ShowDetailsPage() {
                
                </div>
             </div>
-            <div className='margin-top-25px margin-bottom-40px'>{show.overview}</div>
+            <div className='margin-t25px margin-b40px'>{show.overview}</div>
             
             <div>
                {seasonsReverse.map(season =>
@@ -204,7 +204,7 @@ export default function ShowDetailsPage() {
                                    onSeen={determineSeenUrl}/>)}
             </div>
             
-            {error && <div className='margin-bottom-15px'>{error}.</div>}
+            {error && <div className='margin-b15px'>{error}.</div>}
          </div>
       }
    </div>

@@ -13,13 +13,13 @@
 .nowrap {
     flex-wrap: nowrap;
 }
-.gap-5px {
+.gap5px {
     gap: 5px;
 }
-.gap-10px {
+.gap10px {
     gap: 10px;
 }
-.gap-20px {
+.gap20px {
     gap: 20px;
 }
 .align-baseline {
@@ -43,56 +43,52 @@
 .justify-space-between {
     justify-content: space-between;
 }
-.result-details {
-    width: 100%;
-    padding: 10px 15px;
+.border-box {
     box-sizing: border-box;
 }
 
-.overflow-4 {
+.overflow {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     overflow: hidden;
     margin: 0;
 }
-.overflow-1 {
-    display: -webkit-box;
+.lines1 {
     -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin: 0;
 }
-.margins-left-0px-right-15px {
+.lines4 {
+    -webkit-line-clamp: 4;
+}
+
+.margins-l0px-r15px {
     margin: 0px 15px;
 }
-.margin-left-15px {
+.margin-l15px {
     margin-left: 15px;
 }
-.margin-left--30px {
+.margin-l-30px {
     margin-left: -30px;
 }
-.margin-left--46px {
+.margin-l-46px {
 margin-left: -46px;
 }
-.margin-top-5px {
+.margin-t5px {
     margin-top: 5px;
 }
-.margin-top-15px {
+.margin-t15px {
     margin-top: 15px;
 }
-.margin-top-25px {
+.margin-t25px {
     margin-top: 25px;
 }
-.margin-bottom-5px {
+.margin-b5px {
     margin-bottom: 5px;
 }
-.margin-bottom-15px {
+.margin-b15px {
     margin-bottom: 15px;
 }
-.margin-bottom-40px {
+.margin-b40px {
     margin-bottom: 40px;
 }
 .margin-inline-end-5px {
@@ -104,10 +100,17 @@ margin-left: -46px;
 .padding-15px {
     padding: 15px;
 }
+.padding-l10px-r15px {
+    padding: 10px 15px;
+}
+.padding-lr20px {
+    padding-right: 20px;
+    padding-left: 20px;
+}
 .display {
     display: inline-block;
 }
-.border-radius-10px {
+.border-radius10px {
     border-radius: 10px;
 }
 
@@ -184,9 +187,6 @@ select:focus {
 .very-large {
     font-size: 45px;
 }
-.no-decoration-text {
-    text-decoration: none;
-}
 .font-courier {
     font-family: 'Courier New', monospace;
 }
@@ -202,9 +202,11 @@ select:focus {
 .small-caps {
     font-variant: small-caps;
 }
+
 .pointer {
     cursor: pointer;
 }
+
 .height-18px {
     height: 18px;
 }
@@ -217,6 +219,7 @@ select:focus {
 .height-100percent {
     height: 100%;
 }
+
 .width-70px {
     width: 70px;
 }
@@ -229,8 +232,17 @@ select:focus {
 .width-220px {
     width: 220px;
 }
+.width-300px {
+    width: 300px;
+}
+.width-350px {
+    width: 350px;
+}
 .width-500px {
     width: 500px;
+}
+.width-40percent {
+    width: 40%;
 }
 .width-100percent {
     width: 100%;

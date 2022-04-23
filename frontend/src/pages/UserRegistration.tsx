@@ -54,7 +54,7 @@ export default function UserRegistration() {
    }
    
    return <div className='color-lighter'>
-      <form onSubmit={ev => register(ev)} className='margin-bottom-15px'>
+      <form onSubmit={ev => register(ev)} className='flex column align-baseline gap10px margin-b15px'>
          <input className='large' type='text' placeholder={t('username')} value={usernameField}
                 onChange={ev => setUsernameField(ev.target.value)}/>
          <input className='large' type='password' placeholder={t('password')} value={passwordField}
@@ -63,6 +63,6 @@ export default function UserRegistration() {
                 onChange={ev => setPasswordFieldAgain(ev.target.value)}/>
          <button className='large' type='submit'>{t('register')}</button>
       </form>
-      {error && <div className='color-lighter margin-bottom-15px'>{error}.</div>}
+      {error && <div className='color-lighter margin-b15px'>{error}.</div>}
    </div>
 }

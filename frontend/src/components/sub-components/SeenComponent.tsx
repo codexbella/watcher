@@ -30,7 +30,7 @@ export default function SeenComponent(props: SeenComponentProps) {
    }
    
    return <div className='pointer tooltip'>
-      <span className='tooltiptext background-light color-lighter padding-5px text-center margin-left--30px'>
+      <span className='tooltiptext background-light color-lighter padding-5px text-center margin-l-30px'>
          {t('seen-tooltip')}
       </span>
       <img onClick={determineNextSeenStatus} src={determineEyeSource(props.seen)} width='33' alt='seen status'/>

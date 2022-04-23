@@ -7,7 +7,7 @@ import {useAuth} from "../auth/AuthProvider";
 import {Seen} from "../Seen";
 import {
    airDateComparator,
-   inProductionComparator, nameComparator,
+   inProductionComparator, lastAddedComparator, nameComparator,
    notSeenComparator,
    ratingComparator,
    voteAverageComparator,
@@ -21,7 +21,7 @@ export default function Watcherlist() {
    const [error, setError] = useState('');
    const [showsFromBackend, setShowsFromBackend] = useState([] as Array<Show>);
    const [showsSorted, setShowsSorted] = useState([] as Array<Show>);
-   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'added');
+   const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'last-added');
    const [gotShows, setGotShows] = useState(false);
    
    const editShow = (url: string, showId: string) => {
@@ -65,6 +65,7 @@ export default function Watcherlist() {
    
    const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
       localStorage.setItem('sort-by', selected);
+      shows.sort(lastAddedComparator);
       if (selected === 'notSeen') {
          shows.sort(notSeenComparator);
       } else if (selected === 'rating') {
@@ -79,9 +80,6 @@ export default function Watcherlist() {
          shows.sort(airDateComparator);
       } else if (selected === 'name') {
          shows.sort(nameComparator);
-      } else if (selected === 'added') {
-         setShowsSorted([...showsFromBackend]);
-         return showsFromBackend;
       }
       setShowsSorted(shows);
       return shows;
@@ -128,12 +126,12 @@ export default function Watcherlist() {
    }, [sortShows, sortBy])
    
    return <div>
-      <div className='color-lighter margin-bottom-15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
+      <div className='color-lighter margin-b15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
             <div className='flex justify-space-between color-light '>
-            <div className='large margin-bottom-15px'>
+            <div className='large margin-b15px'>
                {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
             </div>
                <div>
@@ -147,11 +145,11 @@ export default function Watcherlist() {
                   <option value='inProduction'>{t('in-production')}</option>
                   <option value='airDate'>{t('airdate')}</option>
                   <option value='name'>{t('name')}</option>
-                  <option value='added'>{t('added')}</option>
+                  <option value='last-added'>{t('last-added')}</option>
                </select>
                </div>
          </div>
-            <div className='flex wrap gap-20px margin-bottom-15px'>
+            <div className='flex wrap gap20px margin-b15px'>
                {showsSorted.map(item =>
                   <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}
                                  onSeen={determineSeenUrl}/>)}
@@ -169,6 +167,6 @@ export default function Watcherlist() {
             <div/>
       }
       
-      {error && <div className='margin-bottom-15px'>{error}.</div>}
+      {error && <div className='margin-b15px'>{error}.</div>}
    </div>
 }

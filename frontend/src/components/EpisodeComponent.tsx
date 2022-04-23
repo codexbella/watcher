@@ -20,18 +20,18 @@ export default function EpisodeComponent(props: EpisodeComponentProps) {
       props.onSeen(seen, props.episode.seasonNumber, props.episode.episodeNumber);
    }
    
-   return <div className='flex border-dark gap-20px justify-space-between margin-bottom-15px padding-15px shadow-dark'>
-      <div className='flex column gap-5px width-100percent'>
-         <div className='flex gap-20px justify-space-between'>
-            <div className='flex gap-20px width-100percent'>
+   return <div className='flex border-dark gap20px justify-space-between margin-b15px padding-15px shadow-dark'>
+      <div className='flex column gap5px width-100percent'>
+         <div className='flex gap20px justify-space-between'>
+            <div className='flex gap20px width-100percent'>
                <div className='flex align-flex-start justify-center color-light bold very-large width-70px font-courier text-shadow'>
                   {props.episode.episodeNumber}
                </div>
                <div className='flex width-100percent align-flex-start justify-space-between'>
                   <div>
-                     <div className='small-caps margin-bottom-5px'>{props.episode.name}</div>
+                     <div className='small-caps margin-b5px'>{props.episode.name}</div>
                      {props.episode.airDate ?
-                        <div className='margin-bottom-15px'>{new Date(props.episode.airDate).toLocaleDateString()}</div>
+                        <div className='margin-b15px'>{new Date(props.episode.airDate).toLocaleDateString()}</div>
                         :
                         <div/>
                      }
@@ -47,7 +47,7 @@ export default function EpisodeComponent(props: EpisodeComponentProps) {
             </div>
          </div>
          
-         <div className='margin-bottom-5px'>{props.episode.overview}</div>
+         <div className='margin-b5px'>{props.episode.overview}</div>
       </div>
       
       <img src={props.episode.stillPath ? "https://image.tmdb.org/t/p/w300" + props.episode.stillPath : alternateImage}
