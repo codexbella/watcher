@@ -39,6 +39,7 @@ class ContentControllerITTest {
       registerDataUser1.setUsername("whoever");
       registerDataUser1.setPassword("very-safe-password");
       registerDataUser1.setPasswordAgain("very-safe-password");
+      registerDataUser1.setLanguage("en-US");
 
       ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1,
             String.class);
@@ -52,6 +53,7 @@ class ContentControllerITTest {
       registerDataUser2.setUsername(registerDataUser1.getUsername());
       registerDataUser2.setPassword("tadada");
       registerDataUser2.setPasswordAgain("tududu");
+      registerDataUser1.setLanguage("en-US");
 
       ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register",
             registerDataUser2, String.class);
