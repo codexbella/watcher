@@ -50,8 +50,7 @@ export default function ShowDetailsPage() {
    
    const getSeason = (seasonNumber: number) => {
       setError('');
-      fetch(`${process.env.REACT_APP_BASE_URL}/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`
-         +`&language=${localStorage.getItem('i18nextLng')}`, {
+      fetch(`${process.env.REACT_APP_BASE_URL}/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`, {
          method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,

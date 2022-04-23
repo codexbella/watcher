@@ -43,6 +43,7 @@ export default function AuthProvider({children}:{children :ReactNode}) {
    
    const logout = () => {
       localStorage.removeItem('jwt');
+      localStorage.removeItem('sort-by');
       setToken('')
    }
    
