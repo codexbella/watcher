@@ -27,7 +27,8 @@ export default function UserRegistration() {
             body: JSON.stringify({
                username: usernameField,
                password: passwordField,
-               passwordAgain: passwordFieldAgain
+               passwordAgain: passwordFieldAgain,
+               language: localStorage.getItem('i18nextLng') ?? 'en-US'
             }),
             headers: {
                'Content-Type': 'application/json'

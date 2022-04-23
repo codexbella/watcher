@@ -8,6 +8,7 @@ public class UserMapper {
       UserData userData = new UserData();
       userData.setUsername(registerData.getUsername());
       userData.setPassword(registerData.getPassword());
+      userData.setLanguage(registerData.getLanguage());
       return userData;
    }
 }
