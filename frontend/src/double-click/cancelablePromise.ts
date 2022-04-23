@@ -10,10 +10,8 @@ export const cancelablePromise = (promise: Promise<any>) => {
    
    return {
       promise: wrappedPromise,
-      cancel: () => (isCanceled = true),
+      cancel: () => (isCanceled = true)
    };
 };
-
-export const noop = () => {};
 
 export const delay = (n: number) => new Promise(resolve => setTimeout(resolve, n));

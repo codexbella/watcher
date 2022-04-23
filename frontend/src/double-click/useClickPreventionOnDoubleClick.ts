@@ -7,15 +7,15 @@ export default function useClickPreventionOnDoubleClick (onClick: () => void, on
    const handleClick = () => {
       api.clearPendingPromises();
       const waitForClick = cancelablePromise(delay(300));
-      api.appendPendingPromise(waitForClick.promise);
+      api.appendPendingPromise(waitForClick);
       
       return waitForClick.promise
          .then(() => {
-            api.removePendingPromise(waitForClick.promise);
+            api.removePendingPromise(waitForClick);
             onClick();
          })
          .catch(errorInfo => {
-            api.removePendingPromise(waitForClick.promise);
+            api.removePendingPromise(waitForClick);
             if (!errorInfo.isCanceled) {
                throw errorInfo.error;
             }
