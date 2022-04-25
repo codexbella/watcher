@@ -77,7 +77,7 @@ export default function UserRegistration() {
          <button className='large' type='submit'>{t('register')}</button>
             <div>
                <select id='select-lang' className='background-dark large color-lighter border-dark'
-                       onSelect={ev => localStorage.setItem('i18nextLng', ev.currentTarget.value)}>
+                       onSelectCapture={ev => localStorage.setItem('i18nextLng', ev.currentTarget.value)}>
                   <option value='en-US'>🇺🇸</option>
                   <option value='de-DE'>🇩🇪</option>
                </select>
