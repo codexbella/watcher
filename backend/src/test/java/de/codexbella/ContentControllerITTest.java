@@ -5,6 +5,7 @@ import de.codexbella.content.Show;
 import de.codexbella.content.season.Season;
 import de.codexbella.search.ShowSearchData;
 import de.codexbella.user.LoginData;
+import de.codexbella.user.LoginResponseBody;
 import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,23 +77,25 @@ class ContentControllerITTest {
       user1.setUsername("whoever");
       user1.setPassword("very-safe-password");
 
-      ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1,
-            String.class);
+      ResponseEntity<LoginResponseBody> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1,
+            LoginResponseBody.class);
 
       assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseLoginUser1.getBody()).isNotNull();
 
       // should not log in user
       LoginData user2 = new LoginData();
       user2.setUsername(registerDataUser1.getUsername());
       user2.setPassword("xxx");
 
-      ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2, String.class);
+      ResponseEntity<LoginResponseBody> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2,
+            LoginResponseBody.class);
 
       assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
 
       // should search api
       HttpHeaders headerForUser1 = new HttpHeaders();
-      headerForUser1.set("Authorization", "Bearer" + responseLoginUser1.getBody());
+      headerForUser1.setBearerAuth(responseLoginUser1.getBody().getToken());
       HttpEntity<ShowSearchData> httpEntityUser1Get = new HttpEntity<>(headerForUser1);
 
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/search/tv?api_key="+apiKey
@@ -101,7 +104,7 @@ class ContentControllerITTest {
                   "searchResultOnePage.txt")));
 
       ResponseEntity<ShowSearchData[]> responseSearch = restTemplate.exchange(
-            "/api/search/game+of+thrones?language=en-US", HttpMethod.GET, httpEntityUser1Get,
+            "/api/search/game+of+thrones", HttpMethod.GET, httpEntityUser1Get,
             ShowSearchData[].class);
       assertThat(responseSearch.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearch.getBody()).isNotNull();
@@ -127,7 +130,7 @@ class ContentControllerITTest {
                   "searchResultTwoPageSecondPage.txt")));
 
       ResponseEntity<ShowSearchData[]> responseSearchTwoPage = restTemplate.exchange(
-            "/api/search/voyager?language=en-US", HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
+            "/api/search/voyager", HttpMethod.GET, httpEntityUser1Get, ShowSearchData[].class);
       assertThat(responseSearchTwoPage.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSearchTwoPage.getBody()).isNotNull();
       ShowSearchData[] arraySearchTwoPage = responseSearchTwoPage.getBody();
@@ -154,7 +157,7 @@ class ContentControllerITTest {
             String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
             "codexbella", "data", "searchResultVoyager.txt")));
 
-      ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
+      ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855",
             HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseSavedShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShow.getBody()).isNotNull();
@@ -167,7 +170,7 @@ class ContentControllerITTest {
       verifyNoMoreInteractions(mockTemplate);
 
       // should not save show because already in database
-      ResponseEntity<String> responseNotSavedShow = restTemplate.exchange("/api/saveshow/1855?language=en-US",
+      ResponseEntity<String> responseNotSavedShow = restTemplate.exchange("/api/saveshow/1855",
             HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseNotSavedShow.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertThat(responseNotSavedShow.getBody()).isNotNull();
