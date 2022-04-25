@@ -49,5 +49,6 @@
   "airdate": "Ausstrahlungsdatum",
   "name": "Name",
   "in-production": "Läuft noch",
-  "last-added": "Zuletzt hinzugefügt"
+  "last-added": "Zuletzt hinzugefügt",
+  "fields-cannot-be-empty": "Felder dürfen nicht leer sein"
 }

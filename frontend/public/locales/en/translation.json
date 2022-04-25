@@ -49,5 +49,6 @@
   "airdate": "Air date",
   "name": "Name",
   "in-production": "Still in production",
-  "last-added": "Last added"
+  "last-added": "Last added",
+  "fields-cannot-be-empty": "Fields can not be empty"
 }

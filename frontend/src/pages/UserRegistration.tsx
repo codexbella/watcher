@@ -21,7 +21,7 @@ export default function UserRegistration() {
    const register = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
       setError('');
-      if (passwordField === passwordFieldAgain) {
+      if (usernameField && passwordField && passwordField === passwordFieldAgain) {
          fetch(`${process.env.REACT_APP_BASE_URL}/users/register`, {
             method: 'POST',
             body: JSON.stringify({
@@ -49,26 +49,39 @@ export default function UserRegistration() {
                }
             })
             .catch(e => setError(e.message))
-      } else {
+      } else if (passwordField !== passwordFieldAgain) {
          setError(`${t('password-not-equal-error')}`)
+      } else if (!usernameField || !passwordField) {
+         setError(`${t('fields-cannot-be-empty')}`)
       }
    }
    
    return <div className='color-lighter'>
       <form onSubmit={ev => register(ev)} className='flex column align-baseline gap10px margin-b15px'>
          <input className='large' type='text' placeholder={t('username')} value={usernameField}
-                onChange={ev => setUsernameField(ev.target.value)}/>
+                onChange={ev => {
+                   setError('')
+                   setUsernameField(ev.target.value)
+                }}/>
          <input className='large' type='password' placeholder={t('password')} value={passwordField}
-                onChange={ev => setPasswordField(ev.target.value)}/>
+                onChange={ev => {
+                   setError('')
+                   setPasswordField(ev.target.value)
+                }}/>
          <input className='large' type='password' placeholder={t('password-again')} value={passwordFieldAgain}
-                onChange={ev => setPasswordFieldAgain(ev.target.value)}/>
+                onChange={ev => {
+                   setError('')
+                   setPasswordFieldAgain(ev.target.value)
+                }}/>
+         <div className='flex gap20px'>
          <button className='large' type='submit'>{t('register')}</button>
-         <div className='flex align-center gap10px very-large'>
-            <span>🇺🇸</span>
-         <label className="switch pos-rel">
-            <input type="checkbox"/><span className="slider pos-abs pointer"></span>
-         </label>
-            <span>🇩🇪</span>
+            <div>
+               <select id='select-lang' className='background-dark large color-lighter border-dark'
+                       onSelect={ev => localStorage.setItem('i18nextLng', ev.currentTarget.value)}>
+                  <option value='en-US'>🇺🇸</option>
+                  <option value='de-DE'>🇩🇪</option>
+               </select>
+            </div>
          </div>
       </form>
       {error && <div className='color-lighter margin-b15px'>{error}.</div>}
