@@ -20,16 +20,14 @@ public class ContentController {
    private final ContentService contentService;
 
    @GetMapping("/search/{searchTerm}")
-   public List<ShowSearchData> searchForShows(@RequestParam(defaultValue = "en-US") String language,
-                                              @PathVariable String searchTerm, Principal principal) {
-      return contentService.searchForShows(language, searchTerm, principal.getName());
+   public List<ShowSearchData> searchForShows(@PathVariable String searchTerm, Principal principal) {
+      return contentService.searchForShows(searchTerm, principal.getName());
    }
 
    @PutMapping("/saveshow/{showApiId}")
-   public ResponseEntity<String> saveShow(@RequestParam(defaultValue = "en-US") String language,
-                                          @PathVariable int showApiId, Principal principal) {
+   public ResponseEntity<String> saveShow(@PathVariable int showApiId, Principal principal) {
       try {
-         contentService.saveShow(language, showApiId, principal.getName());
+         contentService.saveShow(showApiId, principal.getName());
          return new ResponseEntity<>("Show saved", HttpStatus.OK);
       } catch (IllegalArgumentException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -50,9 +48,8 @@ public class ContentController {
       return ResponseEntity.of(contentService.getShow(showId, principal.getName()));
    }
    @PutMapping("/saveseason/{showApiId}")
-   public ResponseEntity<Show> saveSeason(@PathVariable int showApiId, @RequestParam(defaultValue = "en-US")
-         String language, @RequestParam int seasonNumber, Principal principal) {
-      Optional<Show> showOptional = contentService.saveSeason(language, showApiId, seasonNumber, principal.getName());
+   public ResponseEntity<Show> saveSeason(@PathVariable int showApiId, @RequestParam int seasonNumber, Principal principal) {
+      Optional<Show> showOptional = contentService.saveSeason(showApiId, seasonNumber, principal.getName());
       return ResponseEntity.of(showOptional);
    }
    @PutMapping("/editshow/{showId}")

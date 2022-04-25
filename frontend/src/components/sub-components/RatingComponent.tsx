@@ -37,7 +37,7 @@ export default function RatingComponent(props: RatingComponentProps) {
    }
    
    return <div className='flex nowrap margin-b15px tooltip'>
-      <span className='tooltiptext background-light color-lighter padding-5px text-center margin-l-46px'>
+      <span className='tooltiptext background-light color-lighter padding-5px text-center margin-l-46px pos-abs'>
          {t('rating-tooltip')}
       </span>
       {[...new Array(5)].map((arr, index) => {

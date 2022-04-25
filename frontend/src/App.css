@@ -207,6 +207,12 @@ select:focus {
     cursor: pointer;
 }
 
+.pos-rel {
+    position: relative;
+}
+.pos-abs {
+    position: absolute;
+}
 .height-18px {
     height: 18px;
 }
@@ -251,7 +257,7 @@ select:focus {
 .tmdb-sentence {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(to right,#01b4e4 30%,#90cea1 70%);
+    background-image: linear-gradient(to right, #01b4e4 30%, #90cea1 70%);
     background-size: cover;
     background-position: center center;
 }
@@ -265,7 +271,6 @@ select:focus {
     visibility: hidden;
     width: auto;
     border-radius: 6px;
-    position: absolute;
     z-index: 1;
     bottom: 150%;
     left: 50%;

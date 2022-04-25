@@ -18,7 +18,7 @@ export default function SearchPage() {
       event.preventDefault();
       setSearched(true)
       if (searchTerm !== '') {
-         fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}?language=${localStorage.getItem('i18nextLng')}`, {
+         fetch(`${process.env.REACT_APP_BASE_URL}/search/${searchTerm}`, {
             method: 'GET',
             headers: {
                Authorization: `Bearer ${localStorage.getItem('jwt')}`,

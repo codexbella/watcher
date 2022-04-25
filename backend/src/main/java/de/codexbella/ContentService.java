@@ -10,10 +10,12 @@ import de.codexbella.content.season.Season;
 import de.codexbella.content.season.SeasonApi;
 import de.codexbella.search.SearchResultShows;
 import de.codexbella.search.ShowSearchData;
+import de.codexbella.user.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -24,16 +26,20 @@ public class ContentService {
    private final String apiKey;
    private final ShowRepository showRepository;
    private final ContentMapper contentMapper;
+   private final UserRepository userRepository;
 
    public ContentService(@Value("${app.api.key}") String apiKey, RestTemplate restTemplate,
-                         ShowRepository showRepository, ContentMapper contentMapper) {
+                         ShowRepository showRepository, ContentMapper contentMapper, UserRepository userRepository) {
       this.restTemplate = restTemplate;
       this.apiKey = apiKey;
       this.showRepository = showRepository;
       this.contentMapper = contentMapper;
+      this.userRepository = userRepository;
    }
 
-   public List<ShowSearchData> searchForShows(String language, String searchTerm, String username) {
+   public List<ShowSearchData> searchForShows(String searchTerm, String username) throws InvalidParameterException {
+      String language = userRepository.findByUsernameIgnoreCase(username).orElseThrow(
+            () -> new InvalidParameterException("user with "+username+" unknown.")).getLanguage();
       String response = restTemplate.getForObject(
             "https://api.themoviedb.org/3/search/tv?api_key="+apiKey+"&language="+language+"&query="
                   +searchTerm, String.class);
@@ -58,7 +64,9 @@ public class ContentService {
       return result;
    }
 
-   public void saveShow(String language, int showApiId, String username) throws IllegalArgumentException {
+   public void saveShow(int showApiId, String username) throws IllegalArgumentException {
+      String language = userRepository.findByUsernameIgnoreCase(username).orElseThrow(
+            () -> new InvalidParameterException("user with "+username+" unknown.")).getLanguage();
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isEmpty()) {
          String response = restTemplate.getForObject(
@@ -84,7 +92,9 @@ public class ContentService {
       return showRepository.findByIdAndUsername(showId, username);
    }
 
-   public Optional<Show> saveSeason(String language, int showApiId, int seasonNumber, String username) {
+   public Optional<Show> saveSeason(int showApiId, int seasonNumber, String username) {
+      String language = userRepository.findByUsernameIgnoreCase(username).orElseThrow(
+            () -> new InvalidParameterException("user with "+username+" unknown.")).getLanguage();
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
       if (showOptional.isPresent()) {
          Season seasonBefore = showOptional.get().getSeasons().get(seasonNumber-1);
