@@ -43,6 +43,10 @@ public class ContentController {
    public List<Show> getAllShows(Principal principal) {
       return contentService.getAllShows(principal.getName());
    }
+   @GetMapping("/getmatchingshows")
+   public List<Show> getMatchingShows(Principal principal, @RequestParam String searchterm) {
+      return contentService.getMatchingShows(principal.getName(), searchterm);
+   }
    @GetMapping("/getshow/{showId}")
    public ResponseEntity<Show> getShow(@PathVariable String showId, Principal principal) {
       return ResponseEntity.of(contentService.getShow(showId, principal.getName()));

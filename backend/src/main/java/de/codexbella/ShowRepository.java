@@ -13,4 +13,6 @@ public interface ShowRepository extends MongoRepository<Show, String> {
    List<Show> findAllByUsername(String username);
 
    Optional<Show> findByIdAndUsername(String id, String username);
+
+   List<Show> findByNameContainsIgnoreCaseAndUsername(String nameContains, String username);
 }
