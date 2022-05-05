@@ -1,5 +1,5 @@
 # Watcher
-###- watcher'n'chill
+### - watcher'n'chill
 
 Watcher lets users save the info of their favorite tv shows on their personal Watcherlist, rate those shows and track their viewing progress.
 
