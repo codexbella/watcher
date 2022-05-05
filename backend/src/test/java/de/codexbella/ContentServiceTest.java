@@ -96,7 +96,7 @@ class ContentServiceTest {
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper, mockUserRepo);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
-                  "searchResultVoyager.txt")));
+                  "resultVoyager.txt")));
 
       contentService.saveShow(1855, "testuser");
 
@@ -121,7 +121,7 @@ class ContentServiceTest {
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper, mockUserRepo);
       when(mockApi.getForObject("https://api.themoviedb.org/3/tv/1855?api_key=xxx&language=en-US", String.class))
             .thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de", "codexbella", "data",
-                  "searchResultVoyager.txt")));
+                  "resultVoyager.txt")));
 
       assertThatIllegalArgumentException().isThrownBy(() -> {
          contentService.saveShow(1855, "testuser");

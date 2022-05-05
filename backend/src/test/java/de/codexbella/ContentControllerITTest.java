@@ -155,7 +155,7 @@ class ContentControllerITTest {
       // should save show
       when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US",
             String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
-            "codexbella", "data", "searchResultVoyager.txt")));
+            "codexbella", "data", "resultVoyager.txt")));
 
       ResponseEntity<String> responseSavedShow = restTemplate.exchange("/api/saveshow/1855",
             HttpMethod.PUT, httpEntityUser1Get, String.class);
@@ -254,5 +254,77 @@ class ContentControllerITTest {
       assertThat(responseNotFound.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
       assertThat(responseNotFound.getBody()).isEqualTo(null);
       verifyNoMoreInteractions(mockTemplate);
+
+      // should save show Star Trek Picard, apiId 85949
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/85949?api_key="+apiKey+"&language=en-US",
+          String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
+          "codexbella", "data", "resultPicard.txt")));
+
+      ResponseEntity<String> responseSavedShowPicard = restTemplate.exchange("/api/saveshow/85949",
+          HttpMethod.PUT, httpEntityUser1Get, String.class);
+      assertThat(responseSavedShowPicard.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSavedShowPicard.getBody()).isNotNull();
+      String creationMessagePicard = responseSavedShowPicard.getBody();
+
+      assertThat(creationMessagePicard).isEqualTo("Show saved");
+
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/85949?api_key="+apiKey+"&language=en-US",
+          String.class);
+      verifyNoMoreInteractions(mockTemplate);
+
+      // should save show The Good Place, apiId 66573
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/66573?api_key="+apiKey+"&language=en-US",
+          String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
+          "codexbella", "data", "resultTheGoodPlace.txt")));
+
+      ResponseEntity<String> responseSavedShowTheGoodPlace = restTemplate.exchange("/api/saveshow/66573",
+          HttpMethod.PUT, httpEntityUser1Get, String.class);
+      assertThat(responseSavedShowTheGoodPlace.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSavedShowTheGoodPlace.getBody()).isNotNull();
+
+      assertThat(responseSavedShowTheGoodPlace.getBody()).isEqualTo("Show saved");
+
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/66573?api_key="+apiKey+"&language=en-US",
+          String.class);
+      verifyNoMoreInteractions(mockTemplate);
+
+      // should save show The Good Fight, apiId 69158
+      when(mockTemplate.getForObject("https://api.themoviedb.org/3/tv/69158?api_key="+apiKey+"&language=en-US",
+          String.class)).thenReturn(Files.readString(Path.of(".", "src", "test", "java", "de",
+          "codexbella", "data", "resultTheGoodFight.txt")));
+
+      ResponseEntity<String> responseSavedShowTheFightPlace = restTemplate.exchange("/api/saveshow/69158",
+          HttpMethod.PUT, httpEntityUser1Get, String.class);
+      assertThat(responseSavedShowTheFightPlace.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseSavedShowTheFightPlace.getBody()).isNotNull();
+
+      assertThat(responseSavedShowTheFightPlace.getBody()).isEqualTo("Show saved");
+
+      verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/69158?api_key="+apiKey+"&language=en-US",
+          String.class);
+      verifyNoMoreInteractions(mockTemplate);
+
+      // should get all shows for user
+      ResponseEntity<Show[]> responseAllShows2 = restTemplate.exchange("/api/getallshows",
+          HttpMethod.GET, httpEntityUser1Get, Show[].class);
+      assertThat(responseAllShows2.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseAllShows2.getBody()).isNotNull();
+      Show[] arrayShows2 = responseAllShows2.getBody();
+
+      assertThat(arrayShows2.length).isEqualTo(3);
+      assertThat(arrayShows2[0].getApiId()).isEqualTo(85949);
+      assertThat(arrayShows2[1].getApiId()).isEqualTo(66573);
+      assertThat(arrayShows2[2].getApiId()).isEqualTo(69158);
+
+      // should get shows matching "good"
+      ResponseEntity<Show[]> responseMatchingGood = restTemplate.exchange("/api/getmatchingshows?searchterm=good",
+          HttpMethod.GET, httpEntityUser1Get, Show[].class);
+      assertThat(responseMatchingGood.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseMatchingGood.getBody()).isNotNull();
+      Show[] arrayShowsMatchingGood = responseMatchingGood.getBody();
+
+      assertThat(arrayShowsMatchingGood.length).isEqualTo(2);
+      assertThat(arrayShowsMatchingGood[0].getApiId()).isEqualTo(66573);
+      assertThat(arrayShowsMatchingGood[1].getApiId()).isEqualTo(69158);
    }
 }
