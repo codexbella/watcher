@@ -45,7 +45,7 @@ public class ContentController {
    }
    @GetMapping("/getmatchingshows")
    public List<Show> getMatchingShows(Principal principal, @RequestParam String searchterm) {
-      return contentService.getMatchingShows(principal.getName(), searchterm);
+      return contentService.getMatchingShows(searchterm, principal.getName());
    }
    @GetMapping("/getshow/{showId}")
    public ResponseEntity<Show> getShow(@PathVariable String showId, Principal principal) {

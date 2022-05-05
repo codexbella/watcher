@@ -286,4 +286,21 @@ class ContentServiceTest {
       assertThat(showOptionalRating.get().getId()).isEqualTo("test-id");
       assertThat(showOptionalRating.get().getSeen()).isEqualTo(Seen.PARTIAL);
    }
+   @Test
+   void shouldGetMatchingShowsForUser() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      Show show1 = new Show();
+      show1.setId("test-id1");
+      show1.setUsername("testuser");
+      Show show2 = new Show();
+      show2.setId("test-id2");
+      show1.setUsername("testuser");
+      when(mockShowRepo.findByNameContainsIgnoreCaseAndUsername("id", "testuser")).thenReturn(List.of(show1, show2));
+      UserRepository mockUserRepo = Mockito.mock(UserRepository.class);
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper, mockUserRepo);
+
+      assertThat(contentService.getMatchingShows("id", "testuser")).isEqualTo(List.of(show1, show2));
+   }
 }

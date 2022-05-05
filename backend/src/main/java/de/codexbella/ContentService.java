@@ -88,7 +88,7 @@ public class ContentService {
       return showRepository.findAllByUsername(username);
    }
 
-   public List<Show> getMatchingShows(String username, String searchterm) {
+   public List<Show> getMatchingShows(String searchterm, String username) {
       return showRepository.findByNameContainsIgnoreCaseAndUsername(searchterm, username);
    }
 
