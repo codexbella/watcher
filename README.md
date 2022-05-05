@@ -7,4 +7,4 @@ The site supports English and German and is hosted on [Heroku](https://watcher-n
 
 The infos come from the API of TMDb (The Movie Database).
 
-(as of Monday, April 25, 2022)
+(as of Thursday, May 5, 2022)
