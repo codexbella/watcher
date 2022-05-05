@@ -23,6 +23,7 @@ export default function Watcherlist() {
    const [showsSorted, setShowsSorted] = useState([] as Array<Show>);
    const [sortBy, setSortBy] = useState(localStorage.getItem('sort-by') ?? 'last-added');
    const [gotShows, setGotShows] = useState(false);
+   const [searchTerm, setSearchTerm] = useState('');
    
    const editShow = (url: string, showId: string) => {
       fetch(url, {
@@ -100,7 +101,7 @@ export default function Watcherlist() {
             } else if (response.status === 401) {
                throw new Error(`${response.status}`)
             } else {
-            throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
+               throw new Error(`${t('get-all-shows-error')}, ${t('error')}: ${response.status}`)
             }
          })
          .then((list: Array<Show>) => {
@@ -125,30 +126,65 @@ export default function Watcherlist() {
       setShowsSorted(sortShows(sortBy))
    }, [sortShows, sortBy])
    
+   const getMatchingItems = (input: string) => {
+      if (input === '') {
+         setSearchTerm('');
+         return getAllShows();
+      } else {
+         fetch(`${process.env.REACT_APP_BASE_URL}/getmatchingshows?searchterm=${input}`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
+         })
+            .then(response => {
+               if (response.status >= 200 && response.status < 300) {
+                  return response.json();
+               }
+               throw new Error(`${t('get-matching-error')}, ${t('error')}: ${response.status}`)
+            })
+            .then((list: Array<Show>) => {
+               setGotShows(true);
+               setShowsFromBackend(list);
+               setError('');
+            })
+            .catch(e => setError(e.message))
+      }
+      setSearchTerm(input)
+   }
+   
    return <div>
       <div className='color-lighter margin-b15px larger'>{t('hello')} {auth.username ?? t('there')}!</div>
       
       {gotShows ?
          <div>
             <div className='flex justify-space-between color-light '>
-            <div className='large margin-b15px'>
-               {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
-            </div>
+               {searchTerm ?
+                  <div className='large margin-b15px'>
+                     {t('you-have')} {showsFromBackend.length} {t('shows')} {t('for-searchterm')} '{searchTerm}':
+                  </div>
+                  :
+                  <div className='large margin-b15px'>
+                     {t('you-have')} {showsFromBackend.length} {t('shows-in-your-list')}:
+                  </div>
+               }
+
                <div>
-               <label htmlFor='select-sort' className='large'>{t('sort-by')}: </label>
-               <select id='select-sort' className='background-dark medium color-lighter border-dark'
-                       onChange={ev => setSortBy(ev.currentTarget.value)} value={sortBy}>
-                  <option value='notSeen'>{t('not-seen')}</option>
-                  <option value='rating'>{t('own-rating')}</option>
-                  <option value='vote'>{t('vote-average')}</option>
-                  <option value='voteCount'>{t('vote-count')}</option>
-                  <option value='inProduction'>{t('in-production')}</option>
-                  <option value='airDate'>{t('airdate')}</option>
-                  <option value='name'>{t('name')}</option>
-                  <option value='last-added'>{t('last-added')}</option>
-               </select>
+                  <input className='' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => getMatchingItems(typed.target.value)}/>
                </div>
-         </div>
+               <div>
+                  <label htmlFor='select-sort' className='large'>{t('sort-by')}: </label>
+                  <select id='select-sort' className='background-dark medium color-lighter border-dark'
+                          onChange={ev => setSortBy(ev.currentTarget.value)} value={sortBy}>
+                     <option value='notSeen'>{t('not-seen')}</option>
+                     <option value='rating'>{t('own-rating')}</option>
+                     <option value='vote'>{t('vote-average')}</option>
+                     <option value='voteCount'>{t('vote-count')}</option>
+                     <option value='inProduction'>{t('in-production')}</option>
+                     <option value='airDate'>{t('airdate')}</option>
+                     <option value='name'>{t('name')}</option>
+                     <option value='last-added'>{t('last-added')}</option>
+                  </select>
+               </div>
+            </div>
             <div className='flex wrap gap20px margin-b15px'>
                {showsSorted.map(item =>
                   <ShowComponent show={item} key={item.id} onChange={getAllShows} onRating={determineRateUrl}

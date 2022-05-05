@@ -8,6 +8,7 @@
   "get-show-error": "Show could not be loaded",
   "get-season-error": "Season could not be loaded",
   "edit-show-error": "Show could not be changed",
+  "get-matching-error": "Error on loading matching shows",
   "error": "Error",
   "origin-country": "Country of origin",
   "vote-average": "Rating",
@@ -37,6 +38,8 @@
   "there": "there",
   "you-have": "You have",
   "shows-in-your-list": "shows in your Watcherlist",
+  "shows": "shows",
+  "for-searchterm": "for the search term",
   "seasons": "Seasons",
   "episodes": "episodes",
   "search": "Search",
@@ -50,5 +53,6 @@
   "name": "Name",
   "in-production": "Still in production",
   "last-added": "Last added",
-  "fields-cannot-be-empty": "Fields can not be empty"
+  "fields-cannot-be-empty": "Fields can not be empty",
+  "search-term": "Search term"
 }
