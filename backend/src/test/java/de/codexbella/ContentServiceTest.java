@@ -255,6 +255,21 @@ class ContentServiceTest {
       verifyNoMoreInteractions(mockShowRepo);
    }
    @Test
+   void shouldNotEditShowRating() {
+      ContentMapper contentMapper = new ContentMapper();
+      ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
+      UserRepository mockUserRepo = Mockito.mock(UserRepository.class);
+      RestTemplate mockApi = Mockito.mock(RestTemplate.class);
+      ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper, mockUserRepo);
+
+      Optional<Show> showOptionalEmpty = contentService.editShow("test-id2", 3, null, null,
+          null, "testuser");
+
+      assertThat(showOptionalEmpty).isEmpty();
+      verify(mockShowRepo).findByIdAndUsername("test-id2", "testuser");
+      verifyNoMoreInteractions(mockShowRepo);
+   }
+   @Test
    void shouldEditShowRating() {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
@@ -292,7 +307,6 @@ class ContentServiceTest {
       assertThat(showOptionalRatingSeason.get().getSeasons().get(0).getRating()).isEqualTo(4);
 
       // set the show's episode's rating
-
       Optional<Show> showOptionalRatingEpisode = contentService.editShow("test-id", 5, null, 1,
           1, "testuser");
 
@@ -354,6 +368,86 @@ class ContentServiceTest {
       assertThat(showOptionalSeenPartial.get().getSeasons().get(1).getEpisodes().stream().filter(e -> e.getSeen() != Seen.YES).toList())
           .isEqualTo(List.of(episode2x1));
 
+      // changing seen status to NO of a whole season through an episode
+      Optional<Show> showOptionalSeenSeasonNo = contentService.editShow("test-id",null, Seen.NO,
+          2, 2, "testuser");
+
+      assertThat(showOptionalSeenSeasonNo).isPresent();
+      assertThat(showOptionalSeenSeasonNo.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenSeasonNo.get().getSeen()).isEqualTo(Seen.PARTIAL);
+      assertThat(showOptionalSeenSeasonNo.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenSeasonNo.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenSeasonNo.get().getSeasons().get(0).getEpisodes().stream().filter(e -> e.getSeen() != Seen.YES)).isEmpty();
+      assertThat(showOptionalSeenSeasonNo.get().getSeasons().get(1).getEpisodes().stream().filter(e -> e.getSeen() != Seen.NO)).isEmpty();
+
+      // changing seen status to NO of the whole show through season
+      Optional<Show> showOptionalSeenNo = contentService.editShow("test-id",null, Seen.NO,
+          1, null, "testuser");
+
+      assertThat(showOptionalSeenNo).isPresent();
+      assertThat(showOptionalSeenNo.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenNo.get().getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenNo.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenNo.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenNo.get().getSeasons().get(0).getEpisodes().stream().filter(e -> e.getSeen() != Seen.NO)).isEmpty();
+      assertThat(showOptionalSeenNo.get().getSeasons().get(1).getEpisodes().stream().filter(e -> e.getSeen() != Seen.NO)).isEmpty();
+
+      // set seen status of season to YES
+      Optional<Show> showOptionalSeenSeasonYes = contentService.editShow("test-id",null, Seen.YES,
+          1, null, "testuser");
+
+      assertThat(showOptionalSeenSeasonYes).isPresent();
+      assertThat(showOptionalSeenSeasonYes.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenSeasonYes.get().getSeen()).isEqualTo(Seen.PARTIAL);
+      assertThat(showOptionalSeenSeasonYes.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenSeasonYes.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenSeasonYes.get().getSeasons().get(0).getEpisodes().stream().filter(e -> e.getSeen() != Seen.YES)).isEmpty();
+      assertThat(showOptionalSeenSeasonYes.get().getSeasons().get(1).getEpisodes().stream().filter(e -> e.getSeen() != Seen.NO)).isEmpty();
+
+      // set seen status of last season to YES
+      Optional<Show> showOptionalSeenSeason2Yes = contentService.editShow("test-id",null, Seen.YES,
+          2, null, "testuser");
+
+      assertThat(showOptionalSeenSeason2Yes).isPresent();
+      assertThat(showOptionalSeenSeason2Yes.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenSeason2Yes.get().getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenSeason2Yes.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenSeason2Yes.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenSeason2Yes.get().getSeasons().get(0).getEpisodes().stream().filter(e -> e.getSeen() != Seen.YES)).isEmpty();
+      assertThat(showOptionalSeenSeason2Yes.get().getSeasons().get(1).getEpisodes().stream().filter(e -> e.getSeen() != Seen.YES)).isEmpty();
+
+      // get show's seen status to NO through one episode
+      contentService.editShow("test-id",null, Seen.NO, 2, null, "testuser");
+      contentService.editShow("test-id",null, Seen.NO, 1, 1, "testuser");
+      Optional<Show> showOptionalSeenSeason2No = contentService.editShow("test-id",null, Seen.NO,
+          1, 2, "testuser");
+
+      assertThat(showOptionalSeenSeason2No).isPresent();
+      assertThat(showOptionalSeenSeason2No.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenSeason2No.get().getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenSeason2No.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenSeason2No.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.NO);
+      assertThat(showOptionalSeenSeason2No.get().getSeasons().get(0).getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.NO)).isTrue();
+      assertThat(showOptionalSeenSeason2No.get().getSeasons().get(1).getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.NO)).isTrue();
+
+      // get show's seen status to YES through episodes
+      contentService.editShow("test-id",null, Seen.YES, 2, 2, "testuser");
+      contentService.editShow("test-id",null, Seen.YES, 2, 1, "testuser");
+      contentService.editShow("test-id",null, Seen.YES, 1, 2, "testuser");
+      Optional<Show> showOptionalSeenYes = contentService.editShow("test-id",null, Seen.YES,
+          1, 1, "testuser");
+
+      assertThat(showOptionalSeenYes).isPresent();
+      assertThat(showOptionalSeenYes.get().getId()).isEqualTo("test-id");
+      assertThat(showOptionalSeenYes.get().getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenYes.get().getSeasons().get(0).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenYes.get().getSeasons().get(1).getSeen()).isEqualTo(Seen.YES);
+      assertThat(showOptionalSeenYes.get().getSeasons().get(0).getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.YES)).isTrue();
+      assertThat(showOptionalSeenYes.get().getSeasons().get(1).getEpisodes().stream().allMatch(e -> e.getSeen() == Seen.YES)).isTrue();
+
+      verify(mockShowRepo, Mockito.times(13)).findByIdAndUsername("test-id", "testuser");
+      verify(mockShowRepo, Mockito.times(13)).save(show);
+      verifyNoMoreInteractions(mockShowRepo);
    }
    @Test
    void shouldGetMatchingShowsForUser() {
