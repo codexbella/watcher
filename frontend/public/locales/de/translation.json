@@ -8,6 +8,7 @@
   "get-show-error": "Serie konnte nicht geladen werden",
   "get-season-error": "Staffel konnte nicht geladen werden",
   "edit-show-error": "Serie konnte nicht geändert werden",
+  "get-matching-error": "Fehler beim Laden der gesuchten Serien",
   "error": "Fehler",
   "origin-country": "Herkunftsland",
   "vote-average": "Bewertung",
@@ -37,6 +38,8 @@
   "there": "duda",
   "you-have": "Du hast",
   "shows-in-your-list": "Serien auf deiner Watcherlist",
+  "shows": "Serien",
+  "for-searchterm": "für den Suchbegriff",
   "seasons": "Staffeln",
   "episodes": "Folgen",
   "search": "Suchen",
@@ -50,5 +53,6 @@
   "name": "Name",
   "in-production": "Läuft noch",
   "last-added": "Zuletzt hinzugefügt",
-  "fields-cannot-be-empty": "Felder dürfen nicht leer sein"
+  "fields-cannot-be-empty": "Felder dürfen nicht leer sein",
+  "search-term": "Suchbegriff"
 }
