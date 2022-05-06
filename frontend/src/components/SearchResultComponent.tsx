@@ -17,7 +17,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
    const nav = useNavigate();
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
-   const [apiId, setApiId] = useState('');
+   const [id, setId] = useState('');
    
    const addShow = () => {
       setError('');
@@ -37,9 +37,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
             }
          })
          .then(text => {
-            console.log(text)
-            console.log(text.slice(18).trim())
-            setApiId(text.slice(18).trim())
+            setId(text.slice(19))
          })
          .catch(e => setError(e.message))
    }
@@ -73,7 +71,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
               ev.currentTarget.src = alternateImage
            }} onClick={() => {
          if (liked) {
-            nav('/shows/' + apiId)
+            nav('/shows/' + id)
          }}} className='pointer'/>
       
       <div className="color-lighter flex wrap column border-box width-100percent padding-l10px-r15px">
