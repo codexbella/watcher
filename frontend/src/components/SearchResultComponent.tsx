@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
 import VoteAverageComponent from "./sub-components/VoteAverageComponent";
+import {useNavigate} from "react-router-dom";
 
 interface SearchResultComponentProps {
    show: SearchResult;
@@ -13,8 +14,10 @@ interface SearchResultComponentProps {
 
 export default function SearchResultComponent(props: SearchResultComponentProps) {
    const {t} = useTranslation();
+   const nav = useNavigate();
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
+   const [apiId, setApiId] = useState('');
    
    const addShow = () => {
       setError('');
@@ -28,9 +31,13 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
          .then(response => {
             if (response.status >= 200 && response.status < 300) {
                setLiked(!liked)
+               return response.text()
             } else {
                throw new Error(`${t('error')}: ${response.status}`)
             }
+         })
+         .then(text => {
+            setApiId(text.slice(16).trim().split(' ')[0])
          })
          .catch(e => setError(e.message))
    }
@@ -62,7 +69,10 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }}/>
+           }} onClick={() => {
+         if (liked) {
+            nav('/shows/' + apiId)
+         }}} className='pointer'/>
       
       <div className="color-lighter flex wrap column border-box width-100percent padding-l10px-r15px">
          <div className="flex justify-space-between">

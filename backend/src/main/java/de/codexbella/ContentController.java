@@ -27,8 +27,8 @@ public class ContentController {
    @PutMapping("/saveshow/{showApiId}")
    public ResponseEntity<String> saveShow(@PathVariable int showApiId, Principal principal) {
       try {
-         contentService.saveShow(showApiId, principal.getName());
-         return new ResponseEntity<>("Show saved", HttpStatus.OK);
+         return new ResponseEntity<>("Show with api id "
+             +contentService.saveShow(showApiId, principal.getName())+" saved", HttpStatus.OK);
       } catch (IllegalArgumentException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }

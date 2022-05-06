@@ -64,7 +64,7 @@ public class ContentService {
       return result;
    }
 
-   public void saveShow(int showApiId, String username) throws IllegalArgumentException {
+   public String saveShow(int showApiId, String username) throws IllegalArgumentException {
       String language = userRepository.findByUsernameIgnoreCase(username).orElseThrow(
             () -> new InvalidParameterException("user with "+username+" unknown.")).getLanguage();
       Optional<Show> showOptional = showRepository.findByApiIdAndUsername(showApiId, username);
@@ -73,7 +73,7 @@ public class ContentService {
                "https://api.themoviedb.org/3/tv/" + showApiId + "?api_key=" + apiKey + "&language=" + language, String.class);
          ShowApi showApi = new Gson().fromJson(response, ShowApi.class);
          Show show = contentMapper.toShow(showApi, username);
-         showRepository.save(show);
+         return showRepository.save(show).getId();
       } else {
          throw new IllegalArgumentException("Show "+showOptional.get().getName()+" with api id "+showApiId+" already saved");
       }
