@@ -37,7 +37,9 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
             }
          })
          .then(text => {
-            setApiId(text.slice(16).trim().split(' ')[0])
+            console.log(text)
+            console.log(text.slice(18).trim())
+            setApiId(text.slice(18).trim())
          })
          .catch(e => setError(e.message))
    }

@@ -163,7 +163,7 @@ class ContentControllerITTest {
       assertThat(responseSavedShow.getBody()).isNotNull();
       String creationMessage = responseSavedShow.getBody();
 
-      assertThat(creationMessage).isEqualTo("Show saved");
+      assertThat(creationMessage.substring(0, 19)).isEqualTo("Show saved with id ");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US",
             String.class);
@@ -266,7 +266,7 @@ class ContentControllerITTest {
       assertThat(responseSavedShowPicard.getBody()).isNotNull();
       String creationMessagePicard = responseSavedShowPicard.getBody();
 
-      assertThat(creationMessagePicard).isEqualTo("Show saved");
+      assertThat(creationMessagePicard.substring(0, 19)).isEqualTo("Show saved with id ");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/85949?api_key="+apiKey+"&language=en-US",
           String.class);
@@ -282,7 +282,7 @@ class ContentControllerITTest {
       assertThat(responseSavedShowTheGoodPlace.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShowTheGoodPlace.getBody()).isNotNull();
 
-      assertThat(responseSavedShowTheGoodPlace.getBody()).isEqualTo("Show saved");
+      assertThat(responseSavedShowTheGoodPlace.getBody().substring(0, 19)).isEqualTo("Show saved with id ");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/66573?api_key="+apiKey+"&language=en-US",
           String.class);
@@ -298,7 +298,7 @@ class ContentControllerITTest {
       assertThat(responseSavedShowTheFightPlace.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShowTheFightPlace.getBody()).isNotNull();
 
-      assertThat(responseSavedShowTheFightPlace.getBody()).isEqualTo("Show saved");
+      assertThat(responseSavedShowTheFightPlace.getBody().substring(0, 19)).isEqualTo("Show saved with id ");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/69158?api_key="+apiKey+"&language=en-US",
           String.class);
