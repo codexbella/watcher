@@ -47,12 +47,14 @@ export default function ShowComponent(props: ShowComponentProps) {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
            }}
-           onClick={() => nav('/shows/' + props.show.id)} className='pointer'/>
+           onClick={() => nav('/shows/' + props.show.apiId)} className='pointer'/>
       
       <div className='color-lighter flex wrap column border-box width-100percent padding-l10px-r15px'>
          <div className='flex justify-space-between'>
             <div className='margin-b15px'>
-               <div className='large bold small-caps overflow lines1'>{props.show.name}</div>
+               <div className='large bold small-caps overflow lines1 pointer' onClick={() => nav('/shows/' + props.show.apiId)}>
+                  {props.show.name}
+               </div>
                <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>
             </div>
             <div className='flex column gap10px text-center'>
