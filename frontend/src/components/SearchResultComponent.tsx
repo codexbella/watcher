@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import alternateImage from '../images/alt-image.png';
 import {useState} from "react";
 import VoteAverageComponent from "./sub-components/VoteAverageComponent";
+import {useNavigate} from "react-router-dom";
 
 interface SearchResultComponentProps {
    show: SearchResult;
@@ -13,6 +14,7 @@ interface SearchResultComponentProps {
 
 export default function SearchResultComponent(props: SearchResultComponentProps) {
    const {t} = useTranslation();
+   const nav = useNavigate();
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
    
@@ -62,12 +64,17 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }}/>
+           }} onClick={() => {if (liked) {
+         nav('/shows/' + props.show.apiId)
+           }}} className={liked ? 'pointer' : ''}/>
       
       <div className="color-lighter flex wrap column border-box width-100percent padding-l10px-r15px">
          <div className="flex justify-space-between">
             <div>
-            <div className="large bold small-caps">
+            <div onClick={() => {if (liked) {
+               nav('/shows/' + props.show.apiId)
+            }}}
+                 className={liked ? 'large bold small-caps pointer' : 'large bold small-caps'}>
                {props.show.name}
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>

@@ -161,9 +161,8 @@ class ContentControllerITTest {
             HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseSavedShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShow.getBody()).isNotNull();
-      String creationMessage = responseSavedShow.getBody();
 
-      assertThat(creationMessage).isEqualTo("Show saved");
+      assertThat(responseSavedShow.getBody()).isEqualTo("Show saved");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/1855?api_key="+apiKey+"&language=en-US",
             String.class);
@@ -190,7 +189,7 @@ class ContentControllerITTest {
       assertThat(arrayShows[0].getApiId()).isEqualTo(1855);
 
       // should get show details
-      ResponseEntity<Show> responseShow = restTemplate.exchange("/api/getshow/"+arrayShows[0].getId(),
+      ResponseEntity<Show> responseShow = restTemplate.exchange("/api/getshow/"+1855,
             HttpMethod.GET, httpEntityUser1Get, Show.class);
       assertThat(responseShow.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseShow.getBody()).isNotNull();
@@ -264,9 +263,8 @@ class ContentControllerITTest {
           HttpMethod.PUT, httpEntityUser1Get, String.class);
       assertThat(responseSavedShowPicard.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseSavedShowPicard.getBody()).isNotNull();
-      String creationMessagePicard = responseSavedShowPicard.getBody();
 
-      assertThat(creationMessagePicard).isEqualTo("Show saved");
+      assertThat(responseSavedShowPicard.getBody()).isEqualTo("Show saved");
 
       verify(mockTemplate).getForObject("https://api.themoviedb.org/3/tv/85949?api_key="+apiKey+"&language=en-US",
           String.class);

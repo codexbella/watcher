@@ -92,8 +92,8 @@ public class ContentService {
       return showRepository.findByNameContainsIgnoreCaseAndUsername(searchterm, username);
    }
 
-   public Optional<Show> getShow(String showId, String username) {
-      return showRepository.findByIdAndUsername(showId, username);
+   public Optional<Show> getShow(int showApiId, String username) {
+      return showRepository.findByApiIdAndUsername(showApiId, username);
    }
 
    public Optional<Show> saveSeason(int showApiId, int seasonNumber, String username) {
