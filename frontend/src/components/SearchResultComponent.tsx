@@ -17,7 +17,6 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
    const nav = useNavigate();
    const [liked, setLiked] = useState(props.show.liked);
    const [error, setError] = useState('');
-   const [id, setId] = useState('');
    
    const addShow = () => {
       setError('');
@@ -31,13 +30,9 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
          .then(response => {
             if (response.status >= 200 && response.status < 300) {
                setLiked(!liked)
-               return response.text()
             } else {
                throw new Error(`${t('error')}: ${response.status}`)
             }
-         })
-         .then(text => {
-            setId(text.slice(19))
          })
          .catch(e => setError(e.message))
    }
@@ -69,15 +64,17 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
            onError={(ev) => {
               ev.currentTarget.onerror = null;
               ev.currentTarget.src = alternateImage
-           }} onClick={() => {
-         if (liked) {
-            nav('/shows/' + id)
-         }}} className='pointer'/>
+           }} onClick={() => {if (liked) {
+         nav('/shows/' + props.show.apiId)
+           }}} className={liked ? 'pointer' : ''}/>
       
       <div className="color-lighter flex wrap column border-box width-100percent padding-l10px-r15px">
          <div className="flex justify-space-between">
             <div>
-            <div className="large bold small-caps">
+            <div onClick={() => {if (liked) {
+               nav('/shows/' + props.show.apiId)
+            }}}
+                 className={liked ? 'large bold small-caps pointer' : 'large bold small-caps'}>
                {props.show.name}
             </div>
             <div>{props.show.airDate ? new Date(props.show.airDate).getFullYear() : ''}</div>

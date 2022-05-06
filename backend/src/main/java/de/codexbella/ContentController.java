@@ -27,8 +27,8 @@ public class ContentController {
    @PutMapping("/saveshow/{showApiId}")
    public ResponseEntity<String> saveShow(@PathVariable int showApiId, Principal principal) {
       try {
-         return new ResponseEntity<>("Show saved with id "
-             +contentService.saveShow(showApiId, principal.getName()), HttpStatus.OK);
+         contentService.saveShow(showApiId, principal.getName());
+         return new ResponseEntity<>("Show saved", HttpStatus.OK);
       } catch (IllegalArgumentException e) {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
@@ -47,9 +47,9 @@ public class ContentController {
    public List<Show> getMatchingShows(Principal principal, @RequestParam String searchterm) {
       return contentService.getMatchingShows(searchterm, principal.getName());
    }
-   @GetMapping("/getshow/{showId}")
-   public ResponseEntity<Show> getShow(@PathVariable String showId, Principal principal) {
-      return ResponseEntity.of(contentService.getShow(showId, principal.getName()));
+   @GetMapping("/getshow/{showApiId}")
+   public ResponseEntity<Show> getShow(@PathVariable int showApiId, Principal principal) {
+      return ResponseEntity.of(contentService.getShow(showApiId, principal.getName()));
    }
    @PutMapping("/saveseason/{showApiId}")
    public ResponseEntity<Show> saveSeason(@PathVariable int showApiId, @RequestParam int seasonNumber, Principal principal) {

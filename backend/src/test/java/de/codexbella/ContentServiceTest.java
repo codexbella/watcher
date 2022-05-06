@@ -186,15 +186,15 @@ class ContentServiceTest {
       ContentMapper contentMapper = new ContentMapper();
       ShowRepository mockShowRepo = Mockito.mock(ShowRepository.class);
       Show show1 = new Show();
-      show1.setId("test-id1");
+      show1.setApiId(1000);
       show1.setUsername("testuser");
       show1.setName("test-show");
-      when(mockShowRepo.findByIdAndUsername("test-id1", "testuser")).thenReturn(Optional.of(show1));
+      when(mockShowRepo.findByApiIdAndUsername(1000, "testuser")).thenReturn(Optional.of(show1));
       UserRepository mockUserRepo = Mockito.mock(UserRepository.class);
       RestTemplate mockApi = Mockito.mock(RestTemplate.class);
       ContentService contentService = new ContentService("xxx", mockApi, mockShowRepo, contentMapper, mockUserRepo);
 
-      Optional<Show> showOptional = contentService.getShow("test-id1", "testuser");
+      Optional<Show> showOptional = contentService.getShow(1000, "testuser");
       assertThat(showOptional).isPresent();
       assertThat(showOptional.get().getName()).isEqualTo("test-show");
    }
