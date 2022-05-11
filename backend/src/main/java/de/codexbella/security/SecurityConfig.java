@@ -31,16 +31,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
       http.csrf().disable()
-            .cors().configurationSource(corsConfigurationSource())
-            .and()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-            .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico").permitAll()
-            .antMatchers("/api/**").authenticated()
-            .and()
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+          .cors().configurationSource(corsConfigurationSource())
+          .and()
+          .authorizeRequests()
+          .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+          .antMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+          .mvcMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/*.png").permitAll()
+          .antMatchers("/api/**").authenticated()
+          .and()
+          .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
    }
 
    private CorsConfigurationSource corsConfigurationSource() {
