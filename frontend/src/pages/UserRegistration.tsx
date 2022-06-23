@@ -22,7 +22,7 @@ export default function UserRegistration() {
       event.preventDefault()
       setError('');
       if (usernameField && passwordField && passwordField === passwordFieldAgain) {
-         fetch(`${process.env.REACT_APP_BASE_URL}/users/register`, {
+         fetch("/users/register", {
             method: 'POST',
             body: JSON.stringify({
                username: usernameField,
