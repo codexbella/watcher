@@ -26,7 +26,7 @@ export default function ShowComponent(props: ShowComponentProps) {
    }
    
    const deleteShow = () => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${props.show.apiId}`, {
+      fetch(`/deleteshow/${props.show.apiId}`, {
          method: 'DELETE',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,

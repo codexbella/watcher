@@ -58,10 +58,10 @@ export default function Watcherlist() {
    }
    
    const determineRateUrl = (showId: string, rating: number) => {
-      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?rating=${rating}`, showId);
+      editShow(`/editshow/${showId}?rating=${rating}`, showId);
    }
    const determineSeenUrl = (showId: string, seen: Seen) => {
-      editShow(`${process.env.REACT_APP_BASE_URL}/editshow/${showId}?seen=${seen}`, showId);
+      editShow(`/editshow/${showId}?seen=${seen}`, showId);
    }
    
    const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
@@ -88,7 +88,7 @@ export default function Watcherlist() {
    
    const getAllShows = useCallback(() => {
       setGotShows(false);
-      fetch(`${process.env.REACT_APP_BASE_URL}/getallshows`, {
+      fetch(`/getallshows`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -131,7 +131,7 @@ export default function Watcherlist() {
          setSearchTerm('');
          return getAllShows();
       } else {
-         fetch(`${process.env.REACT_APP_BASE_URL}/getmatchingshows?searchterm=${input}`, {
+         fetch(`/getmatchingshows?searchterm=${input}`, {
             method: 'GET',
             headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
          })

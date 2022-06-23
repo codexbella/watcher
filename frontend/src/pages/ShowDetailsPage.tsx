@@ -19,7 +19,7 @@ export default function ShowDetailsPage() {
    const [seasonsReverse, setSeasonsReverse] = useState([] as Array<Season>)
    
    useEffect(() => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/getshow/${params.id}`, {
+      fetch(`/getshow/${params.id}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -50,7 +50,7 @@ export default function ShowDetailsPage() {
    
    const getSeason = (seasonNumber: number) => {
       setError('');
-      fetch(`${process.env.REACT_APP_BASE_URL}/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`, {
+      fetch(`/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`, {
          method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -80,7 +80,7 @@ export default function ShowDetailsPage() {
    }
    
    const deleteShow = () => {
-      fetch(`${process.env.REACT_APP_BASE_URL}/deleteshow/${show.apiId}`, {
+      fetch(`/deleteshow/${show.apiId}`, {
          method: 'DELETE',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -125,7 +125,7 @@ export default function ShowDetailsPage() {
    }
    
    const determineRatingUrl = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
-      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.id}?`;
+      let url = `/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
          url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
       } else if (seasonNumber) {
@@ -134,7 +134,7 @@ export default function ShowDetailsPage() {
       editShow(url + `rating=${rating}`);
    }
    const determineSeenUrl = (seen: Seen, seasonNumber?: number, episodeNumber?: number) => {
-      let url = `${process.env.REACT_APP_BASE_URL}/editshow/${show.id}?`;
+      let url = `/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
          url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
       } else if (seasonNumber) {
