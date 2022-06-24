@@ -22,7 +22,7 @@ export default function UserRegistration() {
       event.preventDefault()
       setError('');
       if (usernameField && passwordField && passwordField === passwordFieldAgain) {
-         fetch("/users/register", {
+         fetch("/api/users/register", {
             method: 'POST',
             body: JSON.stringify({
                username: usernameField,
