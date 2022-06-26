@@ -18,7 +18,7 @@ export default function SearchPage() {
       event.preventDefault();
       setSearched(true)
       if (searchTerm !== '') {
-         fetch(`/search/${searchTerm}`, {
+         fetch(`/api/search/${searchTerm}`, {
             method: 'GET',
             headers: {
                Authorization: `Bearer ${localStorage.getItem('jwt')}`,

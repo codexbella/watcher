@@ -125,7 +125,7 @@ export default function ShowDetailsPage() {
    }
    
    const determineRatingUrl = (rating: number, seasonNumber?: number, episodeNumber?: number) => {
-      let url = `/editshow/${show.id}?`;
+      let url = `/api/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
          url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
       } else if (seasonNumber) {
@@ -134,7 +134,7 @@ export default function ShowDetailsPage() {
       editShow(url + `rating=${rating}`);
    }
    const determineSeenUrl = (seen: Seen, seasonNumber?: number, episodeNumber?: number) => {
-      let url = `/editshow/${show.id}?`;
+      let url = `/api/editshow/${show.id}?`;
       if (episodeNumber && seasonNumber) {
          url = url + `seasonNumber=${seasonNumber}&episodeNumber=${episodeNumber}&`;
       } else if (seasonNumber) {

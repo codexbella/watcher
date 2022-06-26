@@ -25,7 +25,7 @@ export default function AuthProvider({children}:{children :ReactNode}) {
       }}, [nav, token, location.pathname])
    
    const login = (username: string, password : string) => {
-      return fetch("/users/login",{
+      return fetch("/api/users/login",{
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',

@@ -58,10 +58,10 @@ export default function Watcherlist() {
    }
    
    const determineRateUrl = (showId: string, rating: number) => {
-      editShow(`/editshow/${showId}?rating=${rating}`, showId);
+      editShow(`/api/editshow/${showId}?rating=${rating}`, showId);
    }
    const determineSeenUrl = (showId: string, seen: Seen) => {
-      editShow(`/editshow/${showId}?seen=${seen}`, showId);
+      editShow(`/api/editshow/${showId}?seen=${seen}`, showId);
    }
    
    const sortShows = useCallback((selected: string, shows: Show[] = [...showsFromBackend]) => {
@@ -88,7 +88,7 @@ export default function Watcherlist() {
    
    const getAllShows = useCallback(() => {
       setGotShows(false);
-      fetch(`/getallshows`, {
+      fetch(`/api/getallshows`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -131,7 +131,7 @@ export default function Watcherlist() {
          setSearchTerm('');
          return getAllShows();
       } else {
-         fetch(`/getmatchingshows?searchterm=${input}`, {
+         fetch(`/api/getmatchingshows?searchterm=${input}`, {
             method: 'GET',
             headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
          })

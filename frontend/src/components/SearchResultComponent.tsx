@@ -20,7 +20,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
    
    const addShow = () => {
       setError('');
-      fetch(`/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
+      fetch(`/api/saveshow/${props.show.apiId}?language=${localStorage.getItem('i18nextLng')}`, {
          method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -39,7 +39,7 @@ export default function SearchResultComponent(props: SearchResultComponentProps)
    
    const deleteShow = () => {
       setError('');
-      fetch(`/deleteshow/${props.show.apiId}`, {
+      fetch(`/api/deleteshow/${props.show.apiId}`, {
          method: 'DELETE',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
