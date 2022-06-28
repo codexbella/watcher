@@ -19,7 +19,7 @@ export default function ShowDetailsPage() {
    const [seasonsReverse, setSeasonsReverse] = useState([] as Array<Season>)
    
    useEffect(() => {
-      fetch(`/getshow/${params.id}`, {
+      fetch(`/api/getshow/${params.id}`, {
          method: 'GET',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -50,7 +50,7 @@ export default function ShowDetailsPage() {
    
    const getSeason = (seasonNumber: number) => {
       setError('');
-      fetch(`/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`, {
+      fetch(`/api/saveseason/${show.apiId}?seasonNumber=${seasonNumber}`, {
          method: 'PUT',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
@@ -80,7 +80,7 @@ export default function ShowDetailsPage() {
    }
    
    const deleteShow = () => {
-      fetch(`/deleteshow/${show.apiId}`, {
+      fetch(`/api/deleteshow/${show.apiId}`, {
          method: 'DELETE',
          headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
